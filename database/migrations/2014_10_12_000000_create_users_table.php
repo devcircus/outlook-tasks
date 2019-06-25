@@ -19,6 +19,9 @@ class CreateUsersTable extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('is_admin')->default(0);
+            $table->string('outlook_token')->nullable();
+            $table->string('outlook_refresh_token')->nullable();
+            $table->datetime('outlook_token_expires')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

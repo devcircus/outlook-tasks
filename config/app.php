@@ -71,6 +71,7 @@ return [
         App\Providers\UrlServiceProvider::class,
         App\Providers\DebugbarServiceProvider::class,
         App\Providers\IdeHelperServiceProvider::class,
+        App\Providers\OauthServiceProvider::class,
     ],
 
     'aliases' => [
