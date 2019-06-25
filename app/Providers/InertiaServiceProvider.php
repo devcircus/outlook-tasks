@@ -58,6 +58,7 @@ class InertiaServiceProvider extends ServiceProvider
                     'name' => $user->name,
                     'email' => $user->email,
                     'is_admin' => $user->is_admin,
+                    'has_oauth_tokens' => $user->has_oauth_tokens,
                 ];
             }
         });

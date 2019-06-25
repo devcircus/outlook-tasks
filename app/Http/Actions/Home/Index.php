@@ -2,9 +2,10 @@
 
 namespace App\Http\Actions\Home;
 
+use Microsoft\Graph\Graph;
+use Microsoft\Graph\Model;
+use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
-use App\Services\Oauth\TokenService;
-use App\Services\Oauth\FetchTokenService;
 use App\Http\Responders\Home\IndexResponder;
 
 class Index extends Action
@@ -12,31 +13,49 @@ class Index extends Action
     /** @var \App\Http\Responders\Home\IndexResponder */
     private $responder;
 
-
-    /** @var \App\Services\Oauth\TokenService */
-    private $tokenService;
-
     /**
      * Construct a new Home Index action.
      *
      * @param  \App\Http\Responders\Home\IndexResponder  $responder
-     * @param  \App\Services\Oauth\TokenService  $tokenService
      */
-    public function __construct(IndexResponder $responder, TokenService $tokenService)
+    public function __construct(IndexResponder $responder)
     {
         $this->responder = $responder;
-        $this->tokens = $tokenService;
     }
 
     /**
      * Show the application home page.
      *
+     * @param  \Illuminate\Http\Request  $request
+     *
      * @return \Illuminate\View\View
      */
-    public function __invoke()
+    public function __invoke(Request $request)
     {
-        $token = $this->tokenService->hasOauthTokens() ? FetchTokenService::call() : '';
+        $token = $request->user()->hasOauthTokens() ? $request->user()->fetchOauthToken() : '';
 
-        return $this->responder->withPayload($token)->respond();
+        $graph = new Graph();
+        $graph->setAccessToken($token);
+
+        $user = $graph->createRequest('GET', '/me')
+                      ->setReturnType(Model\User::class)
+                      ->execute();
+
+        $messageQueryParams = [
+            "\$select" => "subject,receivedDateTime,from",
+            "\$orderby" => "receivedDateTime DESC",
+            "\$top" => "10"
+        ];
+
+        $getMessagesUrl = '/me/mailfolders/inbox/messages?'.http_build_query($messageQueryParams);
+        $messages = $graph->createRequest('GET', $getMessagesUrl)
+                          ->setReturnType(Model\Message::class)
+                          ->execute();
+
+        return $this->responder->withPayload([
+            'token' => $token,
+            'displayName' => $user->getDisplayName(),
+            'messages' => $messages,
+        ])->respond();
     }
 }
