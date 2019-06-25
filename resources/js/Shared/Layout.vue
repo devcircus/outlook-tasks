@@ -39,7 +39,6 @@
                     </div>
                 </div>
                 <div class="flex flex-grow w-full relative">
-                    <social-links />
                     <div class="overflow-hidden px-4 py-8 md:p-12 w-full">
                         <slot />
                     </div>
@@ -56,7 +55,6 @@
     import Dropdown from '@/Shared/Dropdown';
     import MainMenu from '@/Shared/MainMenu';
     import SiteFooter from '@/Shared/SiteFooter';
-    import SocialLinks from '@/Shared/SocialLinks';
     import FlashMessage from '@/Shared/FlashMessage';
 
     export default {
@@ -65,7 +63,6 @@
             Icon,
             Logo,
             MainMenu,
-            SocialLinks,
             FlashMessage,
             SiteFooter,
         },

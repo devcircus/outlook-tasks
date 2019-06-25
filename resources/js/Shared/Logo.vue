@@ -1,6 +1,6 @@
 <template>
     <div class="w-full" :class="logoPosition">
-        <h1 class="inline-block font-bold text-2xl sm:text-3xl md:text-5xl text-blue-500 site-title">PHP<span class="font-medium text-white">STAGE</span></h1>
+        <h1 class="inline-block font-bold text-2xl sm:text-3xl md:text-5xl text-blue-500 site-title">Outlook<span class="font-medium text-white">TASKS</span></h1>
     </div>
 </template>
 
