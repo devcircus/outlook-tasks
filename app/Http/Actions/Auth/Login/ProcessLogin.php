@@ -11,7 +11,8 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 
 class ProcessLogin extends Action
 {
-    use RedirectsUsers, ThrottlesLogins;
+    use RedirectsUsers;
+    use ThrottlesLogins;
 
     /** @var string */
     protected $redirectTo = '/';
@@ -86,7 +87,7 @@ class ProcessLogin extends Action
         $this->clearLoginAttempts($request);
 
         return $this->authenticated($request, $this->guard()->user())
-            ?: redirect()->intended(route('home'));
+            ?: redirect()->intended(route('home'))->with(['success' => 'Logged in!']);
     }
 
     /**
@@ -99,7 +100,7 @@ class ProcessLogin extends Action
      */
     protected function authenticated(Request $request, $user)
     {
-        return redirect()->route('home')->with(['success' => 'Logged in!']);
+        return redirect()->intended(route('home'))->with(['success' => 'Logged in!']);
     }
 
     /**

@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use App\Http\DTO\UserData;
+use Carbon\CarbonImmutable;
+use App\Models\Traits\HasOauthTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -15,6 +17,7 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     use SoftDeletes;
     use Authorizable;
     use Notifiable;
+    use HasOauthTokens;
 
     /** @var array */
     protected $guarded = [];
@@ -23,7 +26,14 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     protected $perPage = 10;
 
     /** @var array */
-    protected $casts = ['is_admin' => 'boolean'];
+    protected $casts = [
+        'is_admin' => 'boolean',
+    ];
+
+    /** @var array */
+    protected $appends = [
+        'has_oauth_tokens',
+    ];
 
     /**
      * A user has many posts.
@@ -69,6 +79,28 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
                 $builder->onlyTrashed();
             }
         });
+    }
+
+    /**
+     * Get the outlook_token_expires attribute as a Carbon date.
+     *
+     * @param  int  $value
+     *
+     * @return \Carbon\CarbonImmutable
+     */
+    public function getOutlookTokenExpiresAttribute($value)
+    {
+        return CarbonImmutable::createFromTimestamp($value);
+    }
+
+    /**
+     * Does the user have oauth tokens stored?
+     *
+     * @return bool
+     */
+    public function getHasOauthTokensAttribute()
+    {
+        return $this->hasOauthTokens();
     }
 
     /**
