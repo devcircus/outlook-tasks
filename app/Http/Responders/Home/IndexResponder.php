@@ -14,6 +14,8 @@ class IndexResponder extends Responder
      */
     public function respond()
     {
-        return Inertia::render('Home/Index');
+        return Inertia::render('Home/Index', [
+            'token' => $this->payload,
+        ]);
     }
 }

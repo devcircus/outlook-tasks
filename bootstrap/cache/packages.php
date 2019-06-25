@@ -95,6 +95,18 @@
       0 => 'PerfectOblivion\\Adr\\AdrServiceProvider',
     ),
   ),
+  'perfect-oblivion/laravel-microsoft-graph' => 
+  array (
+    'providers' => 
+    array (
+      0 => 'PerfectOblivion\\MsGraph\\MsGraphServiceProvider',
+    ),
+    'aliases' => 
+    array (
+      'MsGraph' => 'PerfectOblivion\\MsGraph\\Facades\\MsGraph',
+      'MsGraphAdmin' => 'PerfectOblivion\\MsGraph\\Facades\\MsGraphAdmin',
+    ),
+  ),
   'perfect-oblivion/payload' => 
   array (
     'providers' => 

@@ -3,6 +3,8 @@
 namespace App\Http\Actions\Home;
 
 use PerfectOblivion\Actions\Action;
+use App\Services\Oauth\TokenService;
+use App\Services\Oauth\FetchTokenService;
 use App\Http\Responders\Home\IndexResponder;
 
 class Index extends Action
@@ -10,14 +12,20 @@ class Index extends Action
     /** @var \App\Http\Responders\Home\IndexResponder */
     private $responder;
 
+
+    /** @var \App\Services\Oauth\TokenService */
+    private $tokenService;
+
     /**
      * Construct a new Home Index action.
      *
      * @param  \App\Http\Responders\Home\IndexResponder  $responder
+     * @param  \App\Services\Oauth\TokenService  $tokenService
      */
-    public function __construct(IndexResponder $responder)
+    public function __construct(IndexResponder $responder, TokenService $tokenService)
     {
         $this->responder = $responder;
+        $this->tokens = $tokenService;
     }
 
     /**
@@ -27,6 +35,8 @@ class Index extends Action
      */
     public function __invoke()
     {
-        return $this->responder->respond();
+        $token = $this->tokenService->hasOauthTokens() ? FetchTokenService::call() : '';
+
+        return $this->responder->withPayload($token)->respond();
     }
 }

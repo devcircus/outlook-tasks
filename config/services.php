@@ -42,4 +42,13 @@ return [
             'tolerance' => env('STRIPE_WEBHOOK_TOLERANCE', 300),
         ],
     ],
+    'outlook' => [
+        'app_id' => env('OUTLOOK_APP_ID'),
+        'client_secret' => env('OUTLOOK_CLIENT_SECRET'),
+        'redirect_uri' => env('OUTLOOK_REDIRECT_URI'),
+        'url_authorize' => env('OUTLOOK_AUTHORITY').env('OUTLOOK_AUTHORIZE_ENDPOINT'),
+        'url_access_token' => env('OUTLOOK_AUTHORITY').env('OUTLOOK_TOKEN_ENDPOINT'),
+        'url_resource_owner_details' => '',
+        'scopes' => env('OUTLOOK_SCOPES'),
+    ],
 ];
