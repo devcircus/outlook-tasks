@@ -6,12 +6,6 @@
                 <div :class="isPath('home') ? 'text-white' : 'text-blue-200 group-hover:text-white'" class="text-xl">Home</div>
             </inertia-link>
         </div>
-        <div>
-            <inertia-link class="flex items-center group py-3" :href="route('about')">
-                <icon name="user" class="w-4 h-4 mr-2" :class="isPath('about') ? 'fill-white' : 'fill-blue-300 group-hover:fill-white'" />
-                <div :class="isPath('about') ? 'text-white' : 'text-blue-200 group-hover:text-white'" class="text-xl">About Me</div>
-            </inertia-link>
-        </div>
     </div>
 </template>
 

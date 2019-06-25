@@ -4,10 +4,6 @@
 Route::redirect('/', '/home');
 Route::get('/home', Home\Index::class)->middleware(['auth'])->name('home');
 
-// About
-Route::get('about', About\Index::class)->name('about');
-
-
 // Outlook Authentication & Authorization
 Route::get('outlook/signin', Auth\Outlook\SignIn::class)->middleware(['auth'])->name('outlook.signin');
 Route::get('/authorize', Auth\Outlook\GetToken::class)->middleware(['auth']);
