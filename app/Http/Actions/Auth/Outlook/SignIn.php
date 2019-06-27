@@ -40,6 +40,6 @@ class SignIn extends Action
 
         $request->session()->put('oauth_state', $this->oauth->getState());
 
-        return $this->responder->withPayload($authorizationUrl)->respond();
+        return $this->responder->withPayload($authorizationUrl);
     }
 }

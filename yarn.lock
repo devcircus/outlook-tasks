@@ -3545,7 +3545,7 @@ inertia-vue@^0.1.0:
   dependencies:
     inertia inertiajs/inertia
 
-"inertia@github:inertiajs/inertia":
+inertia@inertiajs/inertia:
   version "0.1.0"
   resolved "https://codeload.github.com/inertiajs/inertia/tar.gz/a515eaee3ba716c7773b994fb9850a613cb4f1a7"
   dependencies:
@@ -6919,6 +6919,11 @@ uuid@^3.0.1, uuid@^3.3.2:
   resolved "https://registry.yarnpkg.com/uuid/-/uuid-3.3.2.tgz#1b4af4955eb3077c501c23872fc6513811587131"
   integrity sha512-yXJmeNaw3DnnKAOKJE51sL/ZaYfWJRl1pK9dr19YFCu0ObS231AB1/LbqTKRAQ5kw8A90rA6fr4riOUpTZvQZA==
 
+v-datatable-light@^0.7.0:
+  version "0.7.0"
+  resolved "https://registry.yarnpkg.com/v-datatable-light/-/v-datatable-light-0.7.0.tgz#1751ce46a843f7d5776855ffd002977803193d04"
+  integrity sha512-xz0qz8sbE8GJjaejGFyuAs+f7wQR1WVSc84+Okwpp54rrgvKauY3X6IaptVIjAmEFIZ5QN4GqPzqfdb45n6gWA==
+
 v8-compile-cache@2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/v8-compile-cache/-/v8-compile-cache-2.0.3.tgz#00f7494d2ae2b688cfe2899df6ed2c54bef91dbe"
@@ -6950,6 +6955,11 @@ vue-eslint-parser@^5.0.0:
     espree "^4.1.0"
     esquery "^1.0.1"
     lodash "^4.17.11"
+
+vue-head@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/vue-head/-/vue-head-2.1.1.tgz#05c455d6bddd1f21e84ae6c537e600ac960d07fb"
+  integrity sha512-nU/HRSoX4PYvXp6GlqYqUresESu6oZP4/TbPF4L73BumNyELcDHvRE/89X5VxUuoTzesScFnkVijYaoAYuWOSQ==
 
 vue-hot-reload-api@^2.3.0:
   version "2.3.3"

@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Http\Responders\Auth\Outlook;
+namespace App\Http\Responders\Task;
 
 use PerfectOblivion\Responder\Responder;
-use Inertia\Inertia;
 
-class GetTokenResponder extends Responder
+class ListTasksResponder extends Responder
 {
     /**
      * Send a response.
@@ -14,6 +13,6 @@ class GetTokenResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->route('dashboard');
+        //
     }
 }

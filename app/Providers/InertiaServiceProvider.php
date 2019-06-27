@@ -51,6 +51,14 @@ class InertiaServiceProvider extends ServiceProvider
             ];
         });
 
+        Inertia::share('token', static function () {
+            if ($user = Auth::user()) {
+                return $user->outlook_access_token;
+            }
+
+            return '';
+        });
+
         Inertia::share('auth.user', static function () {
             if ($user = Auth::user()) {
                 return [
@@ -59,8 +67,11 @@ class InertiaServiceProvider extends ServiceProvider
                     'email' => $user->email,
                     'is_admin' => $user->is_admin,
                     'has_oauth_tokens' => $user->has_oauth_tokens,
+                    'token' => $user->outlook_access_token,
                 ];
             }
+
+            return [];
         });
     }
 }

@@ -1,13 +1,13 @@
 <?php
 
-/* @var $factory \Illuminate\Database\Eloquent\Factory */
-
+use App\Models\User;
 use App\Models\Task;
 use App\Models\Category;
 use App\Models\Department;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
+/* @var $factory \Illuminate\Database\Eloquent\Factory */
 $factory->define(Task::class, function (Faker $faker) {
     $title = ucfirst(implode(' ', $faker->words(rand(2,4))));
     $slug = Str::slug($title);
@@ -19,7 +19,8 @@ $factory->define(Task::class, function (Faker $faker) {
         'report_to' => $faker->name,
         'due_date' => $faker->dateTimeBetween('now', '+30 days'),
         'complete' => 0,
-        'category_id' => factory(Category::class),
+        'category_id' => Category::all()->count() > 0 ? Category::all()->random() : factory(Category::class),
+        'user_id' => factory(User::class),
     ];
 });
 

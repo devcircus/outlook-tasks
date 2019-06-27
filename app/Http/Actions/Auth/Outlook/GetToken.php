@@ -42,10 +42,7 @@ class GetToken extends Action
     {
         if ($request->has('code')) {
             if (! $request->has('state') || ($request->state !== $request->session()->get('oauth_state'))) {
-                return Inertia::render('Home/Index', [
-                    'token' => '',
-                    'error' => 'State provided in redirect does not match expected value.',
-                ]);
+                return redirect()->route('dashboard');
             }
 
             $request->session()->forget('oauth_state');
@@ -58,17 +55,10 @@ class GetToken extends Action
 
                 return $this->responder->withPayload($accessToken->getToken())->respond();
             } catch (IdentityProviderException $e) {
-                return Inertia::render('Home/Index', [
-                    'token' => '',
-                    'error' => $e->getMessage(),
-                ]);
+                return redirect()->route('dashboard');
             }
         }
 
-        return Inertia::render('Home/Index', [
-            'token' => '',
-            'error' => $request->has('error') ? $request->error : 'Server error',
-            'error_description' => $request->has('error') ? $request->error_description : 'An error occurred. Contact the web administrator.',
-        ]);
+        return redirect()->route('dashboard');
     }
 }
