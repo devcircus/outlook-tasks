@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
@@ -36,13 +37,11 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     ];
 
     /**
-     * A user has many posts.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * A user has many tasks.
      */
-    public function posts()
+    public function tasks(): HasMany
     {
-        return $this->hasMany(Post::class);
+        return $this->hasMany(Task::class);
     }
 
     /**

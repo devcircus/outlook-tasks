@@ -1,5 +1,7 @@
 import Vue from 'vue';
 import store from 'JS/store';
+import VueHead from 'vue-head';
+import { config } from 'Config';
 import Dates from 'Mixins/Dates';
 import VueStash from 'vue-stash';
 import Inertia from 'inertia-vue';
@@ -25,6 +27,12 @@ Vue.mixin({
 Vue.mixin(Dispatchable);
 Vue.mixin(ParsesUrls);
 Vue.mixin(Dates);
+
+// Use VueHead
+Vue.use(VueHead, {
+    separator: '|',
+    complement: config.appName,
+  });
 
 // Use PortalVue
 Vue.use(PortalVue);

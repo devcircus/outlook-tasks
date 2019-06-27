@@ -3,6 +3,7 @@
 use App\Models\User;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Seeder;
+use App\Models\Task;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,7 +13,8 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
         $users = factory(User::class, 10)->create();
-        $this->createDefaultAdmin();
+        $admin = $this->createDefaultAdmin();
+        $this->createTasksForAdmin($admin);
     }
 
     /**
@@ -28,6 +30,16 @@ class UsersTableSeeder extends Seeder
             'password' => bcrypt(config('auth.admin.password')),
             'is_admin' => true,
             'uuid' => Uuid::uuid4(),
+        ]);
+    }
+
+    /**
+     * Seed the admin's tasks.
+     */
+    public function createTasksForAdmin(User $user)
+    {
+        factory(Task::class, 15)->create([
+            'user_id' => $user->id,
         ]);
     }
 }

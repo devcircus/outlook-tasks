@@ -1,7 +1,7 @@
 <template>
     <layout title="Create User">
         <h1 class="mb-8 font-bold text-3xl">
-            <inertia-link class="text-blue-light hover:text-blue-700" :href="route('users')">Users</inertia-link>
+            <inertia-link class="text-blue-light hover:text-blue-700" :href="route('users.list')">Users</inertia-link>
             <span class="text-blue-300 font-medium">/</span> Create
         </h1>
         <div class="bg-white rounded shadow overflow-hidden max-w-lg">

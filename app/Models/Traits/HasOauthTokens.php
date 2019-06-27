@@ -109,6 +109,6 @@ trait HasOauthTokens
         $this->outlook_refresh_token = null;
         $this->outlook_token_expires = null;
 
-        return $this->save();
+        $this->save();
     }
 }

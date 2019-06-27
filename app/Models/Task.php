@@ -2,20 +2,27 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Uuid\HasUuids;
 use App\Models\Traits\Slug\HasSlug;
+use App\Models\Traits\Uuid\HasUuids;
 use App\Models\Traits\Slug\SlugOptions;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Task extends Model
 {
-    use HasUuids, HasSlug;
+    use HasUuids;
+    use HasSlug;
+
+    /** @var array */
+    protected $casts = [
+        'complete' => 'boolean',
+    ];
 
     /**
      * Get the options for generating the slug.
      */
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('title')
@@ -36,5 +43,15 @@ class Task extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Scope the query to Tasks which are incomplete.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     */
+    public function scopeIncomplete(Builder $query): Builder
+    {
+        return $query->where('complete', false);
     }
 }
