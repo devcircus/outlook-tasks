@@ -2,7 +2,6 @@
 
 namespace App\Http\Actions\Auth\Outlook;
 
-use Inertia\Inertia;
 use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
 use League\OAuth2\Client\Provider\GenericProvider;
@@ -34,15 +33,17 @@ class GetToken extends Action
      *
      * @param  \Illuminate\Http\Request  $request
      *
-     * @return \Illuminate\Http\Response
-     *
      * @throws \League\OAuth2\Client\Provider\Exception\IdentityProviderException
+     *
+     * @return \Illuminate\Http\Response
      */
     public function __invoke(Request $request)
     {
-        if ($request->has('code')) {
+        if (! $request->has('code')) {
+            $request->session()->put('warning', 'Authorization code not available. Please re-authorize.');
+        } else {
             if (! $request->has('state') || ($request->state !== $request->session()->get('oauth_state'))) {
-                return redirect()->route('dashboard');
+                $request->session()->put('warning', 'Application state is invalid. Please re-authorize.');
             }
 
             $request->session()->forget('oauth_state');
@@ -51,14 +52,15 @@ class GetToken extends Action
                 $accessToken = $this->oauth->getAccessToken('authorization_code', [
                     'code' => $request->code,
                 ]);
-                $request->user()->storeOauthTokens($accessToken->getToken(), $accessToken->getRefreshToken(), $accessToken->getExpires());
 
-                return $this->responder->withPayload($accessToken->getToken())->respond();
+                $request->user()->storeOauthTokens($accessToken->getToken(), $accessToken->getRefreshToken(), $accessToken->getExpires());
             } catch (IdentityProviderException $e) {
-                return redirect()->route('dashboard');
+                $request->session()->put('warning', 'Error authorizing with Outlook. Please try again.');
+
+                return $this->responder;
             }
         }
 
-        return redirect()->route('dashboard');
+        return $this->responder;
     }
 }

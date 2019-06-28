@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\Task;
+use Ramsey\Uuid\Uuid;
 use App\Models\Category;
 use App\Models\Department;
 use Illuminate\Support\Str;
@@ -14,6 +15,7 @@ $factory->define(Task::class, function (Faker $faker) {
 
     return [
         'title' => $title,
+        'uuid' => Uuid::uuid4(),
         'slug' => $slug,
         'description' => $faker->paragraph(rand(2,6)),
         'report_to' => $faker->name,

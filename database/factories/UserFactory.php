@@ -1,12 +1,14 @@
 <?php
 
 use App\Models\User;
+use Ramsey\Uuid\Uuid;
 use Illuminate\Support\Str;
 use Faker\Generator as Faker;
 
 $factory->define(User::class, function (Faker $faker) {
     return [
         'name' => $faker->name,
+        'uuid' => Uuid::uuid4(),
         'email' => $faker->unique()->safeEmail,
         'email_verified_at' => now(),
         'deleted_at' => null,

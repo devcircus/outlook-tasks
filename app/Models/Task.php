@@ -38,6 +38,14 @@ class Task extends Model
     }
 
     /**
+     * A Task belongs to a User.
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    /**
      * A Task belongs to a Category.
      */
     public function category(): BelongsTo
