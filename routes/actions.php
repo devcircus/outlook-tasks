@@ -11,6 +11,9 @@ Route::get('/dashboard', Dashboard\Index::class)->middleware(['auth', 'oauth'])-
 Route::get('outlook/signin', Auth\Outlook\SignIn::class)->middleware(['auth'])->name('outlook.signin');
 Route::get('/authorize', Auth\Outlook\GetToken::class)->middleware(['auth'])->name('outlook.authorize');
 
+// Outlook
+Route::get('outlook/sync', Outlook\SyncEmail::class)->middleware(['auth', 'oauth'])->name('outlook.sync');
+
 // Authentication and Registration
 // Auth - Login
 Route::group(['middleware' => ['guest'], 'as' => 'login.', 'prefix' => 'login'], function ($router) {
@@ -63,7 +66,19 @@ Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], 
     // $router->get('/create', Task\CreateTask::class)->name('create');
     // $router->post('/', Task\StoreTask::class)->name('store');
     // $router->delete('/{user}', Task\DeleteTask::class)->name('destroy');
-    $router->get('/{task}/edit', Task\DeleteTask::class)->name('edit');
+    $router->get('/{task}/edit', Task\EditTask::class)->name('edit');
     // $router->put('/{user}', Task\UpdateTask::class)->name('update');
     // $router->put('/{user}/restore', Task\RestoreTask::class)->name('restore');
+});
+
+
+// Emails
+Route::group(['middleware' => ['auth'], 'as' => 'emails.', 'prefix' => 'emails'], function ($router) {
+    $router->get('/', Email\ListEmails::class)->name('list');
+    // $router->get('/create', Email\CreateEmail::class)->name('create');
+    // $router->post('/', Email\StoreEmail::class)->name('store');
+    // $router->delete('/{user}', Email\DeleteEmail::class)->name('destroy');
+    $router->get('/{email}/edit', Email\EditEmail::class)->name('edit');
+    // $router->put('/{user}', Email\UpdateEmail::class)->name('update');
+    // $router->put('/{user}/restore', Email\RestoreEmail::class)->name('restore');
 });

@@ -4,20 +4,22 @@ namespace App\Models;
 
 use App\Http\DTO\UserData;
 use Carbon\CarbonImmutable;
-use App\Models\Traits\HasOauthTokens;
+use App\Models\Concerns\Uuid\HasUuids;
 use Illuminate\Notifications\Notifiable;
+use App\Models\Concerns\Oauth\HasOauthTokens;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Foundation\Auth\Access\Authorizable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;
 
 class User extends Authenticatable implements AuthorizableContract, MustVerifyEmail
 {
+    use HasUuids;
+    use Notifiable;
     use SoftDeletes;
     use Authorizable;
-    use Notifiable;
     use HasOauthTokens;
 
     /** @var array */
@@ -42,6 +44,14 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class);
+    }
+
+    /**
+     * A user has many emails.
+     */
+    public function emails(): HasMany
+    {
+        return $this->hasMany(Email::class);
     }
 
     /**

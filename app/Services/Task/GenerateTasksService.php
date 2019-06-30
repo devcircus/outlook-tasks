@@ -2,18 +2,24 @@
 
 namespace App\Services\Task;
 
+use App\Models\Task;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 
-class DeleteTaskService
+class GenerateTasksService
 {
     use SelfCallingService;
 
+    /** @var \App\Models\Task */
+    private $tasks;
+
     /**
-     * Construct a new DeleteTaskService.
+     * Construct a new GenerateTaskService.
+     *
+     * @param  \App\Models\Task  $tasks
      */
-    public function __construct()
+    public function __construct(Task $tasks)
     {
-        //
+        $this->tasks = $tasks;
     }
 
     /**
@@ -23,6 +29,6 @@ class DeleteTaskService
      */
     public function run()
     {
-        //
+
     }
 }

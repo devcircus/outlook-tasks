@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Slug\HasSlug;
-use App\Models\Traits\Slug\SlugOptions;
+use App\Models\Concerns\Slug\HasSlug;
+use App\Models\Concerns\Slug\SlugOptions;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model

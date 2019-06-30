@@ -1,9 +1,8 @@
 <?php
 
-use App\Models\User;
-use Ramsey\Uuid\Uuid;
-use Illuminate\Database\Seeder;
 use App\Models\Task;
+use App\Models\User;
+use Illuminate\Database\Seeder;
 
 class UsersTableSeeder extends Seeder
 {
@@ -29,7 +28,6 @@ class UsersTableSeeder extends Seeder
             'email' => config('auth.admin.email'),
             'password' => bcrypt(config('auth.admin.password')),
             'is_admin' => true,
-            'uuid' => Uuid::uuid4(),
         ]);
     }
 

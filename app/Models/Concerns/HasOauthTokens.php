@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Traits;
+namespace App\Models\Concerns\Oauth;
 
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 
@@ -49,7 +49,7 @@ trait HasOauthTokens
             return '';
         }
 
-        if ($this->getTokenExpires() <= now()->addMinutes(5)) {
+        if ($this->tokenIsExpired()) {
             try {
                 $newToken = resolve('oauth')->getAccessToken('refresh_token', [
                     'refresh_token' => $this->getRefreshToken(),
@@ -110,5 +110,15 @@ trait HasOauthTokens
         $this->outlook_token_expires = null;
 
         $this->save();
+    }
+
+    /**
+     * Check if the user's oauth token is expired.
+     *
+     * @return bool
+     */
+    public function tokenIsExpired()
+    {
+        return $this->hasOauthTokens() && $this->getTokenExpires() <= now()->addMinutes(5);
     }
 }

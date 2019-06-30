@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Models\Traits\Slug;
+namespace App\Models\Concerns\Slug;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 
 trait HasSlug
 {
-    /** @var \App\Models\Traits\Slug\SlugOptions */
+    /** @var \App\Models\Concerns\Slug\SlugOptions */
     protected $slugOptions;
 
     /**
      * Get the slug options.
      *
-     * @return \App\Models\Traits\Slug\SlugOptions
+     * @return \App\Models\Concerns\Slug\SlugOptions
      */
     abstract public function getSlugOptions(): SlugOptions;
 
@@ -166,7 +166,7 @@ trait HasSlug
     /**
      * Ensure the slug options are valid.
      *
-     * @throws \App\Models\Traits\Slug\InvalidOption
+     * @throws \App\Models\Concerns\Slug\InvalidOption
      */
     protected function ensureValidSlugOptions()
     {
