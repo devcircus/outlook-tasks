@@ -54,6 +54,10 @@ export default {
             type: String,
             default: () => 'show',
         },
+        notFoundMessage: {
+            type: String,
+            default: () => 'No items found.',
+        },
     },
 }
 </script>

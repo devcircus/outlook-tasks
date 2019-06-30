@@ -4,7 +4,11 @@
             <h1 class="mb-8 font-bold text-xl md:text-2xl">
                 <inertia-link class="text-blue-500 hover:text-blue-800 uppercase" :href="route('dashboard')">Tasks</inertia-link>
             </h1>
-            <item-list :header-fields="headerFields" :data="tasks" sort-field="due_date" sort="asc" not-found-message="No tasks found." entity-name="tasks" row-action="edit" />
+            <item-list :header-fields="taskHeaderFields" :data="tasks" sort-field="due_date" sort="asc" not-found-message="No tasks found." entity-name="tasks" row-action="edit" />
+            <h1 class="mb-8 font-bold text-xl md:text-2xl">
+                <inertia-link class="text-blue-500 hover:text-blue-800 uppercase" :href="route('dashboard')">Email</inertia-link>
+            </h1>
+            <item-list :header-fields="emailHeaderFields" :data="emails" sort-field="received_at" sort="desc" not-found-message="No emails found." entity-name="emails" row-action="edit" />
         </div>
     </layout>
 </template>
@@ -31,21 +35,39 @@ export default {
             type: Array,
             default: () => [],
         },
+        emails: {
+            type: Array,
+            default: () => [],
+        },
     },
     data () {
         return {
-            headerFields: [
-                {
-                    name: 'title',
-                    label: 'Title',
-                },
+            taskHeaderFields: [
                 {
                     name: 'due_date',
                     label: 'Due',
                 },
                 {
+                    name: 'title',
+                    label: 'Title',
+                },
+                {
                     name: 'report_to',
                     label: 'Report To',
+                },
+            ],
+            emailHeaderFields: [
+                {
+                    name: 'received_at',
+                    label: 'Received',
+                },
+                {
+                    name: 'subject',
+                    label: 'Subject',
+                },
+                {
+                    name: 'from_address',
+                    label: 'From',
                 },
             ],
         }

@@ -2,17 +2,17 @@
 
 namespace App\Models;
 
-use App\Models\Traits\Slug\HasSlug;
-use App\Models\Traits\Uuid\HasUuids;
-use App\Models\Traits\Slug\SlugOptions;
+use App\Models\Concerns\Slug\HasSlug;
+use App\Models\Concerns\Uuid\HasUuids;
+use App\Models\Concerns\Slug\SlugOptions;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Task extends Model
 {
-    use HasUuids;
     use HasSlug;
+    use HasUuids;
 
     /** @var array */
     protected $casts = [

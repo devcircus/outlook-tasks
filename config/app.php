@@ -72,6 +72,7 @@ return [
         App\Providers\DebugbarServiceProvider::class,
         App\Providers\IdeHelperServiceProvider::class,
         App\Providers\OauthServiceProvider::class,
+        App\Providers\TaskServiceProvider::class,
     ],
 
     'aliases' => [

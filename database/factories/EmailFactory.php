@@ -11,8 +11,10 @@ $factory->define(Email::class, function (Faker $faker) {
 
     return [
         'uuid' => Uuid::uuid4(),
+        'outlook_id' => Uuid::uuid4(),
         'subject' => $faker->sentence(rand(2,4)),
-        'from' => $faker->safeEmail,
+        'from_address' => $faker->safeEmail,
+        'from_name' => $faker->name,
         'body' => $faker->paragraph(rand(2,5)),
         'received_at' => $faker->dateTimeBetween('-30 days', 'now'),
         'user_id' => factory(User::class),

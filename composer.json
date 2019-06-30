@@ -21,6 +21,7 @@
     ],
     "require": {
         "php": "^7.2.0",
+        "algolia/algoliasearch-client-php": "^2.2",
         "barryvdh/laravel-cors": "^0.11.3",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",

@@ -58,6 +58,7 @@
     54 => 'App\\Providers\\DebugbarServiceProvider',
     55 => 'App\\Providers\\IdeHelperServiceProvider',
     56 => 'App\\Providers\\OauthServiceProvider',
+    57 => 'App\\Providers\\TaskServiceProvider',
   ),
   'eager' => 
   array (
@@ -102,6 +103,7 @@
     38 => 'App\\Providers\\DebugbarServiceProvider',
     39 => 'App\\Providers\\IdeHelperServiceProvider',
     40 => 'App\\Providers\\OauthServiceProvider',
+    41 => 'App\\Providers\\TaskServiceProvider',
   ),
   'deferred' => 
   array (

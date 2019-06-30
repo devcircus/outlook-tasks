@@ -13,6 +13,12 @@ class TaskServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        $this->app->singleton('types', function ($app) {
+            return collect([
+                'bag' => Type::where('type', 'swatch')->first(),
+                'late' => Type::where('type', 'vsf')->first(),
+                'new' => Type::where('type', 'prototype')->first(),
+            ]);
+        });
     }
 }

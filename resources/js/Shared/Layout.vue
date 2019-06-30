@@ -23,6 +23,9 @@
                         <div v-if="! $page.token" class="flex w-full">
                             <a :href="route('outlook.signin')" class="btn btn-blue w-200p text-center">Connect to Outlook</a>
                         </div>
+                        <div v-else class="flex w-full">
+                            <inertia-link :href="route('outlook.sync')" class="btn btn-blue w-200p text-center">Sync Email</inertia-link>
+                        </div>
                         <div class="mt-1 mr-4">&nbsp;</div>
                         <dropdown v-if="$page.auth.user" class="mt-1 md:ml-auto " placement="bottom-end">
                             <div class="flex items-center cursor-pointer select-none group">

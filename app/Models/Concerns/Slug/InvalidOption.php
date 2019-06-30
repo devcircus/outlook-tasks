@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Traits\Slug;
+namespace App\Models\Concerns\Slug;
 
 use Exception;
 

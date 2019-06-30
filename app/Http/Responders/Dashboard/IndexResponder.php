@@ -14,8 +14,6 @@ class IndexResponder extends Responder
      */
     public function respond()
     {
-        return Inertia::render('Dashboard/Index', [
-            'tasks' => $this->payload
-        ]);
+        return Inertia::render('Dashboard/Index', $this->payload);
     }
 }

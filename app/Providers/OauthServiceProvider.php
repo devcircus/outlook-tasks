@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use Microsoft\Graph\Graph;
 use Illuminate\Support\ServiceProvider;
 use League\OAuth2\Client\Provider\GenericProvider;
+use App\Outlook\Query\QueryParameter;
 
 class OauthServiceProvider extends ServiceProvider
 {
@@ -22,6 +24,14 @@ class OauthServiceProvider extends ServiceProvider
                 'urlResourceOwnerDetails' => '',
                 'scopes'  => config('services.outlook.scopes'),
             ]);
+        });
+
+        $this->app->singleton(Graph::class, function ($app) {
+            return new Graph;
+        });
+
+        $this->app->singleton(QueryParameter::class, function ($app) {
+            return new QueryParameter;
         });
 
         $this->app->alias(GenericProvider::class, 'oauth');

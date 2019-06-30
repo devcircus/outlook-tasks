@@ -54,6 +54,7 @@ class GetToken extends Action
                 ]);
 
                 $request->user()->storeOauthTokens($accessToken->getToken(), $accessToken->getRefreshToken(), $accessToken->getExpires());
+                $request->session()->put('success', 'Connected to Outlook!');
             } catch (IdentityProviderException $e) {
                 $request->session()->put('warning', 'Error authorizing with Outlook. Please try again.');
 

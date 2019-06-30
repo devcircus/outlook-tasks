@@ -4,6 +4,7 @@ namespace App\Services\Dashboard;
 
 use App\Models\User;
 use App\Services\Task\ListTasksService;
+use App\Services\Email\ListEmailsService;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 
 class IndexService
@@ -15,10 +16,13 @@ class IndexService
      *
      * @param  \App\Models\User  $user
      *
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
     public function run(User $user)
     {
-        return ListTasksService::call($user);
+        return [
+            'tasks' => ListTasksService::call($user),
+            'emails' => ListEmailsService::call($user),
+        ];
     }
 }
