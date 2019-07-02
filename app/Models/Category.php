@@ -27,4 +27,12 @@ class Category extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    /**
+     * A Category has many emails.
+     */
+    public function emails(): HasMany
+    {
+        return $this->hasMany(Email::class);
+    }
 }

@@ -7,8 +7,9 @@ use App\Models\Email;
 use Microsoft\Graph\Graph;
 use Carbon\CarbonImmutable;
 use App\Outlook\Query\QueryParameter;
-use PerfectOblivion\Services\Traits\SelfCallingService;
+use App\Events\EmailSyncedWithOutlook;
 use Microsoft\Graph\Http\GraphResponse;
+use PerfectOblivion\Services\Traits\SelfCallingService;
 
 class FetchEmailFromOutlookService
 {
@@ -84,13 +85,17 @@ class FetchEmailFromOutlookService
             foreach ($response->getBody()['value'] as $message) {
                 $this->emails->storeEmailFromOutlookForUser($message, $user);
             }
+
+            EmailSyncedWithOutlook::broadcast($user, $mostRecentReceivedDate);
         } else {
-            $startDate = now()->subDays(config('outlook.days_back', 10) + 1);
+            $startDate = CarbonImmutable::now()->subDays(config('outlook.days_back', 10) + 1);
             $response = $this->fetchAllEmailsAfterDate($startDate);
 
             foreach ($response->getBody()['value'] as $message) {
                 $this->emails->storeEmailFromOutlookForUser($message, $user);
             }
+
+            EmailSyncedWithOutlook::broadcast($user, $startDate);
         }
     }
 

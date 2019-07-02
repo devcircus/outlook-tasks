@@ -21,7 +21,7 @@ $factory->define(Task::class, function (Faker $faker) {
         'report_to' => $faker->name,
         'due_date' => $faker->dateTimeBetween('now', '+30 days'),
         'complete' => 0,
-        'category_id' => Category::all()->count() > 0 ? Category::all()->random() : factory(Category::class),
+        'category_id' => Category::all()->count() > 0 ? Category::all()->random()->id : factory(Category::class),
         'user_id' => factory(User::class),
     ];
 });

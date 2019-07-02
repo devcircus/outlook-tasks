@@ -62,4 +62,59 @@ class Task extends Model
     {
         return $query->where('complete', false);
     }
+
+    /**
+     * Create a task from the given email.
+     *
+     * @param  \App\Models\Email  $email
+     */
+    public function createFromEmail(Email $email): Task
+    {
+        $subject = $this->normalizeTitle($email->subject);
+        $body = $email->body;
+
+        if ($this->isNotDuplicate($subject, $body)){
+            $task = $this->create([
+                'title' => $subject,
+                'description' => $body,
+                'category_id' => $email->category_id,
+                'user_id' => $email->user->id,
+            ]);
+            $email->setAsAssigned();
+
+            return $task;
+        }
+    }
+
+    /**
+     * Does this task already exist?
+     *
+     * @param  string  $title
+     * @param  string  $body
+     */
+    private function isNotDuplicate(string $title, string $body): bool
+    {
+        $task = $this->where('title', $title)->first();
+
+        if (! $task) {
+            return true;
+        }
+
+        $first = replace_new_lines(str_replace(config('outlook.ignore'), '', $task->body));
+        $second = replace_new_lines(str_replace(config('outlook.ignore'), '', $body));
+
+        similar_text($first, $second, $percent);
+
+        return $percent < 30;
+    }
+
+    /**
+     * Normalize the title.
+     *
+     * @param  string  $title
+     */
+    private function normalizeTitle(string $title): string
+    {
+        return trim(str_replace(['re:', 'fw:', 'fwd:'], '', strtolower($title)));
+    }
 }
