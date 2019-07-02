@@ -78,6 +78,30 @@ let app = document.getElementById('app');
 
 new Vue({
     data: { store },
+    mounted () {
+        this.listenForEvents();
+    },
+    methods: {
+        listenForEvents () {
+            /* global Echo */
+            Echo.channel('outlook')
+                .listen('.outlookSynced', e => {
+                    console.log(`Email synced for ${e.user.name}`);
+                });
+            Echo.channel('categories')
+                .listen('.categoriesSet', e => {
+                    console.log(`Email categories set.`);
+                });
+            Echo.channel('tasks')
+                .listen('.noTasksGenerated', e => {
+                    console.log(`No tasks generated`);
+                });
+            Echo.channel('tasks')
+                .listen('.tasksGenerated', e => {
+                    console.log(`Tasks generated.`);
+                });
+        },
+    },
     render: h => h(Inertia, {
         props: {
             initialPage: JSON.parse(app.dataset.page),

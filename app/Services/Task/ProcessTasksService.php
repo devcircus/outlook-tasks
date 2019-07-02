@@ -1,12 +1,14 @@
 <?php
 
-namespace App\Services\Email;
+namespace App\Services\Task;
 
-use App\Models\Email;
-use PerfectOblivion\Services\Traits\SelfCallingService;
 use App\Models\User;
+use App\Models\Email;
+use App\Events\NoTasksToGenerate;
+use App\Services\Task\GenerateTasksService;
+use PerfectOblivion\Services\Traits\SelfCallingService;
 
-class ListEmailsService
+class ProcessTasksService
 {
     use SelfCallingService;
 
@@ -14,7 +16,7 @@ class ListEmailsService
     private $emails;
 
     /**
-     * Construct a new ListEmailsService.
+     * Construct a new ProcessTasksService.
      *
      * @param  \App\Models\Email  $emails
      */
@@ -28,10 +30,16 @@ class ListEmailsService
      *
      * @param  \App\Models\User  $user
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return bool
      */
     public function run(User $user)
     {
-        return $user->emails()->orderByColumn('received_at', 'desc')->get();
+        $emails = $user->emails()->notAssignedToTask()->categoryNotNone()->get();
+
+        if ($emails->count() === 0) {
+            return NoTasksToGenerate::broadcast();
+        }
+
+        return GenerateTasksService::call($emails);
     }
 }

@@ -115,19 +115,12 @@ return [
         'production' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['email'],
+                'queue' => ['broadcast'],
                 'balance' => 'simple',
                 'processes' => 10,
                 'tries' => 3,
             ],
             'supervisor-2' => [
-                'connection' => 'redis',
-                'queue' => ['images'],
-                'balance' => 'simple',
-                'processes' => 10,
-                'tries' => 3,
-            ],
-            'supervisor-3' => [
                 'connection' => 'redis',
                 'queue' => ['misc'],
                 'balance' => 'simple',
@@ -139,19 +132,12 @@ return [
         'local' => [
             'supervisor-1' => [
                 'connection' => 'redis',
-                'queue' => ['email'],
+                'queue' => ['broadcast'],
                 'balance' => 'simple',
                 'processes' => 3,
                 'tries' => 3,
             ],
             'supervisor-2' => [
-                'connection' => 'redis',
-                'queue' => ['images'],
-                'balance' => 'simple',
-                'processes' => 3,
-                'tries' => 3,
-            ],
-            'supervisor-3' => [
                 'connection' => 'redis',
                 'queue' => ['misc'],
                 'balance' => 'simple',

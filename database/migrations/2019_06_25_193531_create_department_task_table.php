@@ -18,6 +18,9 @@ class CreateDepartmentTaskTable extends Migration
             $table->unsignedBigInteger('department_id');
             $table->unsignedBigInteger('task_id');
             $table->timestamps();
+
+            $table->foreign('department_id')->references('id')->on('departments')->onDelete('cascade');
+            $table->foreign('task_id')->references('id')->on('tasks')->onDelete('cascade');
         });
     }
 

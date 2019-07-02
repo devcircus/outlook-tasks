@@ -12,7 +12,7 @@ Route::get('outlook/signin', Auth\Outlook\SignIn::class)->middleware(['auth'])->
 Route::get('/authorize', Auth\Outlook\GetToken::class)->middleware(['auth'])->name('outlook.authorize');
 
 // Outlook
-Route::get('outlook/sync', Outlook\SyncEmail::class)->middleware(['auth', 'oauth'])->name('outlook.sync');
+Route::post('outlook/sync', Outlook\SyncEmail::class)->middleware(['auth', 'oauth'])->name('outlook.sync');
 
 // Authentication and Registration
 // Auth - Login
@@ -63,6 +63,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'users.', 'prefix' => 'users'], 
 // Tasks
 Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], function ($router) {
     $router->get('/', Task\ListTasks::class)->name('list');
+    $router->post('/process', Task\ProcessTasks::class)->middleware(['oauth'])->name('process');
     // $router->get('/create', Task\CreateTask::class)->name('create');
     // $router->post('/', Task\StoreTask::class)->name('store');
     // $router->delete('/{user}', Task\DeleteTask::class)->name('destroy');

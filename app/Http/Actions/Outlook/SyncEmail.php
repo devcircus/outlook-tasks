@@ -5,7 +5,6 @@ namespace App\Http\Actions\Outlook;
 use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
 use App\Services\Outlook\SyncEmailService;
-use App\Services\Task\GenerateTasksService;
 use App\Http\Responders\Outlook\SyncEmailResponder;
 
 class SyncEmail extends Action
@@ -33,7 +32,6 @@ class SyncEmail extends Action
     public function __invoke(Request $request)
     {
         SyncEmailService::call($request->user());
-        GenerateTasksService::call();
 
         return $this->responder->respond();
     }

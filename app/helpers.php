@@ -67,3 +67,18 @@ if (! function_exists('validate')) {
         return Validator::make($fields, $rules, $messages);
     }
 }
+
+if (! function_exists('replace_new_lines')) {
+    /**
+     * Replace newlines and returns from strings.
+     *
+     * @param  string  $subject
+     * @param  string  $replace
+     *
+     * @return string
+     */
+    function replace_new_lines($subject, $replace = '')
+    {
+        return preg_replace("/[\n\r]/", $replace, $subject);
+    }
+}

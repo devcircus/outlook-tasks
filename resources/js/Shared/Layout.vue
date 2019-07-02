@@ -24,7 +24,8 @@
                             <a :href="route('outlook.signin')" class="btn btn-blue w-200p text-center">Connect to Outlook</a>
                         </div>
                         <div v-else class="flex w-full">
-                            <inertia-link :href="route('outlook.sync')" class="btn btn-blue w-200p text-center">Sync Email</inertia-link>
+                            <loading-button class="btn-blue mr-4" :loading="syncLoading" type="button" @clicked="syncEmail()">Sync Email</loading-button>
+                            <loading-button class="btn-blue" :loading="tasksLoading" type="button" @clicked="processTasks()">Process Tasks</loading-button>
                         </div>
                         <div class="mt-1 mr-4">&nbsp;</div>
                         <dropdown v-if="$page.auth.user" class="mt-1 md:ml-auto " placement="bottom-end">
@@ -62,6 +63,7 @@
     import MainMenu from '@/Shared/MainMenu';
     import SiteFooter from '@/Shared/SiteFooter';
     import FlashMessage from '@/Shared/FlashMessage';
+    import LoadingButton from '@/Shared/LoadingButton';
 
     export default {
         components: {
@@ -71,6 +73,7 @@
             MainMenu,
             FlashMessage,
             SiteFooter,
+            LoadingButton,
         },
         props: {
             title: String,
@@ -79,6 +82,8 @@
             return {
                 showUserMenu: false,
                 accounts: null,
+                syncLoading: false,
+                tasksLoading: false,
             }
         },
         head: {
@@ -89,6 +94,14 @@
             },
         },
         methods: {
+            syncEmail () {
+                this.syncLoading = true;
+                this.$inertia.post(this.route('outlook.sync')).then( () => this.syncLoading = false );
+            },
+            processTasks () {
+                this.tasksLoading = true;
+                this.$inertia.post(this.route('tasks.process')).then( () => this.tasksLoading = false );
+            },
             hideDropdownMenus () {
                 this.showUserMenu = false;
             },
