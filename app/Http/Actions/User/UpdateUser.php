@@ -13,11 +13,11 @@ use App\Http\Responders\User\UpdateUserResponder;
 
 class UpdateUser extends Action
 {
-    /** @var \App\Http\Responders\User\UpdateUserResponder */
-    private $responder;
-
     /** @var \Illuminate\Contracts\Auth\Access\Gate */
     private $gate;
+
+    /** @var \App\Http\Responders\User\UpdateUserResponder */
+    private $responder;
 
     /**
      * Construct a new UpdateUser action.

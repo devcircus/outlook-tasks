@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Responders\Email;
+namespace App\Http\Responders\Task;
 
 use PerfectOblivion\Responder\Responder;
+use Inertia\Inertia;
 
-class EditEmailResponder extends Responder
+class CreateTaskResponder extends Responder
 {
     /**
      * Send a response.
@@ -13,6 +14,6 @@ class EditEmailResponder extends Responder
      */
     public function respond()
     {
-        //
+        return Inertia::render('Tasks/Create');
     }
 }

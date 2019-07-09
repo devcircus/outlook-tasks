@@ -40,10 +40,10 @@ class GetToken extends Action
     public function __invoke(Request $request)
     {
         if (! $request->has('code')) {
-            $request->session()->put('warning', 'Authorization code not available. Please re-authorize.');
+            $request->session()->flash('warning', 'Authorization code not available. Please re-authorize.');
         } else {
             if (! $request->has('state') || ($request->state !== $request->session()->get('oauth_state'))) {
-                $request->session()->put('warning', 'Application state is invalid. Please re-authorize.');
+                $request->session()->flash('warning', 'Application state is invalid. Please re-authorize.');
             }
 
             $request->session()->forget('oauth_state');
@@ -54,9 +54,9 @@ class GetToken extends Action
                 ]);
 
                 $request->user()->storeOauthTokens($accessToken->getToken(), $accessToken->getRefreshToken(), $accessToken->getExpires());
-                $request->session()->put('success', 'Connected to Outlook!');
+                $request->session()->flash('success', 'Connected to Outlook!');
             } catch (IdentityProviderException $e) {
-                $request->session()->put('warning', 'Error authorizing with Outlook. Please try again.');
+                $request->session()->flash('warning', 'Error authorizing with Outlook. Please try again.');
 
                 return $this->responder;
             }

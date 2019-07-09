@@ -4,13 +4,14 @@ namespace App\Services\User;
 
 use App\Models\User;
 use App\Http\DTO\UserData;
+use App\Services\User\Validation\StoreUserValidation;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 
 class StoreUserService
 {
     use SelfCallingService;
 
-    /** @var \App\Services\StoreUserValidation */
+    /** @var \App\Services\User\Validation\StoreUserValidation */
     private $validator;
 
     /** @var \App\Models\User */
@@ -19,7 +20,7 @@ class StoreUserService
     /**
      * Construct a new StoreUserService.
      *
-     * @param  \App\Services\StoreUserValidation  $validator
+     * @param  \App\Services\User\Validation\StoreUserValidation  $validator
      * @param  \App\Models\User  $users
      */
     public function __construct(StoreUserValidation $validator, User $users)

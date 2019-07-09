@@ -66,12 +66,12 @@ export default {
         },
         destroy () {
             if (confirm('Are you sure you want to delete this user?')) {
-                this.$inertia.delete(this.route('users.destroy', this.user.id))
+                this.$inertia.delete(this.route('users.destroy', this.user.id));
             }
         },
         restore () {
             if (confirm('Are you sure you want to restore this user?')) {
-                this.$inertia.put(this.route('users.restore', this.user.id))
+                this.$inertia.put(this.route('users.restore', this.user.id));
             }
         },
     },

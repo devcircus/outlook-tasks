@@ -28,10 +28,16 @@ class ListTasksService
      *
      * @param  \App\Models\User  $user
      *
-     * @return \Illuminate\Database\Eloquent\Collection
+     * @return array
      */
     public function run(User $user)
     {
-        return $user->tasks()->incomplete()->get();
+        return [
+            'prototype' => $user->tasks()->incomplete()->forCategory('prototype')->orderByColumn('due_date', 'asc')->get(),
+            'swatch' => $user->tasks()->incomplete()->forCategory('swatch')->orderByColumn('due_date', 'asc')->get(),
+            'vsf' => $user->tasks()->incomplete()->forCategory('vsf')->orderByColumn('due_date', 'asc')->get(),
+            'ozone' => $user->tasks()->incomplete()->forCategory('ozone')->orderByColumn('due_date', 'asc')->get(),
+            'lettering' => $user->tasks()->incomplete()->forCategory('lettering')->orderByColumn('due_date', 'asc')->get(),
+        ];
     }
 }

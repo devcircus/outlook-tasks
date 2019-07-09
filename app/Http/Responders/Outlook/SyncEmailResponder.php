@@ -13,6 +13,6 @@ class SyncEmailResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->route('dashboard')->with(['success' => 'Email successfully synced!']);
+        return redirect()->route('dashboard');
     }
 }

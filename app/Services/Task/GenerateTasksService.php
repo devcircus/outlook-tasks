@@ -29,15 +29,13 @@ class GenerateTasksService
      * Handle the call to the service.
      *
      * @param  \Illuminate\Database\Eloquent\Collection  $emails
-     *
-     * @return mixed
      */
-    public function run(Collection $emails)
+    public function run(Collection $emails): void
     {
         $emails->each(function ($email) {
             GenerateTaskFromEmailService::call($email);
         });
 
-        return TasksGenerated::broadcast();
+        TasksGenerated::broadcast();
     }
 }

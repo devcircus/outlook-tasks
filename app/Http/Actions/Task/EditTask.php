@@ -2,6 +2,7 @@
 
 namespace App\Http\Actions\Task;
 
+use App\Models\Task;
 use PerfectOblivion\Actions\Action;
 use App\Http\Responders\Task\EditTaskResponder;
 
@@ -11,10 +12,10 @@ class EditTask extends Action
     private $responder;
 
     /**
-    * Construct a new EditTask action.
-    *
-    * @param  \App\Http\Responders\Task\EditTaskResponder  $responder
-    */
+     * Construct a new EditTask action.
+     *
+     * @param  \App\Http\Responders\Task\EditTaskResponder  $responder
+     */
     public function __construct(EditTaskResponder $responder)
     {
         $this->responder = $responder;
@@ -23,10 +24,12 @@ class EditTask extends Action
     /**
      * Execute the action.
      *
+     * @param  \App\Models\Task  $task
+     *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke()
+    public function __invoke(Task $task)
     {
-        return $this->responder->respond();
+        return $this->responder->withPayload($task)->respond();
     }
 }

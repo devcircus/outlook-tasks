@@ -8,8 +8,6 @@ class CreateTasksTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -24,6 +22,7 @@ class CreateTasksTable extends Migration
             $table->boolean('complete')->default(0)->index();
             $table->unsignedBigInteger('category_id');
             $table->unsignedBigInteger('user_id');
+            $table->softDeletes();
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
@@ -33,8 +32,6 @@ class CreateTasksTable extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

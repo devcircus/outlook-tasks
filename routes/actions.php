@@ -64,22 +64,21 @@ Route::group(['middleware' => ['auth'], 'as' => 'users.', 'prefix' => 'users'], 
 Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], function ($router) {
     $router->get('/', Task\ListTasks::class)->name('list');
     $router->post('/process', Task\ProcessTasks::class)->middleware(['oauth'])->name('process');
-    // $router->get('/create', Task\CreateTask::class)->name('create');
-    // $router->post('/', Task\StoreTask::class)->name('store');
-    // $router->delete('/{user}', Task\DeleteTask::class)->name('destroy');
+    $router->get('/create', Task\CreateTask::class)->name('create');
+    $router->post('/', Task\StoreTask::class)->name('store');
+    $router->delete('/{task}', Task\DeleteTask::class)->name('destroy');
     $router->get('/{task}/edit', Task\EditTask::class)->name('edit');
-    // $router->put('/{user}', Task\UpdateTask::class)->name('update');
-    // $router->put('/{user}/restore', Task\RestoreTask::class)->name('restore');
+    $router->put('/{task}', Task\UpdateTask::class)->name('update');
+    // $router->put('/{task}/restore', Task\RestoreTask::class)->name('restore');
 });
-
 
 // Emails
 Route::group(['middleware' => ['auth'], 'as' => 'emails.', 'prefix' => 'emails'], function ($router) {
     $router->get('/', Email\ListEmails::class)->name('list');
     // $router->get('/create', Email\CreateEmail::class)->name('create');
     // $router->post('/', Email\StoreEmail::class)->name('store');
-    // $router->delete('/{user}', Email\DeleteEmail::class)->name('destroy');
-    $router->get('/{email}/edit', Email\EditEmail::class)->name('edit');
-    // $router->put('/{user}', Email\UpdateEmail::class)->name('update');
-    // $router->put('/{user}/restore', Email\RestoreEmail::class)->name('restore');
+    $router->delete('/{email}', Email\DeleteEmail::class)->name('destroy');
+    $router->get('/{email}', Email\ShowEmail::class)->name('show');
+    // $router->put('/{email}', Email\UpdateEmail::class)->name('update');
+    // $router->put('/{email}/restore', Email\RestoreEmail::class)->name('restore');
 });

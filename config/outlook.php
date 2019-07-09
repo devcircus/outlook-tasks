@@ -31,8 +31,16 @@ return [
             'from_address' => 'mcuenca@varsity.com',
             'body' => [
                 'new files by',
+                'new file by',
+                'new style by',
+                'voucher by',
+                'new pattern',
                 'new styles by',
                 'vouchers by',
+                'delete old',
+                'old files',
+                'new patterns',
+                'delete the old',
             ],
         ],
         'ozone' => [
@@ -43,6 +51,12 @@ return [
             'body' => [
                 'on the server',
                 'server now',
+            ],
+        ],
+        'lettering' => [
+            'from_address' => 'nostlund@varsity.com',
+            'subject' => [
+                'lettering holding'
             ],
         ],
     ],

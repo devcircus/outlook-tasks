@@ -151,7 +151,7 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     public function deleteUser()
     {
         return tap($this, function ($instance) {
-            return $this->delete();
+            return $instance->delete();
         });
     }
 
@@ -163,7 +163,7 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     public function restoreUser()
     {
         return tap($this, function ($instance) {
-            return $this->restore();
+            return $instance->restore();
         });
     }
 

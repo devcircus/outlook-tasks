@@ -3,7 +3,6 @@
 namespace App\Http\Responders\Auth\Outlook;
 
 use PerfectOblivion\Responder\Responder;
-use Inertia\Inertia;
 
 class GetTokenResponder extends Responder
 {

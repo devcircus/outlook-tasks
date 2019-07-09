@@ -23,7 +23,7 @@ class CreateCategoriesTable extends Migration
         });
 
         // Insert default categories
-        $categories = ['swatch', 'vsf', 'prototype', 'ozone', 'none'];
+        $categories = ['swatch', 'vsf', 'prototype', 'ozone', 'lettering', 'none'];
         foreach ($categories as $category) {
             $slug = Str::slug($category);
 

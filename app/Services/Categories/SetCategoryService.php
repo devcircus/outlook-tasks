@@ -17,6 +17,7 @@ class SetCategoryService
         'swatch' => CategoryCheckers\CheckForSwatchCategory::class,
         'prototype' => CategoryCheckers\CheckForPrototypeCategory::class,
         'ozone' => CategoryCheckers\CheckForOzoneCategory::class,
+        'lettering' => CategoryCheckers\CheckForLetteringCategory::class,
         'none' => CategoryCheckers\CheckForNoCategory::class,
     ];
 
