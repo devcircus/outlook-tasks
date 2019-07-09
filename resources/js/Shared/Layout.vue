@@ -25,7 +25,7 @@
                         </div>
                         <div v-else class="flex w-full">
                             <loading-button class="btn-blue mr-4" :loading="syncLoading" type="button" @clicked="syncEmail()">Sync Email</loading-button>
-                            <loading-button class="btn-blue" :loading="tasksLoading" type="button" @clicked="processTasks()">Process Tasks</loading-button>
+                            <loading-button class="btn-blue" :class="tasksDisabled ? 'cursor-not-allowed' : 'cursor-pointer'" :loading="tasksDisabled" type="button" @clicked="processTasks()">Process Tasks</loading-button>
                         </div>
                         <div class="mt-1 mr-4">&nbsp;</div>
                         <dropdown v-if="$page.auth.user" class="mt-1 md:ml-auto " placement="bottom-end">
@@ -84,6 +84,12 @@
                 accounts: null,
                 syncLoading: false,
                 tasksLoading: false,
+                emailsLoading: false,
+            }
+        },
+        computed: {
+            tasksDisabled () {
+                return this.tasksLoading || this.emailsLoading;
             }
         },
         head: {
@@ -93,9 +99,15 @@
                 }
             },
         },
+        mounted () {
+            this.$listen('categoriesSet', () => {
+                this.emailsLoading = false;
+            });
+        },
         methods: {
             syncEmail () {
                 this.syncLoading = true;
+                this.emailsLoading = true;
                 this.$inertia.post(this.route('outlook.sync')).then( () => this.syncLoading = false );
             },
             processTasks () {

@@ -24,7 +24,7 @@ class OauthVerified
             return $next($request);
         }
 
-        $request->session()->put('warning', 'Outlook token is invalid. Please re-authorize.');
+        $request->session()->flash('warning', 'Outlook token is invalid. Please re-authorize.');
 
         return $next($request);
     }

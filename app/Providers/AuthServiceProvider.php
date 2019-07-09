@@ -27,6 +27,10 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('update-user', function ($authenticated, $user) {
             return $authenticated->id === $user->id || $this->checkAdmins($authenticated);
         });
+
+        Gate::define('update-task', function ($authenticated, $task) {
+            return $authenticated->id === $task->user->id || $this->checkAdmins($authenticated);
+        });
     }
 
     /**
@@ -40,6 +44,7 @@ class AuthServiceProvider extends ServiceProvider
     {
         return in_array($authenticated->email, [
             'clay@phpstage.com',
+            'cstone@varsity.com',
         ]);
     }
 }

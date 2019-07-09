@@ -1,5 +1,5 @@
 <template>
-    <button :disabled="loading" class="flex items-center" :type="type" v-on="listeners">
+    <button :disabled="loading" class="flex items-center" :class="{ 'btn-disabled': loading }" :type="type" v-on="listeners">
         <div v-if="loading" class="spinner mr-2" />
         <slot />
     </button>

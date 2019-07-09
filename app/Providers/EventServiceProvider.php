@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Event;
+use App\Listeners\SetEmailCategories;
 use Illuminate\Auth\Events\Registered;
+use App\Events\EmailSyncedWithOutlook;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use App\Events\EmailSyncedWithOutlook;
-use App\Listeners\SetEmailCategories;
 
 class EventServiceProvider extends ServiceProvider
 {

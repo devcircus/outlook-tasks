@@ -28,8 +28,8 @@ class GenerateTaskFromEmailService
      *
      * @param  \App\Models\Email  $email
      */
-    public function run(Email $email): Task
+    public function run(Email $email): void
     {
-        return $this->tasks->createFromEmail($email);
+        $this->tasks->createFromEmail($email);
     }
 }

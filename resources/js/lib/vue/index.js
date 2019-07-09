@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import store from 'JS/store';
+import store from '@/store';
 import VueHead from 'vue-head';
 import { config } from 'Config';
 import Dates from 'Mixins/Dates';
@@ -86,19 +86,19 @@ new Vue({
             /* global Echo */
             Echo.channel('outlook')
                 .listen('.outlookSynced', e => {
-                    console.log(`Email synced for ${e.user.name}`);
+                    this.$snotify.info(`Email synced for ${e.user.name}`, 'Notice:');
                 });
             Echo.channel('categories')
                 .listen('.categoriesSet', e => {
-                    console.log(`Email categories set.`);
+                    this.$dispatch('categoriesSet');
                 });
             Echo.channel('tasks')
                 .listen('.noTasksGenerated', e => {
-                    console.log(`No tasks generated`);
+                    this.$snotify.info('No new tasks at this time.', 'Notice:');
                 });
             Echo.channel('tasks')
                 .listen('.tasksGenerated', e => {
-                    console.log(`Tasks generated.`);
+                    this.$snotify.success('Tasks successfully generated!', 'Success:');
                 });
         },
     },

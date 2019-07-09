@@ -17,6 +17,13 @@ class Email extends Model
     /** @var array */
     protected $dates = ['received_at'];
 
+    /** @var array */
+    protected $with = ['category'];
+
+    protected $casts = [
+        'received_at' => 'date:Y-m-d',
+    ];
+
     /**
      * An Email belongs to a User.
      */
@@ -84,7 +91,21 @@ class Email extends Model
     }
 
     /**
-     * Scope the query to emails that have not been assigned to a task.
+     * Scope the query to emails that have a category that is "none".
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeCategoryNone(Builder $query): Builder
+    {
+        return $query->whereHas('category', function ($query) {
+            $query->where('name', '=', 'none');
+        });
+    }
+
+    /**
+     * Scope the query to emails that have been assigned to a task.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      *
@@ -93,6 +114,21 @@ class Email extends Model
     public function scopeAssignedToTask(Builder $query): Builder
     {
         return $query->where('assigned', 1);
+    }
+
+    /**
+     * Scope the query to emails that have not been assigned to a task
+     * or in which the email has been assigned a task of none.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeWithNoTask(Builder $query): Builder
+    {
+        return $query->notAssignedToTask()->whereHas('category', function ($query) {
+            return $query->where('name', '=', 'none');
+        })->orWhereDoesntHave('category');
     }
 
     /**
@@ -105,20 +141,6 @@ class Email extends Model
     public function scopeNotAssignedToTask(Builder $query): Builder
     {
         return $query->where('assigned', 0);
-    }
-
-    /**
-     * Scope the query to order by the given column and direction.
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  string  $column
-     * @param  string  $direction
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeOrderByColumn(Builder $query, string $column = 'created_at', string $direction = 'asc'): Builder
-    {
-        return $query->orderBy($column, $direction);
     }
 
     /**
@@ -169,10 +191,30 @@ class Email extends Model
     /**
      * Set an Email as assigned.
      */
-    public function setAsAssigned(): bool
+    public function setAssigned(): bool
     {
         $this->assigned = 1;
 
         return $this->save();
+    }
+
+    /**
+     * Set an Email as not assigned.
+     */
+    public function setNotAssigned(): bool
+    {
+        $this->assigned = 0;
+
+        return $this->save();
+    }
+
+    /**
+     * Delete an email.
+     */
+    public function deleteEmail(): Email
+    {
+        return tap($this, function($instance) {
+            return $instance->delete();
+        });
     }
 }

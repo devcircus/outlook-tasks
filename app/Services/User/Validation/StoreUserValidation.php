@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services\User\Validation;
 
 use Illuminate\Validation\Rule;
 use PerfectOblivion\Valid\ValidationService\ValidationService;

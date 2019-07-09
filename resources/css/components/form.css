@@ -1,4 +1,4 @@
-/* purgecss start ignore */
+
 .form-label {
   @apply .mb-2 .block .text-gray-900 .font-semibold .text-sm .select-none;
 }
@@ -45,4 +45,15 @@
     box-shadow: 0 0 0 1px config('theme.colors.red-500');
   }
 }
-/* purgecss end ignore */
+
+.vdp-datepicker input {
+  width: 100%;
+}
+
+.vdp-datepicker:focus-within {
+  @apply border border-blue-500;
+}
+
+.datepicker-top .vdp-datepicker__calendar {
+  top: -200px;
+}

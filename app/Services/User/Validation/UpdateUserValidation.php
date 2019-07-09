@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services\User\Validation;
 
+use Illuminate\Validation\Rule;
 use PerfectOblivion\Valid\ValidationService\ValidationService;
 
-class UpdateUserPasswordValidation extends ValidationService
+class UpdateUserValidation extends ValidationService
 {
     /**
      * Get the validation rules that apply to the data.
@@ -14,7 +15,10 @@ class UpdateUserPasswordValidation extends ValidationService
     public function rules()
     {
         return [
-            'password' => ['required', 'min:8'],
+            'id' => ['required', 'numeric'],
+            'name' => ['required', 'max:50'],
+            'email' => ['required', 'max:50', 'email', Rule::unique('users')->ignore($this->validationData()['id'])],
+            'password' => ['nullable'],
         ];
     }
 
@@ -26,7 +30,6 @@ class UpdateUserPasswordValidation extends ValidationService
     public function filters()
     {
         return [
-            'password' => ['trim', 'strip_tags'],
         ];
     }
 }
