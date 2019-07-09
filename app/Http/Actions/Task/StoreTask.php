@@ -35,7 +35,7 @@ class StoreTask extends Action
         $task = StoreTaskService::call(
             TaskData::fromRequest($request),
             $request->user(),
-            $request->input('email_id'),
+            $request->input('email_id')
         );
 
         return $this->responder->withPayload($task)->respond();
