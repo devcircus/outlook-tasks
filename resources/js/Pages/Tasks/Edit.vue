@@ -1,7 +1,7 @@
 <template>
     <layout :title="`Show Task`">
         <h1 class="mb-8 font-bold text-3xl">
-            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('tasks.list')">Tasks</inertia-link>
+            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Dashboard</inertia-link>
             <span class="text-blue-300 font-medium">/</span>
             <span class="text-blue-800 font-medium">{{ form.title }}</span>
         </h1>
