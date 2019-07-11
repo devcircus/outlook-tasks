@@ -166,7 +166,7 @@ class Task extends Model
     public function updateTaskData(TaskData $data): Task
     {
         return tap($this, function ($task) use ($data) {
-            return $task->update($data->only('title', 'description', 'report_to', 'due_date', 'complete'));
+            return $task->update($data->only(['title', 'description', 'report_to', 'due_date', 'complete']));
         })->fresh();
     }
 
