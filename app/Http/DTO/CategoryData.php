@@ -2,10 +2,10 @@
 
 namespace App\Http\DTO;
 
+use App\Thing;
 use Illuminate\Http\Request;
-use Spatie\DataTransferObject\DataTransferObject;
 
-class CategoryData extends DataTransferObject
+class CategoryData extends Thing
 {
     /** @var string */
     public $name;
@@ -17,9 +17,7 @@ class CategoryData extends DataTransferObject
      */
     public function __construct(array $parameters)
     {
-        $parameters['name'] = isset($parameters['name']) ? (string) $parameters['name'] : null;
-
-        parent::__construct($parameters);
+        parent::__construct($this->validate($parameters));
     }
 
     /**
@@ -54,5 +52,17 @@ class CategoryData extends DataTransferObject
         return new self([
             'name' => $name,
         ]);
+    }
+
+    /**
+     * Validate the given parameters.
+     *
+     * @param  array  $parameters
+     */
+    public function validate(array $parameters): array
+    {
+        $parameters['name'] = isset($parameters['name']) ? (string) $parameters['name'] : null;
+
+        return $parameters;
     }
 }

@@ -2,14 +2,12 @@
 
 namespace App\Http\DTO;
 
+use App\Thing;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
-use Spatie\DataTransferObject\DataTransferObject;
 
-class TaskData extends DataTransferObject
+class TaskData extends Thing
 {
-    /** @var int|null */
-    public $id;
 
     /** @var \App\Http\DTO\CategoryData|null */
     public $category;
@@ -39,25 +37,7 @@ class TaskData extends DataTransferObject
      */
     public function __construct(array $parameters)
     {
-        $dueDate = $parameters['due_date'] ?? null;
-        $parameters['id'] = isset($parameters['id']) ? (int) $parameters['id'] : null;
-        $parameters['user_id'] = isset($parameters['user_id']) ? (int) $parameters['user_id'] : null;
-        $parameters['title'] = isset($parameters['title']) ? (string) $parameters['title'] : null;
-        $parameters['description'] = isset($parameters['description']) ? (string) $parameters['description'] : null;
-        $parameters['report_to'] = isset($parameters['report_to']) ? (string) $parameters['report_to'] : null;
-        $parameters['complete'] = isset($parameters['complete']) ? (bool) $parameters['complete'] : false;
-
-        if ($dueDate) {
-            if (is_string($dueDate)) {
-                $parameters['due_date'] = new CarbonImmutable($dueDate);
-            } elseif (! $dueDate instanceof CarbonImmutable) {
-                $parameters['due_date'] = null;
-            }
-        }
-
-        $parameters['category'] = isset($parameters['category']) ? CategoryData::fromName($parameters['category']) : null;
-
-        parent::__construct($parameters);
+        parent::__construct($this->validate($parameters));
     }
 
     /**
@@ -78,7 +58,6 @@ class TaskData extends DataTransferObject
     public static function fromArray(array $data): TaskData
     {
         return new self([
-            'id' => $data['id'] ?? null,
             'title' => $data['title'] ?? null,
             'description' => $data['description'] ?? null,
             'due_date' => $data['due_date'] ?? null,
@@ -96,11 +75,37 @@ class TaskData extends DataTransferObject
     public static function fromEmail(array $data): TaskData
     {
         return new self([
-            'id' => $data['id'] ?? null,
             'title' => strtoupper($data['subject']) ?? null,
             'description' => $data['body'] ?? null,
             'complete' => false,
             'report_to' => $data['from_name'] ?? null,
         ]);
+    }
+
+    /**
+     * Validate the given parameters.
+     *
+     * @param  array  $parameters
+     */
+    public function validate(array $parameters): array
+    {
+        $dueDate = $parameters['due_date'] ?? null;
+        $parameters['user_id'] = isset($parameters['user_id']) ? (int) $parameters['user_id'] : null;
+        $parameters['title'] = isset($parameters['title']) ? (string) $parameters['title'] : null;
+        $parameters['description'] = isset($parameters['description']) ? (string) $parameters['description'] : null;
+        $parameters['report_to'] = isset($parameters['report_to']) ? (string) $parameters['report_to'] : null;
+        $parameters['complete'] = isset($parameters['complete']) ? (bool) $parameters['complete'] : false;
+
+        if ($dueDate) {
+            if (is_string($dueDate)) {
+                $parameters['due_date'] = new CarbonImmutable($dueDate);
+            } elseif (! $dueDate instanceof CarbonImmutable) {
+                $parameters['due_date'] = null;
+            }
+        }
+
+        $parameters['category'] = isset($parameters['category']) ? CategoryData::fromName($parameters['category']) : null;
+
+        return $parameters;
     }
 }

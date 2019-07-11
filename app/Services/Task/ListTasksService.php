@@ -32,12 +32,6 @@ class ListTasksService
      */
     public function run(User $user)
     {
-        return [
-            'prototype' => $user->tasks()->incomplete()->forCategory('prototype')->orderByColumn('due_date', 'asc')->get(),
-            'swatch' => $user->tasks()->incomplete()->forCategory('swatch')->orderByColumn('due_date', 'asc')->get(),
-            'vsf' => $user->tasks()->incomplete()->forCategory('vsf')->orderByColumn('due_date', 'asc')->get(),
-            'ozone' => $user->tasks()->incomplete()->forCategory('ozone')->orderByColumn('due_date', 'asc')->get(),
-            'lettering' => $user->tasks()->incomplete()->forCategory('lettering')->orderByColumn('due_date', 'asc')->get(),
-        ];
+        return $user->tasks()->incomplete()->orderByColumn('due_date', 'asc')->get();
     }
 }

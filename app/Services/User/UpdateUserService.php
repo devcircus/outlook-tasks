@@ -34,8 +34,10 @@ class UpdateUserService
      */
     public function run(User $user, UserData $data)
     {
-        $this->validator->validate($data->toArray());
+        $this->validator->validate(
+            $data->with(['id' => $user->id])->toArray()
+        );
 
-        return $user->updateUserData($data->only('name', 'email'));
+        return $user->updateUserData($data);
     }
 }

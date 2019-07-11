@@ -1,15 +1,16 @@
 {
-    "name": "phpcircus/phpstage-skeleton",
+    "name": "phpcircus/outlook-tasks",
     "description": "A Skeleton Laravel app for PHPStage projects",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "keywords": [
         "laravel",
-        "skeleton",
+        "outlook",
         "phpstage",
-        "phpcircus",
-        "inertiajs"
+        "email",
+        "tasks",
+        "generator"
     ],
-    "homepage": "https://github.com/phpcircus/phpstage-skeleton",
+    "homepage": "https://github.com/phpcircus/outlook-tasks",
     "license": "MIT",
     "authors": [
         {
@@ -37,7 +38,6 @@
         "predis/predis": "^1.1",
         "pusher/pusher-php-server": "~4.0",
         "reinink/remember-query-strings": "^0.1.0",
-        "spatie/data-transfer-object": "^1.8",
         "tightenco/ziggy": "^0.6.9"
     },
     "require-dev": {

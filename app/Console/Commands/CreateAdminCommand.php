@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Models\User;
 use App\Http\DTO\UserData;
 use Illuminate\Console\Command;
+use App\Services\User\StoreUserService;
 use Symfony\Component\Console\Input\InputOption;
 
 class CreateAdminCommand extends Command
@@ -47,7 +48,7 @@ class CreateAdminCommand extends Command
             'is_admin' => true,
         ]);
 
-        $admin = $this->users->createUser($data);
+        $admin = StoreUserService::call($data);
 
         $this->comment("Admin account for {$admin->name} successfully created.");
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Responders\Task;
 
+use Inertia\Inertia;
 use PerfectOblivion\Responder\Responder;
 
 class ListTasksResponder extends Responder
@@ -13,6 +14,8 @@ class ListTasksResponder extends Responder
      */
     public function respond()
     {
-        //
+        return Inertia::render('Tasks/Index', [
+            'tasks' => $this->payload,
+        ]);
     }
 }

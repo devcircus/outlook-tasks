@@ -28,8 +28,14 @@ class Task extends Model
         'category',
     ];
 
+    /** @var array */
     protected $dates = [
         'due_date',
+    ];
+
+    /** @var array */
+    protected $appends = [
+        'category_name',
     ];
 
     /**
@@ -64,6 +70,14 @@ class Task extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get the category name for the task.
+     */
+    public function getCategoryNameAttribute(): string
+    {
+        return $this->category->name;
     }
 
     /**
@@ -152,7 +166,7 @@ class Task extends Model
     public function updateTaskData(TaskData $data): Task
     {
         return tap($this, function ($task) use ($data) {
-            return $task->update($data->toArray());
+            return $task->update($data->only('title', 'description', 'report_to', 'due_date', 'complete'));
         })->fresh();
     }
 
