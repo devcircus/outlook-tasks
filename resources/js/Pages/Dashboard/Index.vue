@@ -11,6 +11,9 @@
                         <div slot="emptystate">
                             No prototype tasks found.
                         </div>
+                        <div slot="table-actions">
+                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask()">New</button>
+                        </div>
                     </vue-good-table>
                 </div>
                 <div class="flex flex-col w-1/3 px-2">
@@ -18,6 +21,9 @@
                     <vue-good-table class="mb-8" :columns="taskColumns" :rows="tasks.lettering" @on-row-click="taskClicked">
                         <div slot="emptystate">
                             No lettering tasks found.
+                        </div>
+                        <div slot="table-actions">
+                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask()">New</button>
                         </div>
                     </vue-good-table>
                 </div>
@@ -27,6 +33,9 @@
                         <div slot="emptystate">
                             No swatch tasks found.
                         </div>
+                        <div slot="table-actions">
+                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask()">New</button>
+                        </div>
                     </vue-good-table>
                 </div>
                 <div class="flex flex-col w-1/3 px-2">
@@ -35,6 +44,9 @@
                         <div slot="emptystate">
                             No VSF tasks found.
                         </div>
+                        <div slot="table-actions">
+                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask()">New</button>
+                        </div>
                     </vue-good-table>
                 </div>
                 <div class="flex flex-col w-1/3 px-2">
@@ -42,6 +54,9 @@
                     <vue-good-table class="mb-8" :columns="taskColumns" :rows="tasks.ozone" @on-row-click="taskClicked">
                         <div slot="emptystate">
                             No Ozone tasks found.
+                        </div>
+                        <div slot="table-actions">
+                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask()">New</button>
                         </div>
                     </vue-good-table>
                 </div>
@@ -116,7 +131,7 @@ export default {
             this.$inertia.replace(this.route('tasks.edit', params.row.id));
         },
         newTask (email) {
-            this.$store.workingTask = email;
+            this.$store.workingTask = email ? email : {};
             this.$inertia.replace(this.route('tasks.create'));
         },
     },
