@@ -177,7 +177,7 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     public function updateUserData(UserData $data)
     {
         return tap($this, function ($user) use ($data) {
-            return $user->update($data->toArray());
+            return $user->update($data->only(['name', 'email']));
         })->fresh();
     }
 

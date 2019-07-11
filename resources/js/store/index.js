@@ -1,3 +1,5 @@
+import { truncate } from '@/Helpers';
+
 export default {
     workingTask: null,
     tables: {
@@ -10,6 +12,7 @@ export default {
                 {
                     field: 'title',
                     label: 'Title',
+                    formatFn: value => truncate(value, 50),
                 },
             ],
             emailFields: [

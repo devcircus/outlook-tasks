@@ -54,7 +54,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'users.', 'prefix' => 'users'], 
     $router->get('/', User\ListUsers::class)->name('list');
     $router->get('/create', User\CreateUser::class)->name('create');
     $router->post('/', User\StoreUser::class)->name('store');
-    $router->delete('/{user}', User\DeleteUser::class)->middleware(['selfdelete.prevent'])->name('destroy');
+    $router->delete('/{user}', User\DeleteUser::class)->name('destroy');
     $router->get('/{user}/edit', User\EditUser::class)->name('edit');
     $router->put('/{user}', User\UpdateUser::class)->name('update');
     $router->put('/{user}/restore', User\RestoreUser::class)->name('restore');
@@ -75,10 +75,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], 
 // Emails
 Route::group(['middleware' => ['auth'], 'as' => 'emails.', 'prefix' => 'emails'], function ($router) {
     $router->get('/', Email\ListEmails::class)->name('list');
-    // $router->get('/create', Email\CreateEmail::class)->name('create');
-    // $router->post('/', Email\StoreEmail::class)->name('store');
     $router->delete('/{email}', Email\DeleteEmail::class)->name('destroy');
     $router->get('/{email}', Email\ShowEmail::class)->name('show');
-    // $router->put('/{email}', Email\UpdateEmail::class)->name('update');
     // $router->put('/{email}/restore', Email\RestoreEmail::class)->name('restore');
 });

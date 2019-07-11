@@ -45,7 +45,7 @@ class UpdateUser extends Action
             return redirect()->back()->with(['warning' => 'You do not have permission to edit this user.']);
         }
 
-        $updated = UpdateUserService::call($user, UserData::fromArray($request->only(['id', 'name', 'email'])));
+        $updated = UpdateUserService::call($user, UserData::fromArray($request->only(['name', 'email'])));
 
         if ($request->password) {
             UpdateUserPasswordService::call($user, UserData::fromArray($request->only(['password'])));

@@ -2,10 +2,10 @@
 
 namespace App\Services\Task;
 
+use App\Models\User;
 use App\Models\Task;
 use App\Http\DTO\TaskData;
 use PerfectOblivion\Services\Traits\SelfCallingService;
-use App\Models\User;
 
 class StoreTaskService
 {
