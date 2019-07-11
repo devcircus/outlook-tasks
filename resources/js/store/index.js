@@ -13,6 +13,10 @@ export default {
                     field: 'title',
                     label: 'Title',
                     formatFn: value => truncate(value, 50),
+                    filterOptions: {
+                        enabled: true,
+                        placeholder: 'Filter...',
+                    },
                 },
             ],
             emailFields: [
