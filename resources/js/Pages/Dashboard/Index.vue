@@ -69,7 +69,7 @@
                     No emails found.
                 </div>
                 <template slot="table-row" slot-scope="props">
-                    <span v-if="props.column.field == 'actions'" class="hidden md:flex justify-between px-3">
+                    <span v-if="props.column.field == 'actions'" class="flex justify-between px-3">
                         <button class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyEmail(props.row.id)">Delete</button>
                         <button class="text-green-500 hover:underline" tabindex="-1" type="button" @click="newTask(null, props.row)">New Task</button>
                         <button class="text-blue-500 hover:underline" tabindex="-1" type="button" @click="showEmail(props.row.id)">View</button>
