@@ -21,7 +21,7 @@ class Email extends Model
     protected $with = ['category'];
 
     protected $casts = [
-        'received_at' => 'date:Y-m-d',
+        'received_at' => 'date:M d',
     ];
 
     /**
@@ -213,7 +213,7 @@ class Email extends Model
      */
     public function deleteEmail(): Email
     {
-        return tap($this, function($instance) {
+        return tap($this, function ($instance) {
             return $instance->delete();
         });
     }

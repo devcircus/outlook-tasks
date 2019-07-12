@@ -20,7 +20,7 @@ class Task extends Model
     /** @var array */
     protected $casts = [
         'complete' => 'boolean',
-        'due_date' => 'date:Y-m-d',
+        'due_date' => 'date:M d',
     ];
 
     /** @var array */

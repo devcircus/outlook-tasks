@@ -24,8 +24,8 @@
                             <a :href="route('outlook.signin')" class="btn btn-blue w-200p text-center">Connect to Outlook</a>
                         </div>
                         <div v-else class="flex w-full">
-                            <loading-button class="btn-blue mr-4" :loading="syncLoading" type="button" @clicked="syncEmail()">Sync Email</loading-button>
-                            <loading-button class="btn-blue" :class="tasksDisabled ? 'cursor-not-allowed' : 'cursor-pointer'" :loading="tasksDisabled" type="button" @clicked="processTasks()">Process Tasks</loading-button>
+                            <loading-button class="btn-blue mr-4" :loading="syncLoading" type="button" @clicked="syncEmail()">Sync</loading-button>
+                            <loading-button class="btn-blue" :class="tasksDisabled ? 'cursor-not-allowed' : 'cursor-pointer'" :loading="tasksDisabled" type="button" @clicked="processTasks()">Get Tasks</loading-button>
                         </div>
                         <div class="mt-1 mr-4">&nbsp;</div>
                         <dropdown v-if="$page.auth.user" class="mt-1 md:ml-auto " placement="bottom-end">

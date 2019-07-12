@@ -1,9 +1,9 @@
 <template>
     <layout :title="`New Task`">
-        <h1 class="mb-8 font-bold text-3xl">
-            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Tasks</inertia-link>
+        <h1 class="mb-8 font-bold text-xl md:text-3xl">
+            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Dashboard</inertia-link>
             <span class="text-blue-300 font-medium">/</span>
-            <span class="text-blue-800 font-medium">{{ form.title }}</span>
+            <span class="text-blue-800 font-medium">{{ form.title ? form.title : 'New Task' }}</span>
         </h1>
         <div class="bg-white rounded shadow overflow-hidden w-3/5 mb-8">
             <form @submit.prevent="submit">
@@ -76,6 +76,7 @@ export default {
         this.form.description = this.workingTask.body;
         this.form.report_to = this.workingTask.from_name;
         this.form.email_id = this.workingTask.id;
+        this.form.category = this.workingTask.category;
     },
     methods: {
         submit () {

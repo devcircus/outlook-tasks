@@ -1,6 +1,6 @@
 <template>
     <layout :title="`Show Email`">
-        <h1 class="mb-8 font-bold text-3xl">
+        <h1 class="mb-8 font-bold text-xl md:text-3xl">
             <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Emails</inertia-link>
             <span class="text-blue-300 font-medium">/</span>
             <span class="text-blue-800 font-medium">{{ email.subject }}</span>
@@ -10,7 +10,7 @@
         </trashed-message>
         <div class="bg-white rounded shadow overflow-hidden w-3/5 mb-8">
             <div class="p-8 -mr-6 -mb-8 flex w-full">
-                <div class="flex flex-col w-1/3">
+                <div class="flex flex-col w-full md:w-1/3">
                     <div class="mb-8 block font-semibold text-sm">
                         <span class="text-gray-800 mr-2">Category: </span>
                         <span class="text-blue-600 uppercase">{{ email.category.name }}</span>
@@ -26,7 +26,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col w-2/3 mb-4">
+                <div class="flex flex-col w-full md:w-2/3 mb-4">
                     <p class="bg-gray-200 p-6 overflow-wrap">
                         <pre class="font-sans text-gray-800 text-sm overflow-x-auto whitespace-pre-wrap break-words">{{ email.body }}</pre>
                     </p>

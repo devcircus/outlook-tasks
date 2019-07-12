@@ -12,7 +12,7 @@ export default {
                 {
                     field: 'title',
                     label: 'Title',
-                    formatFn: value => truncate(value, 50),
+                    formatFn: value => truncate(value),
                     filterOptions: {
                         enabled: true,
                         placeholder: 'Filter...',
@@ -27,6 +27,11 @@ export default {
                 {
                     field: 'subject',
                     label: 'Subject',
+                    formatFn: value => truncate(value),
+                    filterOptions: {
+                        enabled: true,
+                        placeholder: 'Filter...',
+                    },
                 },
                 {
                     field: 'from_address',
