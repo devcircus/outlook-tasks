@@ -47,6 +47,7 @@
         "vue-stash": "^2.0.1-beta",
         "vue-template-compiler": "^2.6.10",
         "vue-the-mask": "^0.11.1",
+        "vue-window-size": "^0.2.3",
         "vuejs-datepicker": "^1.6.0"
     }
 }
