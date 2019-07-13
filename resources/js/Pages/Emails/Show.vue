@@ -1,18 +1,18 @@
 <template>
     <layout :title="`Show Email`">
-        <h1 class="mb-8 font-bold text-xl md:text-3xl">
-            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Emails</inertia-link>
+        <h1 class="mb-8 font-bold text-lg md:text-3xl">
+            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Dashboard</inertia-link>
             <span class="text-blue-300 font-medium">/</span>
             <span class="text-blue-800 font-medium">{{ email.subject }}</span>
         </h1>
         <trashed-message v-if="email.deleted_at" class="mb-6" @restore="restore">
             This email has been deleted.
         </trashed-message>
-        <div class="bg-white rounded shadow overflow-hidden w-3/5 mb-8">
-            <div class="p-8 -mr-6 -mb-8 flex w-full">
+        <div class="bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8">
+            <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row w-full">
                 <div class="flex flex-col w-full md:w-1/3">
-                    <div class="mb-8 block font-semibold text-sm">
-                        <span class="text-gray-800 mr-2">Category: </span>
+                    <div class="mb-4 block font-semibold text-base">
+                        <span class="text-gray-700 mr-2">Category: </span>
                         <span class="text-blue-600 uppercase">{{ email.category.name }}</span>
                     </div>
                     <div class="flex flex-col">
@@ -20,7 +20,7 @@
                             <span class="text-gray-700 text-base font-semibold align-middle mr-4">Received:</span>
                             <span class="text-gray-900 text-sm align-middle">{{ email.received_at }}</span>
                         </div>
-                        <div class="flex items-center">
+                        <div class="flex items-center mb-4 md:mb-0">
                             <span class="text-gray-700 text-base font-semibold align-middle mr-4">From:</span>
                             <span class="text-gray-900 text-sm align-middle">{{ email.from_name }}</span>
                         </div>

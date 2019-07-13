@@ -8,6 +8,7 @@ import Inertia from 'inertia-vue';
 import VModal from 'vue-js-modal';
 import PortalVue from 'portal-vue';
 import ParsesUrls from 'Mixins/ParsesUrls';
+import VueWindowSize from 'vue-window-size';
 import Dispatchable from 'Mixins/Dispatchable';
 import Snotify, { SnotifyPosition } from 'vue-snotify';
 
@@ -56,6 +57,9 @@ Vue.use(Snotify, {
 
 // Use Inertia
 Vue.use(Inertia);
+
+// Use vue-window-size
+Vue.use(VueWindowSize);
 
 // Filters
 Vue.filter('ucase', function (value) {
