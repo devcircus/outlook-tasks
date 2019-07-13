@@ -18,7 +18,7 @@
                         <option value="lettering">Lettering</option>
                     </select-input>
                     <div class="w-full md:w-1/2 md:pr-6">
-                        <datepicker class="mb-6 w-full" :value="form.due_date" :errors="$page.errors.due_date" label="Due Date" position="datepicker-top" @input="setDate($event, 'due_date')" />
+                        <datepicker class="mb-6 w-full" :value="form.due_date" :errors="$page.errors.due_date" label="Due Date" @input="setDate($event, 'due_date')" />
                         <checkbox v-model="form.complete" class="mb-6 md:mb-0" :errors="$page.errors.complete" label="Complete" :checked="form.complete" />
                     </div>
                     <textarea-input v-model="form.description" :errors="$page.errors.description" rows="8" class="md:pr-6 pb-8 w-full md:w-1/2" label="Description" />
