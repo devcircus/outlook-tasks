@@ -6,7 +6,7 @@ export default {
         fields: {
             taskFields: [
                 {
-                    field: 'due_date',
+                    field: 'display_due_date',
                     label: 'Due',
                 },
                 {

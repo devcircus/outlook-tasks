@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\DTO\TaskData;
+use Carbon\CarbonImmutable;
 use App\Models\Concerns\Slug\HasSlug;
 use App\Models\Concerns\Uuid\HasUuids;
 use App\Models\Concerns\Slug\SlugOptions;
@@ -20,7 +21,7 @@ class Task extends Model
     /** @var array */
     protected $casts = [
         'complete' => 'boolean',
-        'due_date' => 'date:M d',
+        'due_date' => 'date:m-d-Y',
     ];
 
     /** @var array */
@@ -36,6 +37,7 @@ class Task extends Model
     /** @var array */
     protected $appends = [
         'category_name',
+        'display_due_date',
     ];
 
     /**
@@ -78,6 +80,18 @@ class Task extends Model
     public function getCategoryNameAttribute(): string
     {
         return $this->category->name;
+    }
+
+    /**
+     * Get the display_due_date attribute for the task.
+     */
+    public function getDisplayDueDateAttribute(): string
+    {
+        if ($date = $this->due_date) {
+            return CarbonImmutable::parse($date)->format('M d');
+        }
+
+        return '';
     }
 
     /**
