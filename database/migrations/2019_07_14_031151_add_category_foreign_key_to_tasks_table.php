@@ -26,7 +26,7 @@ class AddCategoryForeignKeyToTasksTable extends Migration
     public function down()
     {
         Schema::table('tasks', function (Blueprint $table) {
-            $table->dropForeign(['category_id']);
+            $table->dropForeign('tasks_category_id_foreign']);
         });
     }
 }
