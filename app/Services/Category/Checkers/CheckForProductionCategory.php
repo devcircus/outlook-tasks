@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services\Categories\CategoryCheckers;
+namespace App\Services\Category\Checkers;
 
 use App\Models\Email;
 use Illuminate\Support\Str;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 
-class CheckForOzoneCategory
+class CheckForProductionCategory
 {
     use SelfCallingService;
 
     /**
-     * Check if the email should be assigned the ozone category.
+     * Check if the email should be assigned the prototype category.
      *
      * @param  \App\Models\Email  $email
      *
@@ -22,8 +22,8 @@ class CheckForOzoneCategory
         $body = $email->body;
         $from = $email->from_address;
 
-        if (config('outlook.categories.ozone.from_address') === strtolower($from)) {
-            if (Str::contains(strtolower($body), config('outlook.categories.ozone.body'))) {
+        if (config('outlook.categories.production.from_address') === strtolower($from)) {
+            if (Str::contains(strtolower($body), config('outlook.categories.production.body'))) {
                 return true;
             }
         }

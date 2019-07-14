@@ -19,6 +19,16 @@ export default {
                     },
                 },
             ],
+            categoryFields: [
+                {
+                    field: 'display_name',
+                    label: 'Name',
+                },
+                {
+                    field: 'actions',
+                    label: 'Actions',
+                },
+            ],
             emailFields: [
                 {
                     field: 'received_at',

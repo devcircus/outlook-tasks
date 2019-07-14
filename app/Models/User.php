@@ -127,6 +127,14 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     }
 
     /**
+     * Is the user an administrator?
+     */
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
+
+    /**
      * Create a user with the provided data.
      *
      * @param  \App\Http\DTO\UserData  $user

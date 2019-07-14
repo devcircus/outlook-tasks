@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services\Categories\CategoryCheckers;
+namespace App\Services\Category\Checkers;
 
 use App\Models\Email;
 use Illuminate\Support\Str;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 
-class CheckForSwatchCategory
+class CheckForLetteringCategory
 {
     use SelfCallingService;
 
     /**
-     * Check if the email should be assigned the swatch category.
+     * Check if the email should be assigned the lettering category.
      *
      * @param  \App\Models\Email  $email
      *
@@ -19,11 +19,11 @@ class CheckForSwatchCategory
      */
     public function run(Email $email)
     {
+        $from = $email->from_address;
         $subject = $email->subject;
-        $body = $email->body;
 
-        if (Str::contains(strtolower($subject), config('outlook.categories.swatch.subject'))) {
-            if (Str::contains(strtolower($body), config('outlook.categories.swatch.body'))) {
+        if (config('outlook.categories.lettering.from_address') === strtolower($from)) {
+            if (Str::contains(strtolower($subject), config('outlook.categories.lettering.subject'))) {
                 return true;
             }
         }

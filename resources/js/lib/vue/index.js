@@ -42,7 +42,9 @@ Vue.use(PortalVue);
 Vue.use(VueStash);
 
 // Use Vue-Modal
-Vue.use(VModal, { componentName: 'modal-component' });
+Vue.use(VModal, {
+    componentName: 'modal-component',
+});
 
 // Use Snotify for notifications
 Vue.use(Snotify, {

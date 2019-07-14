@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Services\Category\ListCategoriesService;
 
 class TaskServiceProvider extends ServiceProvider
 {
@@ -13,12 +14,20 @@ class TaskServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('types', function ($app) {
-            return collect([
-                'bag' => Type::where('type', 'swatch')->first(),
-                'late' => Type::where('type', 'vsf')->first(),
-                'new' => Type::where('type', 'prototype')->first(),
-            ]);
+        $this->app->singleton('categories', function ($app) {
+            return ListCategoriesService::call()->mapWithKeys(function ($category) {
+                return [
+                    $category->name => $category,
+                ];
+            });
+        });
+
+        $this->app->singleton('checkers', function ($app) {
+            return resolve('categories')->map(function ($category, $key) {
+                $name = ucfirst($key);
+
+                return "\App\Services\Category\Checkers\CheckFor{$name}Category";
+            });
         });
     }
 }

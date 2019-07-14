@@ -7,6 +7,11 @@ Route::get('test', Test::class);
 Route::redirect('/', '/dashboard');
 Route::get('/dashboard', Dashboard\Index::class)->middleware(['auth', 'oauth'])->name('dashboard');
 
+// Admin
+Route::group(['middleware' => ['auth', 'admin'], 'as' => 'admin.', 'prefix' => 'admin'], function ($router) {
+    $router->get('/', Admin\Index::class)->name('index');
+});
+
 // Outlook Authentication & Authorization
 Route::get('outlook/signin', Auth\Outlook\SignIn::class)->middleware(['auth'])->name('outlook.signin');
 Route::get('/authorize', Auth\Outlook\GetToken::class)->middleware(['auth'])->name('outlook.authorize');
@@ -78,4 +83,13 @@ Route::group(['middleware' => ['auth'], 'as' => 'emails.', 'prefix' => 'emails']
     $router->delete('/{email}', Email\DeleteEmail::class)->name('destroy');
     $router->get('/{email}', Email\ShowEmail::class)->name('show');
     // $router->put('/{email}/restore', Email\RestoreEmail::class)->name('restore');
+});
+
+// Categories
+Route::group(['middleware' => ['auth', 'admin'], 'as' => 'categories.', 'prefix' => 'categories'], function ($router) {
+    $router->get('/', Category\ListCategories::class)->name('list');
+    $router->delete('/{category}', Category\DeleteCategory::class)->name('destroy');
+    $router->get('/{category}', Category\ShowCategory::class)->name('show');
+    $router->post('/', Category\StoreCategory::class)->name('store');
+    // $router->put('/{category}/restore', Category\RestoreCategory::class)->name('restore');
 });

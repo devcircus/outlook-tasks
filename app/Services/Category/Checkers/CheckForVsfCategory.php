@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Categories\CategoryCheckers;
+namespace App\Services\Category\Checkers;
 
 use App\Models\Email;
 use Illuminate\Support\Str;
