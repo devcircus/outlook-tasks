@@ -2,62 +2,21 @@
     <layout title="Home">
         <div class="flex flex-col min-h-screen">
             <h1 class="mb-8 font-bold text-xl text-gray-700 md:text-2xl uppercase">Tasks</h1>
-            <div class="flex flex-wrap w-full md:-mx-2">
-                <div class="flex flex-col w-full md:w-1/3 md:px-2">
-                    <h2 class="mb-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">Prototypes</h2>
-                    <vue-good-table ref="prototypeTable" class="mb-8" :columns="taskColumns" :rows="tasks.prototype" @on-row-click="taskClicked">
+            <div v-if="categoriesReady" class="flex flex-wrap w-full md:-mx-2">
+                <div v-for="category in $page.categories.data" :key="category.id" class="flex flex-col w-full md:w-1/3 md:px-2">
+                    <h2 class="mb-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">{{ category.display_name }}</h2>
+                    <vue-good-table :ref="`${category.name}Table`" class="mb-8" :columns="taskColumns" :rows="getRowsForTask(category.name)" @on-row-click="taskClicked">
                         <div slot="emptystate">
-                            No prototype tasks found.
+                            No {{ category.name }} tasks found.
                         </div>
                         <div slot="table-actions">
-                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask('prototype')">New</button>
+                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask(category.name)">New</button>
                         </div>
                     </vue-good-table>
                 </div>
-                <div class="flex flex-col w-full md:w-1/3 md:px-2">
-                    <h2 class="mb-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">Lettering</h2>
-                    <vue-good-table ref="letteringTable" class="mb-8" :columns="taskColumns" :rows="tasks.lettering" @on-row-click="taskClicked">
-                        <div slot="emptystate">
-                            No lettering tasks found.
-                        </div>
-                        <div slot="table-actions">
-                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask('lettering')">New</button>
-                        </div>
-                    </vue-good-table>
-                </div>
-                <div class="flex flex-col w-full md:w-1/3 md:px-2">
-                    <h2 class="mb-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">Swatches</h2>
-                    <vue-good-table ref="swatchesTable" class="mb-8" :columns="taskColumns" :rows="tasks.swatch" @on-row-click="taskClicked">
-                        <div slot="emptystate">
-                            No swatch tasks found.
-                        </div>
-                        <div slot="table-actions">
-                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask('swatch')">New</button>
-                        </div>
-                    </vue-good-table>
-                </div>
-                <div class="flex flex-col w-full md:w-1/3 md:px-2">
-                    <h2 class="mb-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">VSF</h2>
-                    <vue-good-table ref="vsfTable" class="mb-8" :columns="taskColumns" :rows="tasks.vsf" @on-row-click="taskClicked">
-                        <div slot="emptystate">
-                            No VSF tasks found.
-                        </div>
-                        <div slot="table-actions">
-                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask('vsf')">New</button>
-                        </div>
-                    </vue-good-table>
-                </div>
-                <div class="flex flex-col w-full md:w-1/3 md:px-2">
-                    <h2 class="mb-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">Ozone</h2>
-                    <vue-good-table ref="ozoneTable" class="mb-8" :columns="taskColumns" :rows="tasks.ozone" @on-row-click="taskClicked">
-                        <div slot="emptystate">
-                            No Ozone tasks found.
-                        </div>
-                        <div slot="table-actions">
-                            <button class="btn btn-text text-blue-500 uppercase btn-sm mr-2" @click="newTask('ozone')">New</button>
-                        </div>
-                    </vue-good-table>
-                </div>
+            </div>
+            <div v-else class="flex flex-wrap w-full mb-8">
+                <h2 class="mb-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">No categories defined.</h2>
             </div>
             <h1 class="mb-2 font-bold text-xl text-gray-700 md:text-2xl uppercase">Email</h1>
             <vue-good-table v-if="windowWidth >= 768" class="mb-8" :columns="emailColumns" :rows="emails" :row-style-class="rowClasses">
@@ -123,12 +82,24 @@ export default {
             emailColumns: null,
         }
     },
+    computed: {
+        categoriesReady () {
+            return this.$page.categories.ready;
+        },
+    },
     created () {
         this.taskColumns = this.tables.fields.taskFields;
         this.emailColumns = this.tables.fields.emailFields;
         this.initializeListeners();
     },
     methods: {
+        getRowsForTask (category) {
+            if (category) {
+                return this.tasks[category];
+            }
+
+            return [];
+        },
         destroyEmail (id) {
             this.$inertia.delete(this.route('emails.destroy', id), { replace: false, preserveScroll: true, preserveState: true });
         },

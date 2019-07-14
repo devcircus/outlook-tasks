@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\ServiceProvider;
+use App\Services\Category\ListCategoriesService;
 
 class InertiaServiceProvider extends ServiceProvider
 {
@@ -72,6 +73,14 @@ class InertiaServiceProvider extends ServiceProvider
             }
 
             return [];
+        });
+
+        Inertia::share('categories', static function () {
+            $categories = ListCategoriesService::call();
+            return [
+                'data' => $categories,
+                'ready' => count($categories) > 0,
+            ];
         });
     }
 }

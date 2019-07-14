@@ -18,6 +18,18 @@ return [
                 'garment',
             ],
         ],
+        'production' => [
+            'from_address' => 'nina@gailyenterprise.com',
+            'body' => [
+                'get',
+                'can you',
+                'print',
+                'pieces',
+                'need',
+                'art',
+                'send'
+            ],
+        ],
         'swatch' => [
             'subject' => [
                 'swatch', 'swatches', 'sample', 'samples'

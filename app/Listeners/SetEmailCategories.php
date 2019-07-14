@@ -6,7 +6,7 @@ use App\Models\Email;
 use App\Events\EmailSyncedWithOutlook;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use App\Services\Categories\SetCategoryService;
+use App\Services\Category\SetCategoryService;
 
 class SetEmailCategories implements ShouldQueue
 {

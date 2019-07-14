@@ -5,6 +5,7 @@ namespace App\Services\Task;
 use App\Models\Task;
 use App\Models\User;
 use PerfectOblivion\Services\Traits\SelfCallingService;
+use App\Services\Category\ListCategoriesService;
 
 class ListGroupedTasksService
 {
@@ -32,12 +33,14 @@ class ListGroupedTasksService
      */
     public function run(User $user)
     {
-        return [
-            'prototype' => $user->tasks()->incomplete()->forCategory('prototype')->orderByColumn('due_date', 'asc')->get(),
-            'swatch' => $user->tasks()->incomplete()->forCategory('swatch')->orderByColumn('due_date', 'asc')->get(),
-            'vsf' => $user->tasks()->incomplete()->forCategory('vsf')->orderByColumn('due_date', 'asc')->get(),
-            'ozone' => $user->tasks()->incomplete()->forCategory('ozone')->orderByColumn('due_date', 'asc')->get(),
-            'lettering' => $user->tasks()->incomplete()->forCategory('lettering')->orderByColumn('due_date', 'asc')->get(),
-        ];
+        $categories = ListCategoriesService::call();
+
+        $result = $categories->mapWithKeys(function ($category) use ($user) {
+            return  [
+                $category->name => $user->tasks()->incomplete()->forCategory($category->name)->orderByColumn('due_date', 'asc')->get()
+            ];
+        });
+
+        return $result->count() > 0 ? $result : null;
     }
 }

@@ -98,7 +98,7 @@ class TaskData extends Thing
 
         if ($dueDate) {
             if (is_string($dueDate)) {
-                $parameters['due_date'] = new CarbonImmutable($dueDate);
+                $parameters['due_date'] = CarbonImmutable::createFromFormat('Y-m-d', $dueDate);
             } elseif (! $dueDate instanceof CarbonImmutable) {
                 $parameters['due_date'] = null;
             }

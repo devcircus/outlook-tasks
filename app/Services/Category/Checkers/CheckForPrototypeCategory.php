@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Services\Categories\CategoryCheckers;
+namespace App\Services\Category\Checkers;
 
 use App\Models\Email;
 use Illuminate\Support\Str;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 
-class CheckForLetteringCategory
+class CheckForPrototypeCategory
 {
     use SelfCallingService;
 
     /**
-     * Check if the email should be assigned the lettering category.
+     * Check if the email should be assigned the prototype category.
      *
      * @param  \App\Models\Email  $email
      *
@@ -19,11 +19,11 @@ class CheckForLetteringCategory
      */
     public function run(Email $email)
     {
+        $body = $email->body;
         $from = $email->from_address;
-        $subject = $email->subject;
 
-        if (config('outlook.categories.lettering.from_address') === strtolower($from)) {
-            if (Str::contains(strtolower($subject), config('outlook.categories.lettering.subject'))) {
+        if (config('outlook.categories.prototype.from_address') === strtolower($from)) {
+            if (Str::contains(strtolower($body), config('outlook.categories.prototype.body'))) {
                 return true;
             }
         }

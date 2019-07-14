@@ -23,18 +23,16 @@ class CreateCategoriesTable extends Migration
         });
 
         // Insert default categories
-        $categories = ['swatch', 'vsf', 'prototype', 'ozone', 'lettering', 'none'];
-        foreach ($categories as $category) {
-            $slug = Str::slug($category);
+        $category = 'none';
+        $slug = Str::slug($category);
 
-            DB::table('categories')->insert(
-                [
-                    'name' => $category,
-                    'slug' => $slug,
-                    'created_at' => now(),
-                ]
-            );
-        }
+        DB::table('categories')->insert(
+            [
+                'name' => $category,
+                'slug' => $slug,
+                'created_at' => now(),
+            ]
+        );
     }
 
     /**

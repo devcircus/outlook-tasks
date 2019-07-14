@@ -1,5 +1,6 @@
 <template>
     <div>
+        <modal />
         <portal-target name="dropdown" slim />
         <flash-message />
         <div class="flex flex-col">
@@ -23,9 +24,12 @@
                         <div v-if="! $page.token" class="flex w-full">
                             <a :href="route('outlook.signin')" class="btn btn-blue w-200p text-center">Connect to Outlook</a>
                         </div>
-                        <div v-else class="flex w-full">
+                        <div v-if="$page.token && categoriesReady" class="flex w-full">
                             <loading-button class="btn-blue mr-4" :loading="syncLoading" type="button" @clicked="syncEmail()">Sync</loading-button>
-                            <loading-button class="btn-blue" :class="tasksDisabled ? 'cursor-not-allowed' : 'cursor-pointer'" :loading="tasksDisabled" type="button" @clicked="processTasks()">Get Tasks</loading-button>
+                            <loading-button class="btn-blue" :class="tasksDisabled ? 'cursor-not-allowed btn-disabled' : 'cursor-pointer'" :loading="tasksLoading" type="button" @clicked="processTasks()">Get Tasks</loading-button>
+                        </div>
+                        <div v-if="$page.token && ! categoriesReady" class="flex w-full">
+                            <h2 class="text-lg font-semibold text-blue-800 uppercase">Categories must be defined before you can sync email.</h2>
                         </div>
                         <div class="mt-1 mr-4">&nbsp;</div>
                         <dropdown v-if="$page.auth.user" class="mt-1 md:ml-auto " placement="bottom-end">
@@ -39,6 +43,7 @@
                                 <inertia-link class="block px-6 py-2 hover:bg-blue-500 hover:text-white" :href="route('users.edit', $page.auth.user.id)">My Profile</inertia-link>
                                 <div v-if="$page.auth.user.is_admin">
                                     <inertia-link class="block px-6 py-2 hover:bg-blue-500 hover:text-white" :href="route('users.list')">Manage Users</inertia-link>
+                                    <inertia-link class="block px-6 py-2 hover:bg-blue-500 hover:text-white" :href="route('admin.index')">Manage Categories</inertia-link>
                                 </div>
                                 <inertia-link class="block px-6 py-2 hover:bg-blue-500 hover:text-white" :href="route('logout')" method="post">Logout</inertia-link>
                             </div>
@@ -57,66 +62,71 @@
 </template>
 
 <script>
-    import Icon from '@/Shared/Icon';
-    import Logo from '@/Shared/Logo';
-    import Dropdown from '@/Shared/Dropdown';
-    import MainMenu from '@/Shared/MainMenu';
-    import SiteFooter from '@/Shared/SiteFooter';
-    import FlashMessage from '@/Shared/FlashMessage';
-    import LoadingButton from '@/Shared/LoadingButton';
+import Icon from '@/Shared/Icon';
+import Logo from '@/Shared/Logo';
+import Modal from '@/Shared/Modal';
+import Dropdown from '@/Shared/Dropdown';
+import MainMenu from '@/Shared/MainMenu';
+import SiteFooter from '@/Shared/SiteFooter';
+import FlashMessage from '@/Shared/FlashMessage';
+import LoadingButton from '@/Shared/LoadingButton';
 
-    export default {
-        components: {
-            Dropdown,
-            Icon,
-            Logo,
-            MainMenu,
-            FlashMessage,
-            SiteFooter,
-            LoadingButton,
+export default {
+    components: {
+        Dropdown,
+        Modal,
+        Icon,
+        Logo,
+        MainMenu,
+        FlashMessage,
+        SiteFooter,
+        LoadingButton,
+    },
+    props: {
+        title: String,
+    },
+    data () {
+        return {
+            showUserMenu: false,
+            accounts: null,
+            syncLoading: false,
+            tasksLoading: false,
+            emailsLoading: false,
+        }
+    },
+    computed: {
+        tasksDisabled () {
+            return this.emailsLoading;
         },
-        props: {
-            title: String,
+        categoriesReady () {
+            return this.$page.categories.ready;
         },
-        data () {
+    },
+    head: {
+        title: function () {
             return {
-                showUserMenu: false,
-                accounts: null,
-                syncLoading: false,
-                tasksLoading: false,
-                emailsLoading: false,
+                inner: this.title,
             }
         },
-        computed: {
-            tasksDisabled () {
-                return this.tasksLoading || this.emailsLoading;
-            }
+    },
+    mounted () {
+        this.$listen('categoriesSet', () => {
+            this.emailsLoading = false;
+        });
+    },
+    methods: {
+        syncEmail () {
+            this.syncLoading = true;
+            this.emailsLoading = true;
+            this.$inertia.post(this.route('outlook.sync')).then( () => this.syncLoading = false );
         },
-        head: {
-            title: function () {
-                return {
-                    inner: this.title,
-                }
-            },
+        processTasks () {
+            this.tasksLoading = true;
+            this.$inertia.post(this.route('tasks.process')).then( () => this.tasksLoading = false );
         },
-        mounted () {
-            this.$listen('categoriesSet', () => {
-                this.emailsLoading = false;
-            });
+        hideDropdownMenus () {
+            this.showUserMenu = false;
         },
-        methods: {
-            syncEmail () {
-                this.syncLoading = true;
-                this.emailsLoading = true;
-                this.$inertia.post(this.route('outlook.sync')).then( () => this.syncLoading = false );
-            },
-            processTasks () {
-                this.tasksLoading = true;
-                this.$inertia.post(this.route('tasks.process')).then( () => this.tasksLoading = false );
-            },
-            hideDropdownMenus () {
-                this.showUserMenu = false;
-            },
-        },
-    }
+    },
+}
 </script>
