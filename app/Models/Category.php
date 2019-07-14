@@ -76,12 +76,14 @@ class Category extends Model
     }
 
     /**
-     * Delete a Category
+     * Delete a Category and the associated related models.
      */
     public function deleteCategory(): Category
     {
         return tap($this, function($instance) {
-            return $instance->delete();
+            $instance->tasks()->withTrashed()->delete();
+            $instance->emails()->delete();
+            $instance->delete();
         });
     }
 }
