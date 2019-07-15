@@ -62,7 +62,7 @@ export default {
             form: {
                 id: this.task.id,
                 title: this.task.title,
-                due_date: this.task.due_date,
+                due_date: this.formatDate(this.task.due_date),
                 description: this.task.description,
                 report_to: this.task.report_to,
                 complete: this.task.complete,
@@ -89,6 +89,13 @@ export default {
         },
         setDate (event, field) {
             this.form[field] = moment.utc(event).format('YYYY-MM-DD');
+        },
+        formatDate (date) {
+            if (date) {
+                return moment.utc(date).format('YYYY-MM-DD');
+            }
+
+            return null;
         },
     },
 }
