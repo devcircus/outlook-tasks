@@ -90,3 +90,8 @@ Route::group(['middleware' => ['auth', 'admin'], 'as' => 'categories.', 'prefix'
     $router->post('/', Category\StoreCategory::class)->name('store');
     // $router->put('/{category}/restore', Category\RestoreCategory::class)->name('restore');
 });
+
+// Category Definitions
+Route::group(['middleware' => ['auth', 'admin'], 'as' => 'definitions.', 'prefix' => 'definitions'], function ($router) {
+    // $router->get('/{category}', CategoryDefinition\\ShowCategoryDefinition::class)->name('show');
+});
