@@ -56,7 +56,9 @@ export default {
             }
         });
         this.$listen('dropdown-should-close', () => {
-            this.close();
+            setTimeout(() => {
+                this.close();
+            }, 300);
         });
     },
     methods: {
