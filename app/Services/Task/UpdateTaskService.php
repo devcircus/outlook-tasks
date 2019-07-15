@@ -36,6 +36,6 @@ class UpdateTaskService
     {
         $this->validator->validate($data->toArray());
 
-        return $task->updateTaskData($data);
+        return $task->updateTaskData($data->only(['title', 'description', 'report_to', 'due_date', 'complete']));
     }
 }

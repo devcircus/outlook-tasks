@@ -55,7 +55,7 @@ export default {
                 this.close();
             }
         });
-        this.$listen('modal-opened-from-dropdown', () => {
+        this.$listen('dropdown-should-close', () => {
             this.close();
         });
     },

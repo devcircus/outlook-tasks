@@ -1,15 +1,15 @@
 <?php
 
-namespace App;
+namespace App\Http\DTO;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Fluent;
 
-class Thing extends Fluent
+class Data extends Fluent
 {
 
     /**
-     * Construct a new Thing.
+     * Construct a new Data.
      *
      * @param  array  $attributes
      */
@@ -27,7 +27,7 @@ class Thing extends Fluent
      *
      * @param  array  $element
      */
-    public function with(array $element): Thing
+    public function with(array $element): Data
     {
         foreach ($element as $key => $value) {
             $this->{$key} = $value;
@@ -55,5 +55,26 @@ class Thing extends Fluent
     public function only($keys): array
     {
         return Arr::only($this->toArray(), $keys);
+    }
+
+    /**
+     * Retrieve all of the given properties.
+     *
+     * @param  mixed $keys
+     */
+    public function all($keys = null): array
+    {
+        $input = $this->getAttributes();
+
+        if (! $keys) {
+            return $input;
+        }
+
+        $results = [];
+
+        foreach (is_array($keys) ? $keys : func_get_args() as $key) {
+            Arr::set($results, $key, Arr::get($input, $key));
+        }
+        return $results;
     }
 }

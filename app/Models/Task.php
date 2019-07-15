@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Http\DTO\TaskData;
 use Carbon\CarbonImmutable;
+use App\Events\Models\Task\Deleting;
 use App\Models\Concerns\Slug\HasSlug;
 use App\Models\Concerns\Uuid\HasUuids;
 use App\Models\Concerns\Slug\SlugOptions;
@@ -11,12 +12,18 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Collection;
 
 class Task extends Model
 {
     use HasSlug;
     use HasUuids;
     use SoftDeletes;
+
+    /** @var array */
+    protected $dispatchesEvents = [
+        'deleting' => Deleting::class,
+    ];
 
     /** @var array */
     protected $casts = [
@@ -175,12 +182,12 @@ class Task extends Model
     /**
      * Update a task.
      *
-     * @param  \App\Http\DTO\TaskData  $data
+     * @param  array  $data
      */
-    public function updateTaskData(TaskData $data): Task
+    public function updateTaskData(array $data): Task
     {
         return tap($this, function ($task) use ($data) {
-            return $task->update($data->only(['title', 'description', 'report_to', 'due_date', 'complete']));
+            return $task->update($data);
         })->fresh();
     }
 
@@ -191,6 +198,16 @@ class Task extends Model
     {
         return tap($this, function ($instance) {
             return $instance->delete();
+        });
+    }
+
+    /**
+     * Restore a deleted task.
+     */
+    public function restoreTask(): Task
+    {
+        return tap($this, function ($instance) {
+            return $instance->restore();
         });
     }
 

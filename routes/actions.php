@@ -1,8 +1,5 @@
 <?php
 
-// Test Route
-Route::get('test', Test::class);
-
 // Home
 Route::redirect('/', '/dashboard');
 Route::get('/dashboard', Dashboard\Index::class)->middleware(['auth', 'oauth'])->name('dashboard');
@@ -74,7 +71,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], 
     $router->delete('/{task}', Task\DeleteTask::class)->name('destroy');
     $router->get('/{task}/edit', Task\EditTask::class)->name('edit');
     $router->put('/{task}', Task\UpdateTask::class)->name('update');
-    // $router->put('/{task}/restore', Task\RestoreTask::class)->name('restore');
+    $router->put('/{task}/restore', Task\RestoreTask::class)->name('restore');
 });
 
 // Emails

@@ -2,10 +2,9 @@
 
 namespace App\Http\DTO;
 
-use App\Thing;
 use Illuminate\Http\Request;
 
-class CategoryData extends Thing
+class CategoryData extends Data
 {
     /** @var string */
     public $name;
