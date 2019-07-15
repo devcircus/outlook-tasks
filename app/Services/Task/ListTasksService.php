@@ -32,6 +32,6 @@ class ListTasksService
      */
     public function run(User $user)
     {
-        return $user->tasks()->incomplete()->orderByColumn('due_date', 'asc')->get();
+        return $user->tasks()->incomplete()->withTrashed()->orderByColumn('due_date', 'asc')->get();
     }
 }

@@ -4,7 +4,7 @@
         <portal-target name="dropdown" slim />
         <flash-message />
         <div class="flex flex-col">
-            <div class="flex flex-col" @click="hideDropdownMenus">
+            <div class="flex flex-col">
                 <div class="flex flex-wrap">
                     <div class="bg-blue-900 flex-no-shrink w-full px-4 py-8 md:p-12 flex justify-between items-center">
                         <inertia-link class="mt-1" :href="route('dashboard')">
@@ -87,7 +87,6 @@ export default {
     },
     data () {
         return {
-            showUserMenu: false,
             accounts: null,
             syncLoading: false,
             tasksLoading: false,
@@ -123,9 +122,6 @@ export default {
         processTasks () {
             this.tasksLoading = true;
             this.$inertia.post(this.route('tasks.process')).then( () => this.tasksLoading = false );
-        },
-        hideDropdownMenus () {
-            this.showUserMenu = false;
         },
     },
 }

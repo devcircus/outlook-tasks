@@ -2,11 +2,10 @@
 
 namespace App\Http\DTO;
 
-use App\Thing;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 
-class TaskData extends Thing
+class TaskData extends Data
 {
 
     /** @var \App\Http\DTO\CategoryData|null */

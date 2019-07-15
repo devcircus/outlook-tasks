@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Http\Actions\Task;
+
+use Illuminate\Http\Request;
+use PerfectOblivion\Actions\Action;
+use App\Services\Task\RestoreTaskService;
+use App\Http\Responders\Task\RestoreTaskResponder;
+use App\Models\Task;
+
+class RestoreTask extends Action
+{
+    /** @var \App\Http\Responders\Task\RestoreTaskResponder */
+    private $responder;
+
+    /**
+    * Construct a new RestoreTask action.
+    *
+    * @param  \App\Http\Responders\Task\RestoreTaskResponder  $responder
+    */
+    public function __construct(RestoreTaskResponder $responder)
+    {
+        $this->responder = $responder;
+    }
+
+    /**
+     * Execute the action.
+     *
+     * @param  \App\Models\Task  $task
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function __invoke(Task $task)
+    {
+        $restored = RestoreTaskService::call($task);
+
+        return $this->responder->withPayload($restored)->respond();
+    }
+}
