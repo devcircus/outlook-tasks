@@ -2,6 +2,7 @@
 
 namespace App\Http\Responders\Category;
 
+use Inertia\Inertia;
 use PerfectOblivion\Responder\Responder;
 
 class ShowCategoryResponder extends Responder
@@ -13,6 +14,8 @@ class ShowCategoryResponder extends Responder
      */
     public function respond()
     {
-        //
+        return Inertia::render('Categories/Edit', [
+            'category' => $this->payload,
+        ]);
     }
 }

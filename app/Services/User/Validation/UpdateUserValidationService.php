@@ -5,7 +5,7 @@ namespace App\Services\User\Validation;
 use Illuminate\Validation\Rule;
 use PerfectOblivion\Valid\ValidationService\ValidationService;
 
-class UpdateUserValidation extends ValidationService
+class UpdateUserValidationService extends ValidationService
 {
     /**
      * Get the validation rules that apply to the data.

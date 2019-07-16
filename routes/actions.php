@@ -79,7 +79,6 @@ Route::group(['middleware' => ['auth'], 'as' => 'emails.', 'prefix' => 'emails']
     $router->get('/', Email\ListEmails::class)->name('list');
     $router->delete('/{email}', Email\DeleteEmail::class)->name('destroy');
     $router->get('/{email}', Email\ShowEmail::class)->name('show');
-    // $router->put('/{email}/restore', Email\RestoreEmail::class)->name('restore');
 });
 
 // Categories
@@ -87,11 +86,13 @@ Route::group(['middleware' => ['auth', 'admin'], 'as' => 'categories.', 'prefix'
     $router->get('/', Category\ListCategories::class)->name('list');
     $router->delete('/{category}', Category\DeleteCategory::class)->name('destroy');
     $router->get('/{category}', Category\ShowCategory::class)->name('show');
+    $router->put('/{category}', Category\UpdateCategory::class)->name('update');
     $router->post('/', Category\StoreCategory::class)->name('store');
-    // $router->put('/{category}/restore', Category\RestoreCategory::class)->name('restore');
+    $router->put('/{category}/restore', Category\RestoreCategory::class)->name('restore');
 });
 
 // Category Definitions
 Route::group(['middleware' => ['auth', 'admin'], 'as' => 'definitions.', 'prefix' => 'definitions'], function ($router) {
     // $router->get('/{category}', CategoryDefinition\\ShowCategoryDefinition::class)->name('show');
+    $router->post('/{category}', CategoryDefinition\StoreCategoryDefinition::class)->name('store');
 });

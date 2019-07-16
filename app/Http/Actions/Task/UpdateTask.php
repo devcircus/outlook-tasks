@@ -44,8 +44,7 @@ class UpdateTask extends Action
             return redirect()->back()->with(['warning' => 'You do not have permission to edit this task.']);
         }
 
-        $data = TaskData::fromRequest($request);
-        $updated = UpdateTaskService::call($task, $data);
+        $updated = UpdateTaskService::call($task, TaskData::fromRequest($request));
 
         return $this->responder->withPayload($updated)->respond();
     }

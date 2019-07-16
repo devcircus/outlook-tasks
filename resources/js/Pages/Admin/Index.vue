@@ -14,12 +14,26 @@
                 </form>
             </div>
             <div class="bg-white rounded shadow overflow-hidden w-full md:w-1/2 mb-8 md:mr-2">
-                <vue-good-table ref="categoryTable" class="mb-8" :columns="categoryColumns" :rows="taskCategories">
+                <vue-good-table ref="categoryTable" class="mb-8" :columns="categoryColumns" :rows="rows">
+                    <div slot="table-actions">
+                        <dropdown class="mt-1 mr-1" placement="bottom-end">
+                            <div class="flex items-center cursor-pointer select-none group">
+                                <div class="text-blue-900 group-hover:text-blue-700 focus:text-blue-700 mr-1 whitespace-no-wrap">
+                                    <span class="inline text-sm">Options</span>
+                                </div>
+                                <icon class="w-5 h-5 group-hover:fill-blue-700 fill-blue-900 focus:fill-blue-700" name="cheveron-down" />
+                            </div>
+                            <div slot="dropdown" class="mt-2 p-2 shadow-lg bg-white rounded">
+                                <checkbox v-model="showTrashed" class="mb-2" label="Include archived categories: " :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
+                            </div>
+                        </dropdown>
+                    </div>
                     <div slot="emptystate">
                         No categories found.
                     </div>
                     <template slot="table-row" slot-scope="props">
                         <span v-if="props.column.field == 'actions'" class="flex justify-between px-3">
+                            <button class="text-blue-500 hover:underline" tabindex="-1" type="button" @click="viewCategory(props.row.id)">View</button>
                             <button class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyCategory(props.row.id)">Delete</button>
                         </span>
                         <span v-else>
@@ -33,14 +47,21 @@
 </template>
 
 <script>
+import { filter } from 'lodash';
+import Icon from '@/Shared/Icon';
 import Layout from '@/Shared/Layout';
+import Dropdown from '@/Shared/Dropdown';
+import Checkbox from '@/Shared/Checkbox';
 import TextInput from '@/Shared/TextInput';
 import { VueGoodTable } from 'vue-good-table';
 import LoadingButton from '@/Shared/LoadingButton';
 
 export default {
     components: {
+        Icon,
         Layout,
+        Dropdown,
+        Checkbox,
         TextInput,
         VueGoodTable,
         LoadingButton,
@@ -54,12 +75,22 @@ export default {
         return {
             categorySending: false,
             categoryColumns: null,
+            showTrashed: false,
             forms: {
                 category: {
                     name: null,
                 },
             },
         }
+    },
+    computed: {
+        rows () {
+            if (! this.showTrashed) {
+                return filter(this.taskCategories, t => t.deleted_at === null);
+            }
+
+            return this.taskCategories;
+        },
     },
     created () {
         this.categoryColumns = this.tables.fields.categoryFields;
@@ -72,6 +103,9 @@ export default {
                 this.forms.category.name = null;
                 this.categorySending = false;
              });
+        },
+        viewCategory (id) {
+            this.$inertia.replace(this.route('categories.show', id));
         },
         destroyCategory (id) {
             this.$modal.show('deleteCategoryDialog', {
@@ -93,6 +127,9 @@ export default {
                     },
                 ],
             });
+        },
+        hideDropdown () {
+            this.$dispatch('dropdown-should-close');
         },
     },
 }

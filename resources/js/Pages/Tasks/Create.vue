@@ -9,13 +9,8 @@
             <form @submit.prevent="submit">
                 <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
                     <text-input v-model="form.title" :errors="$page.errors.title" class="md:pr-6 pb-8 w-full md:w-1/2" label="Title" />
-                    <select-input v-model="form.category" class="md:pr-6 pb-8 w-full md:w-1/2" :error="$page.errors.category" label="Category">
-                        <option value="none">None</option>
-                        <option value="swatch">Swatch</option>
-                        <option value="prototype">Prototype</option>
-                        <option value="vsf">VSF</option>
-                        <option value="ozone">Ozone</option>
-                        <option value="lettering">Lettering</option>
+                    <select-input v-model="form.category" class="md:pr-6 pb-8 w-full md:w-1/2" :errors="$page.errors.category" label="Category">
+                        <option v-for="type in $page.categories.data" :key="type.id" :value="type.name">{{ type.name|capitalize }}</option>
                     </select-input>
                     <div class="w-full md:w-1/2 md:pr-6">
                         <datepicker class="mb-6 w-full" :value="form.due_date" :errors="$page.errors.due_date" label="Due Date" @input="setDate($event, 'due_date')" />
@@ -69,11 +64,13 @@ export default {
         }
     },
     created () {
-        this.form.title = this.workingTask.subject;
-        this.form.description = this.workingTask.body;
-        this.form.report_to = this.workingTask.from_name;
-        this.form.email_id = this.workingTask.id;
-        this.form.category = this.workingTask.category;
+        this.$nextTick(() => {
+            this.form.title = this.workingTask.subject;
+            this.form.description = this.workingTask.body;
+            this.form.report_to = this.workingTask.from_name;
+            this.form.email_id = this.workingTask.id;
+            this.form.category = this.workingTask.category.name;
+        });
     },
     methods: {
         submit () {

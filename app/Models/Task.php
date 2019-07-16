@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Http\DTO\TaskData;
 use Carbon\CarbonImmutable;
 use App\Events\Models\Task\Deleting;
 use App\Models\Concerns\Slug\HasSlug;
@@ -12,7 +11,6 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Collection;
 
 class Task extends Model
 {
@@ -137,19 +135,19 @@ class Task extends Model
     /**
      * Create a task for a specific user, using the given data.
      *
-     * @param  \App\Http\DTO\TaskData  $data
+     * @param  array  $data
      * @param  \App\Models\User  $user
      * @param  int|null  $email
      */
-    public function createTaskForUser(TaskData $data, User $user, ?int $email = null): Task
+    public function createTaskForUser(array $data, User $user, ?int $email = null): Task
     {
         $task = $user->tasks()->create([
-            'title' => $data->title,
-            'description' => $data->description,
-            'report_to' => $data->report_to,
-            'due_date' => $data->due_date,
-            'complete' => 0,
-            'category_id' => Category::where('name', $data->category->name)->first()->id,
+            'title' => $data['title'],
+            'description' => $data['description'],
+            'report_to' => $data['report_to'],
+            'due_date' => $data['due_date'],
+            'complete' => $data['complete'],
+            'category_id' => Category::where('name', $data['category'])->first()->id,
         ]);
 
         if ($email) {

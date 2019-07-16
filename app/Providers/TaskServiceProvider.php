@@ -14,6 +14,26 @@ class TaskServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('definitionTypes', function ($app) {
+            return [
+                'fromDefinition' => [
+                    'id' => 1,
+                    'name' => 'fromDefinition',
+                    'display_name' => 'From Definition',
+                ],
+                'subjectDefinition' => [
+                    'id' => 2,
+                    'name' => 'SubjectDefinition',
+                    'display_name' => 'Subject Definition',
+                ],
+                'bodyDefinition' => [
+                    'id' => 3,
+                    'name' => 'BodyDefinition',
+                    'display_name' => 'Body Definition',
+                ],
+            ];
+        });
+
         $this->app->singleton('categories', function ($app) {
             return ListCategoriesService::call()->mapWithKeys(function ($category) {
                 return [

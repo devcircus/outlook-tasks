@@ -4,22 +4,22 @@ namespace App\Services\User;
 
 use App\Models\User;
 use App\Http\DTO\UserData;
-use App\Services\User\Validation\UpdateUserValidation;
 use PerfectOblivion\Services\Traits\SelfCallingService;
+use App\Services\User\Validation\UpdateUserValidationService;
 
 class UpdateUserService
 {
     use SelfCallingService;
 
-    /** @var \App\Services\User\Validation\UpdateUserValidation */
+    /** @var \App\Services\User\Validation\UpdateUserValidationService */
     private $validator;
 
     /**
      * Construct a new UpdateUserService.
      *
-     * @param  \App\Services\User\Validation\UpdateUserValidation  $validator
+     * @param  \App\Services\User\Validation\UpdateUserValidationService  $validator
      */
-    public function __construct(UpdateUserValidation $validator)
+    public function __construct(UpdateUserValidationService $validator)
     {
         $this->validator = $validator;
     }

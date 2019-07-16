@@ -33,7 +33,7 @@ class ListGroupedTasksService
      */
     public function run(User $user)
     {
-        $categories = ListCategoriesService::call();
+        $categories = ListCategoriesService::call($withTrashed = false);
 
         $result = $categories->mapWithKeys(function ($category) use ($user) {
             return  [

@@ -2,14 +2,17 @@
 
 namespace App\Models;
 
+use App\Http\DTO\CategoryData;
 use App\Models\Concerns\Slug\HasSlug;
 use App\Models\Concerns\Slug\SlugOptions;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use App\Http\DTO\CategoryData;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Category extends Model
 {
     use HasSlug;
+    use SoftDeletes;
 
     /** @var array */
     protected $appends = [
@@ -64,15 +67,35 @@ class Category extends Model
     }
 
     /**
+     * A Category has one Definition.
+     */
+    public function definition(): HasOne
+    {
+        return $this->hasOne(Definition::class);
+    }
+
+    /**
      * Create a new Category
      *
-     * @param  \App\Http\DTO\CategoryData  $data
+     * @param  array  $data
      */
-    public function createCategory(CategoryData $data): Category
+    public function createCategory(array $data): Category
     {
         return $this->create([
-            'name' => strtolower($data->name),
+            'name' => strtolower($data['name']),
         ]);
+    }
+
+    /**
+     * Update a Category
+     *
+     * @param  array  $data
+     */
+    public function updateCategory(array $data): Category
+    {
+        return tap($this, function ($category) use ($data) {
+            return $category->update($data);
+        })->fresh();
     }
 
     /**
@@ -85,5 +108,25 @@ class Category extends Model
             $instance->emails()->delete();
             $instance->delete();
         });
+    }
+
+    /**
+     * Restore a deleted category.
+     */
+    public function restoreCategory(): Category
+    {
+        return tap($this, function ($instance) {
+            return $instance->restore();
+        });
+    }
+
+    /**
+     * Store a new Definition for a Category.
+     *
+     * @param  array  $data
+     */
+    public function storeDefinition(array $data): Definition
+    {
+        return $this->definition()->create($data);
     }
 }

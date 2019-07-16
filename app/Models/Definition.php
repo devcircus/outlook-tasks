@@ -4,10 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class CategoryDefinition extends Model
+class Definition extends Model
 {
     /**
-     * A CategoryDefinition belongs to a Category.
+     * A Definition belongs to a Category.
      */
     public function category(): BelongsTo
     {

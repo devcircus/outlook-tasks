@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 class TaskData extends Data
 {
 
-    /** @var \App\Http\DTO\CategoryData|null */
+    /** @var string|null */
     public $category;
 
     /** @var int|null */
@@ -94,6 +94,7 @@ class TaskData extends Data
         $parameters['description'] = isset($parameters['description']) ? (string) $parameters['description'] : null;
         $parameters['report_to'] = isset($parameters['report_to']) ? (string) $parameters['report_to'] : null;
         $parameters['complete'] = isset($parameters['complete']) ? (bool) $parameters['complete'] : false;
+        $parameters['category'] = isset($parameters['category']) ? (string) $parameters['category'] : null;
 
         if ($dueDate) {
             if (is_string($dueDate)) {
@@ -102,8 +103,6 @@ class TaskData extends Data
                 $parameters['due_date'] = null;
             }
         }
-
-        $parameters['category'] = isset($parameters['category']) ? CategoryData::fromName($parameters['category']) : null;
 
         return $parameters;
     }

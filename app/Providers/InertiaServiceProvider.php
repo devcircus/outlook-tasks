@@ -82,5 +82,9 @@ class InertiaServiceProvider extends ServiceProvider
                 'ready' => count($categories) > 0,
             ];
         });
+
+        Inertia::share('definitionTypes', static function () {
+            return resolve('definitionTypes');
+        });
     }
 }
