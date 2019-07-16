@@ -15,10 +15,10 @@ class StoreCategoryDefinition extends Action
     private $responder;
 
     /**
-    * Construct a new StoreCategoryDefinition action.
-    *
-    * @param  \App\Http\Responders\CategoryDefinition\StoreCategoryDefinitionResponder  $responder
-    */
+     * Construct a new StoreCategoryDefinition action.
+     *
+     * @param  \App\Http\Responders\CategoryDefinition\StoreCategoryDefinitionResponder  $responder
+     */
     public function __construct(StoreCategoryDefinitionResponder $responder)
     {
         $this->responder = $responder;
@@ -36,7 +36,7 @@ class StoreCategoryDefinition extends Action
     {
         $definition = StoreCategoryDefinitionService::call(
             CategoryDefinitionData::fromRequest($request),
-            $category,
+            $category
         );
 
         return $this->responder->withPayload($definition)->respond();
