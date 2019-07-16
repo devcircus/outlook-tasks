@@ -37,6 +37,6 @@ class StoreCategoryService
     {
         $this->validator->validate($category->toArray());
 
-        return $this->categories->createCategory($category);
+        return $this->categories->createCategory($category->only(['name']));
     }
 }

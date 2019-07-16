@@ -4,7 +4,7 @@ namespace App\Services\User\Validation;
 
 use PerfectOblivion\Valid\ValidationService\ValidationService;
 
-class UpdateUserPasswordValidation extends ValidationService
+class UpdateUserPasswordValidationService extends ValidationService
 {
     /**
      * Get the validation rules that apply to the data.

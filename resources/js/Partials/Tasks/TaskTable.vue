@@ -14,8 +14,8 @@
                         <icon class="w-5 h-5 group-hover:fill-blue-700 fill-blue-900 focus:fill-blue-700" name="cheveron-down" />
                     </div>
                     <div slot="dropdown" class="mt-2 p-2 shadow-lg bg-white rounded">
-                        <checkbox v-model="showTrashed" class="mb-2" label="Show trashed" :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
-                        <span class="text-blue-500 font-semibold text-xs uppercase py-2 " @click="newTask(category.name)">New Task</span>
+                        <checkbox v-model="showTrashed" class="mb-2" label="Include archived tasks: " :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
+                        <span class="text-blue-500 font-semibold text-xs uppercase py-2 cursor-pointer" @click="newTask(category.name)">New Task</span>
                     </div>
                 </dropdown>
             </div>

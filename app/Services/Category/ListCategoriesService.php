@@ -25,10 +25,12 @@ class ListCategoriesService
     /**
      * Handle the call to the service.
      *
+     * @param  bool  $withTrashed
+     *
      * @return \Illuminate\Database\Eloquent\Collection
      */
-    public function run()
+    public function run(bool $withTrashed = true)
     {
-        return $this->categories->all();
+        return $this->categories->withTrashed($withTrashed)->get();
     }
 }

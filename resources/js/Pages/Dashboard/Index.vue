@@ -4,8 +4,8 @@
             <div class="flex flex-col">
                 <h1 class="mb-8 font-bold text-xl text-gray-700 md:text-2xl uppercase">Tasks</h1>
                 <div v-if="categoriesReady" class="flex flex-wrap w-full md:-mx-2">
-                    <div v-for="category in $page.categories.data" :key="category.id" class="flex flex-col w-full md:w-1/3 md:px-2">
-                        <task-table :category="category" :tasks="getTasksForCategory(category.name)"/>
+                    <div v-for="category in taskCategories" :key="category.id" class="flex flex-col w-full md:w-1/3 md:px-2">
+                        <task-table :category="category" :tasks="getTasksForCategory(category.name)" />
                     </div>
                 </div>
                 <div v-else class="flex flex-wrap w-full mb-8">
@@ -49,6 +49,7 @@
 </template>
 
 <script>
+import { filter } from 'lodash';
 import Layout from '@/Shared/Layout';
 import { VueGoodTable } from 'vue-good-table';
 import TaskTable from '@/Partials/Tasks/TaskTable';
@@ -78,6 +79,9 @@ export default {
     computed: {
         categoriesReady () {
             return this.$page.categories.ready;
+        },
+        taskCategories () {
+            return filter(this.$page.categories.data, c => c.deleted_at === null);
         },
     },
     created () {

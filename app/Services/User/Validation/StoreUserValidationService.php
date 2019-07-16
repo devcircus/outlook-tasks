@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\Category\Validation;
+namespace App\Services\User\Validation;
 
 use Illuminate\Validation\Rule;
 use PerfectOblivion\Valid\ValidationService\ValidationService;
 
-class StoreCategoryValidationService extends ValidationService
+class StoreUserValidationService extends ValidationService
 {
     /**
      * Get the validation rules that apply to the data.
@@ -15,7 +15,9 @@ class StoreCategoryValidationService extends ValidationService
     public function rules()
     {
         return [
-            'name' => ['string', 'min:3', Rule::unique('categories', 'name')],
+            'name' => ['required'],
+            'email' => ['required', Rule::unique('users', 'email')],
+            'password' => ['required', 'min:8'],
         ];
     }
 
@@ -28,18 +30,7 @@ class StoreCategoryValidationService extends ValidationService
     {
         return [
             'name' => ['strip_tags', 'trim'],
-        ];
-    }
-
-    /**
-     * Get the custom error messages for fields.
-     *
-     * @return array
-     */
-    public function messages()
-    {
-        return [
-            'name.unique' => 'A category with that name already exists. If the category has been archived, you may restore it.',
+            'email' => ['strip_tags', 'trim'],
         ];
     }
 }

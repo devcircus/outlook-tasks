@@ -29,6 +29,6 @@ class IndexService
      */
     public function run()
     {
-        return $this->categories->all();
+        return $this->categories->withTrashed()->get();
     }
 }

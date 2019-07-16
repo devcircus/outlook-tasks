@@ -44,7 +44,7 @@ export default {
         },
         setSelectionRange (start, end) {
             this.$refs.input.setSelectionRange(start, end);
-        },
+        }
     },
 }
 </script>
