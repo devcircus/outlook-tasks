@@ -59,7 +59,7 @@ class FetchEmailFromOutlookService
      */
     private function syncMailForUser(User $user)
     {
-        $mostRecentEmail = $user->emails()->latest('received_at')->first();
+        $mostRecentEmail = $user->emails()->withTrashed()->latest('received_at')->first();
 
         // Once we have retrieved the latest synced email from the database, we will use that date
         // to query Outlook. If more than 1 email exists with that same received datetime, we

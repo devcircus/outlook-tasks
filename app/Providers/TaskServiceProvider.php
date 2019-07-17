@@ -35,7 +35,7 @@ class TaskServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('categories', function ($app) {
-            return ListCategoriesService::call()->mapWithKeys(function ($category) {
+            return ListCategoriesService::call($withTrashed = false)->mapWithKeys(function ($category) {
                 return [
                     $category->name => $category,
                 ];
