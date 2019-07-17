@@ -5,11 +5,13 @@ namespace App\Models;
 use Carbon\CarbonImmutable;
 use App\Models\Concerns\Uuid\HasUuids;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Email extends Model
 {
     use HasUuids;
+    use SoftDeletes;
 
     /** @var string */
     protected $table = 'emails';
@@ -215,6 +217,16 @@ class Email extends Model
     {
         return tap($this, function ($instance) {
             return $instance->delete();
+        });
+    }
+
+    /**
+     * Restore a deleted email.
+     */
+    public function restoreEmail(): Email
+    {
+        return tap($this, function ($instance) {
+            return $instance->restore();
         });
     }
 }

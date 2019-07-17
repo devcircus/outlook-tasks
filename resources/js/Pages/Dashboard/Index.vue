@@ -14,13 +14,27 @@
             </div>
             <div class="flex flex-col">
                 <h1 class="mb-8 font-bold text-xl text-gray-700 md:text-2xl uppercase">Email</h1>
-                <vue-good-table v-if="windowWidth >= 768" class="mb-8" :columns="emailColumns" :rows="emails" :row-style-class="rowClasses">
+                <vue-good-table v-if="windowWidth >= 768" class="mb-8" :columns="emailColumns" :rows="emailRows" :row-style-class="rowClasses">
+                    <div slot="table-actions">
+                        <dropdown class="mt-1 mr-1" placement="bottom-end">
+                            <div class="flex items-center cursor-pointer select-none group">
+                                <div class="text-blue-900 group-hover:text-blue-700 focus:text-blue-700 mr-1 whitespace-no-wrap">
+                                    <span class="inline text-sm">Options</span>
+                                </div>
+                                <icon class="w-5 h-5 group-hover:fill-blue-700 fill-blue-900 focus:fill-blue-700" name="cheveron-down" />
+                            </div>
+                            <div slot="dropdown" class="mt-2 p-2 shadow-lg bg-white rounded">
+                                <checkbox v-model="showTrashedEmails" class="mb-2" label="Include archived emails: " :width="4" :height="4" :checked="showTrashedEmails" @input="hideDropdown()" />
+                            </div>
+                        </dropdown>
+                    </div>
                     <div slot="emptystate">
                         No emails found.
                     </div>
                     <template slot="table-row" slot-scope="props">
                         <span v-if="props.column.field == 'actions'" class="flex justify-between px-3">
-                            <button class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyEmail(props.row.id)">Delete</button>
+                            <button v-if="props.row.deleted_at" class="text-red-500 hover:underline" tabindex="-1" type="button" @click="restoreEmail(props.row.id)">Restore</button>
+                            <button v-else class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyEmail(props.row.id)">Delete</button>
                             <button class="text-green-500 hover:underline" tabindex="-1" type="button" @click="newTask(null, props.row)">New Task</button>
                             <button class="text-blue-500 hover:underline" tabindex="-1" type="button" @click="showEmail(props.row.id)">View</button>
                         </span>
@@ -31,12 +45,13 @@
                 </vue-good-table>
                 <template v-else>
                     <div class="border border-gray-400 mb-8">
-                        <div v-for="email in emails" :key="email.id" class="flex flex-col bg-white p-3 border-b">
+                        <div v-for="email in emailRows" :key="email.id" class="flex flex-col bg-white p-3 border-b">
                             <span class="font-semibold text-gray-700 mb-2">Subject: <span class="font-normal">{{ email.subject }}</span></span>
                             <span class="font-semibold text-gray-700 mb-2">From: <span class="font-normal">{{ email.from_address }}</span></span>
                             <span class="font-semibold text-gray-700 mb-3">Received: <span class="font-normal">{{ email.received_at }}</span></span>
                             <span class="flex justify-between">
-                                <button class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyEmail(email.id)">Delete</button>
+                                <button v-if="email.deleted_at" class="text-red-500 hover:underline" tabindex="-1" type="button" @click="restoreEmail(email.id)">Restore</button>
+                                <button v-else class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyEmail(email.id)">Delete</button>
                                 <button class="text-green-500 hover:underline" tabindex="-1" type="button" @click="newTask(null, email)">New Task</button>
                                 <button class="text-blue-500 hover:underline" tabindex="-1" type="button" @click="showEmail(email.id)">View</button>
                             </span>
@@ -50,13 +65,19 @@
 
 <script>
 import { filter } from 'lodash';
+import Icon from '@/Shared/Icon';
 import Layout from '@/Shared/Layout';
+import Dropdown from '@/Shared/Dropdown';
+import Checkbox from '@/Shared/Checkbox';
 import { VueGoodTable } from 'vue-good-table';
 import TaskTable from '@/Partials/Tasks/TaskTable';
 
 export default {
     components: {
+        Icon,
         Layout,
+        Dropdown,
+        Checkbox,
         TaskTable,
         VueGoodTable,
     },
@@ -73,6 +94,7 @@ export default {
     },
     data () {
         return {
+            showTrashedEmails: false,
             emailColumns: null,
         }
     },
@@ -83,16 +105,30 @@ export default {
         taskCategories () {
             return filter(this.$page.categories.data, c => c.deleted_at === null);
         },
+        emailRows () {
+            if (! this.showTrashedEmails) {
+                return filter(this.emails, e => e.deleted_at === null);
+            }
+
+            return this.emails;
+        },
     },
     created () {
         this.emailColumns = this.tables.fields.emailFields;
     },
     methods: {
-        destroyEmail (id) {
-            this.$inertia.delete(this.route('emails.destroy', id), { replace: false, preserveScroll: true, preserveState: true });
-        },
         showEmail (id) {
             this.$inertia.replace(this.route('emails.show', id));
+        },
+        destroyEmail (id) {
+            if (confirm('Are you sure you want to delete this email?')) {
+                this.$inertia.delete(this.route('emails.destroy', id), { replace: false, preserveScroll: true, preserveState: true });
+            }
+        },
+        restoreEmail (id) {
+            if (confirm('Are you sure you want to restore this email?')) {
+                this.$inertia.put(this.route('emails.restore', id), null, { replace: false, preserveScroll: true, preserveState: true });
+            }
         },
         rowClasses (row) {
             return 'cursor-pointer';
@@ -107,6 +143,9 @@ export default {
             }
 
             return [];
+        },
+        hideDropdown () {
+            this.$dispatch('dropdown-should-close');
         },
     },
 }

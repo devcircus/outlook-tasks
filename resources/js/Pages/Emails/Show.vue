@@ -53,13 +53,13 @@ export default {
     },
     methods: {
         destroy () {
-            if (confirm('Are you sure you want to delete this task?')) {
-                this.$inertia.delete(this.route('tasks.destroy', this.task.id))
+            if (confirm('Are you sure you want to delete this email?')) {
+                this.$inertia.delete(this.route('emails.destroy', this.email.id));
             }
         },
         restore () {
-            if (confirm('Are you sure you want to restore this task?')) {
-                this.$inertia.put(this.route('tasks.restore', this.task.id))
+            if (confirm('Are you sure you want to restore this email?')) {
+                this.$inertia.put(this.route('emails.restore', this.email.id));
             }
         },
     },
