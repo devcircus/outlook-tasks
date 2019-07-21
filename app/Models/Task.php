@@ -137,21 +137,24 @@ class Task extends Model
      *
      * @param  array  $data
      * @param  \App\Models\User  $user
-     * @param  int|null  $email
+     * @param  int|null  $emailId
      */
-    public function createTaskForUser(array $data, User $user, ?int $email = null): Task
+    public function createTaskForUser(array $data, User $user, ?int $emailId = null): Task
     {
+        $category_id = Category::where('name', $data['category'])->first()->id;
         $task = $user->tasks()->create([
             'title' => $data['title'],
             'description' => $data['description'],
             'report_to' => $data['report_to'],
             'due_date' => $data['due_date'],
             'complete' => $data['complete'],
-            'category_id' => Category::where('name', $data['category'])->first()->id,
+            'category_id' => $category_id,
         ]);
 
-        if ($email) {
-            Email::find($email)->setAssigned();
+        if ($emailId) {
+            $email = Email::find($emailId);
+            $email->setAssigned();
+            $email->setCategory(Category::find($category_id));
         }
 
         return $task;
