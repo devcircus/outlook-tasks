@@ -75,7 +75,7 @@ export default {
             this.form.description = this.workingTask.body;
             this.form.report_to = this.workingTask.from_name;
             this.form.email_id = this.workingTask.id;
-            this.form.category = this.workingTask.category.name;
+            this.form.category = this.workingTask.category ? this.workingTask.category.name : null;
         });
     },
     methods: {

@@ -34,7 +34,8 @@
                     <template slot="table-row" slot-scope="props">
                         <span v-if="props.column.field == 'actions'" class="flex justify-between px-3">
                             <button class="text-blue-500 hover:underline" tabindex="-1" type="button" @click="viewCategory(props.row.id)">View</button>
-                            <button class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyCategory(props.row.id)">Delete</button>
+                            <button v-if="props.row.deleted_at" class="text-red-500 hover:underline" tabindex="-1" type="button" @click="restoreCategory(props.row.id)">Restore</button>
+                            <button v-else class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyCategory(props.row.id)">Delete</button>
                         </span>
                         <span v-else>
                             {{ props.formattedRow[props.column.field] }}
@@ -121,6 +122,27 @@ export default {
                         title: 'Close',
                         type: 'close',
                         handler: () => { this.$modal.hide('deleteCategoryDialog') },
+                    },
+                ],
+            });
+        },
+        restoreCategory (id) {
+            this.$modal.show('restoreCategoryDialog', {
+                title: 'Notice!',
+                text: 'Are you sure you want to restore this category?',
+                buttons: [
+                    {
+                        title: 'Restore Category',
+                        type: 'restore',
+                        handler: () => {
+                            this.$inertia.put(this.route('categories.restore', id));
+                            this.$modal.hide('restoreCategoryDialog');
+                         },
+                    },
+                    {
+                        title: 'Close',
+                        type: 'close',
+                        handler: () => { this.$modal.hide('restoreCategoryDialog') },
                     },
                 ],
             });

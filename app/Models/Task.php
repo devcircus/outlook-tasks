@@ -175,9 +175,8 @@ class Task extends Model
                 'category_id' => $email->category_id,
                 'user_id' => $email->user->id,
             ]);
-
-            $email->setAssigned();
         }
+        $email->setAssigned();
     }
 
     /**

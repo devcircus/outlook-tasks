@@ -19,6 +19,14 @@
                     </div>
                 </dropdown>
             </div>
+            <template slot="table-row" slot-scope="props">
+                <span v-if="props.row.deleted_at">
+                    <span class="text-red-500">{{ props.formattedRow[props.column.field] }}</span>
+                </span>
+                <span v-else>
+                    {{ props.formattedRow[props.column.field] }}
+                </span>
+            </template>
         </vue-good-table>
     </div>
 </template>

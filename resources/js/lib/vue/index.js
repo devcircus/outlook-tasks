@@ -92,6 +92,7 @@ new Vue({
             /* global Echo */
             Echo.channel('outlook')
                 .listen('.outlookSynced', e => {
+                    this.$snotify.clear();
                     this.$snotify.info(`Email synced for ${e.user.name}`, 'Notice:');
                 });
             Echo.channel('categories')
@@ -100,10 +101,12 @@ new Vue({
                 });
             Echo.channel('tasks')
                 .listen('.noTasksGenerated', e => {
+                    this.$snotify.clear();
                     this.$snotify.info('No new tasks at this time.', 'Notice:');
                 });
             Echo.channel('tasks')
                 .listen('.tasksGenerated', e => {
+                    this.$snotify.clear();
                     this.$snotify.success('Tasks successfully generated!', 'Success:');
                 });
         },
