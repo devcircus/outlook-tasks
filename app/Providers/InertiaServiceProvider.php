@@ -77,6 +77,7 @@ class InertiaServiceProvider extends ServiceProvider
 
         Inertia::share('categories', static function () {
             $categories = ListCategoriesService::call();
+
             return [
                 'data' => $categories,
                 'ready' => count($categories) > 0,

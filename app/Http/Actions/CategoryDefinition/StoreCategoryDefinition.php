@@ -34,11 +34,10 @@ class StoreCategoryDefinition extends Action
      */
     public function __invoke(Request $request, Category $category)
     {
-        $definition = StoreCategoryDefinitionService::call(
-            CategoryDefinitionData::fromRequest($request),
-            $category
-        );
+        $data = CategoryDefinitionData::fromRequest($request);
 
-        return $this->responder->withPayload($definition)->respond();
+        StoreCategoryDefinitionService::call($data, $category);
+
+        return $this->responder->respond();
     }
 }

@@ -13,10 +13,9 @@ class CreateDefinitionsTable extends Migration
     {
         Schema::create('definitions', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->longText('words')->nullable();
-            $table->string('regex')->nullable();
-            $table->longText('exact')->nullable();
-            $table->enum('type', ['fromDefinition', 'subjectDefinition', 'bodyDefinition']);
+            $table->enum('definition_type', ['from', 'subject', 'body']);
+            $table->enum('rule_type', ['words', 'exact', 'regex']);
+            $table->longText('definition');
             $table->unsignedBigInteger('category_id');
             $table->timestamps();
 

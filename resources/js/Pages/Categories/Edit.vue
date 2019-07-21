@@ -10,34 +10,19 @@
         <trashed-message v-if="category.deleted_at" class="mb-6" @restore="restoreCategory">
             This category has been deleted.
         </trashed-message>
-        <div class="bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8">
-            <form @submit.prevent="updateCategory()">
-                <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
-                    <text-input v-model="forms.category.name" :errors="$page.errors.name" class="md:pr-6 pb-8 w-full md:w-1/2" label="Name" />
-                </div>
-                <div class="px-8 py-4 bg-gray-100 border-t border-gray-200 flex items-center">
-                    <button v-if="! category.deleted_at" class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyCategory">Delete Category</button>
-                    <loading-button :loading="sendingCategory" class="btn-blue ml-auto" type="submit">Update Category</loading-button>
-                </div>
-            </form>
-        </div>
-        <div class="flex flex-col">
-            <span class="text-blue-800 font-medium text-lg md:text-2xl uppercase mb-4">Definition</span>
-            <div class="bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8">
-                <form @submit.prevent="submitDefinition">
-                    <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
-                        <select-input v-model="forms.definition.type" class="md:pr-6 pb-8 w-full md:w-1/2" :errors="$page.errors.type" label="Definition Type">
-                            <option v-for="type in $page.definitionTypes" :key="type.id" :value="type.name">{{ type.display_name }}</option>
-                        </select-input>
-                        <textarea-input v-model="forms.definition.words" :errors="$page.errors.words" rows="8" class="md:pr-6 pb-8 w-full md:w-1/2" label="Included Words" />
-                        <textarea-input v-model="forms.definition.exact" :errors="$page.errors.exact" rows="8" class="md:pr-6 pb-8 w-full md:w-1/2" label="Exact Match" />
-                        <textarea-input v-model="forms.definition.regex" :errors="$page.errors.regex" rows="8" class="md:pr-6 pb-8 w-full md:w-1/2" label="Regular Expression" />
+        <div class="flex flex-col md:flex-row -px-2">
+            <div class="bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8 md:mr-2 p-8">
+                <form @submit.prevent="updateCategory()">
+                    <div class="-mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
+                        <text-input v-model="forms.category.name" :errors="$page.errors.name" class="md:pr-6 pb-8 w-full md:w-1/2" label="Name" />
                     </div>
-                    <div class="px-8 py-4 bg-gray-100 border-t border-gray-200 flex items-center">
-                        <loading-button :loading="sendingDefinition" class="btn-blue ml-auto" type="submit">Create Definition</loading-button>
+                    <div class="bg-gray-100 border-t border-gray-200 flex items-center">
+                        <button v-if="! category.deleted_at" class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyCategory">Delete Category</button>
+                        <loading-button :loading="sendingCategory" class="btn-blue ml-auto" type="submit">Update Category</loading-button>
                     </div>
                 </form>
             </div>
+            <category-definition :category="category" />
         </div>
     </layout>
 </template>
@@ -45,19 +30,17 @@
 <script>
 import Layout from '@/Shared/Layout';
 import TextInput from '@/Shared/TextInput';
-import SelectInput from '@/Shared/SelectInput';
 import LoadingButton from '@/Shared/LoadingButton';
-import TextareaInput from '@/Shared/TextareaInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
+import CategoryDefinition from '@/Partials/Categories/CategoryDefinition';
 
 export default {
     components: {
         Layout,
         TextInput,
-        SelectInput,
-        TextareaInput,
         LoadingButton,
         TrashedMessage,
+        CategoryDefinition,
     },
     props: {
         category: Object,
@@ -72,11 +55,9 @@ export default {
                     id: this.category.id,
                     name: this.category.name,
                 },
-                definition: {
-                    words: null,
-                    regex: null,
-                    exact: null,
+                definitions: {
                     type: null,
+                    definition: null,
                 },
             },
         }
@@ -89,7 +70,9 @@ export default {
              });
         },
         submitDefinition () {
-            this.$inertia.post(this.route('definitions.store', this.category.id), this.forms.definition)
+            const validatedData = this.validateDefinitionData();
+
+            this.$inertia.post(this.route('definitions.store', this.category.id), validatedData)
             .then(() => {
                 this.sendingDefinition = false;
              });
@@ -135,6 +118,29 @@ export default {
                     },
                 ],
             });
+        },
+        validateDefinitionData () {
+            let data = {};
+            if (this.forms.definition.fromDefinition != null && this.forms.definition.fromType != null) {
+                data['fromDefinition'] = {
+                    type: this.forms.definition.fromType,
+                    definition: this.forms.definition.fromDefinition,
+                };
+            }
+            if (this.forms.definition.subjectDefinition != null && this.forms.definition.subjectType != null) {
+                data['subjectDefinition'] = {
+                    type: this.forms.definition.subjectType,
+                    definition: this.forms.definition.subjectDefinition,
+                };
+            }
+            if (this.forms.definition.bodyDefinition != null && this.forms.definition.bodyType != null) {
+                data['bodyDefinition'] = {
+                    type: this.forms.definition.bodyType,
+                    definition: this.forms.definition.bodyDefinition,
+                };
+            }
+
+            return data;
         },
     },
 }

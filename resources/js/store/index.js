@@ -1,7 +1,7 @@
 import { truncate } from '@/Helpers';
 
 export default {
-    workingTask: null,
+    workingTask: {},
     tables: {
         fields: {
             taskFields: [

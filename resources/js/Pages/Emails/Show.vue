@@ -11,10 +11,6 @@
         <div class="bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8">
             <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row w-full">
                 <div class="flex flex-col w-full md:w-1/3">
-                    <div class="mb-4 block font-semibold text-base">
-                        <span class="text-gray-700 mr-2">Category: </span>
-                        <span class="text-blue-600 uppercase">{{ email.category.name }}</span>
-                    </div>
                     <div class="flex flex-col">
                         <div class="flex items-center mb-4">
                             <span class="text-gray-700 text-base font-semibold align-middle mr-4">Received:</span>

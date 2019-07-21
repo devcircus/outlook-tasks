@@ -10,7 +10,7 @@
                 <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
                     <text-input v-model="form.title" :errors="$page.errors.title" class="md:pr-6 pb-8 w-full md:w-1/2" label="Title" />
                     <select-input v-model="form.category" class="md:pr-6 pb-8 w-full md:w-1/2" :errors="$page.errors.category" label="Category">
-                        <option v-for="type in $page.categories.data" :key="type.id" :value="type.name">{{ type.name|capitalize }}</option>
+                        <option v-for="type in categories" :key="type.id" :value="type.name" :selected="type.name === form.category ? 'selected' : ''">{{ type.name|capitalize }}</option>
                     </select-input>
                     <div class="w-full md:w-1/2 md:pr-6">
                         <datepicker class="mb-6 w-full" :value="form.due_date" :errors="$page.errors.due_date" label="Due Date" @input="setDate($event, 'due_date')" />
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import { filter } from 'lodash';
 import moment from 'moment-timezone';
 import Layout from '@/Shared/Layout';
 import Checkbox from '@/Shared/Checkbox';
@@ -63,7 +64,12 @@ export default {
             },
         }
     },
-    created () {
+    computed: {
+        categories () {
+            return filter(this.$page.categories.data, t => t.deleted_at === null);
+        },
+    },
+    mounted () {
         this.$nextTick(() => {
             this.form.title = this.workingTask.subject;
             this.form.description = this.workingTask.body;

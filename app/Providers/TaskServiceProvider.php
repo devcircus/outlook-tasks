@@ -16,19 +16,19 @@ class TaskServiceProvider extends ServiceProvider
     {
         $this->app->singleton('definitionTypes', function ($app) {
             return [
-                'fromDefinition' => [
+                'from' => [
                     'id' => 1,
-                    'name' => 'fromDefinition',
+                    'name' => 'from',
                     'display_name' => 'From Definition',
                 ],
-                'subjectDefinition' => [
+                'subject' => [
                     'id' => 2,
-                    'name' => 'SubjectDefinition',
+                    'name' => 'subject',
                     'display_name' => 'Subject Definition',
                 ],
-                'bodyDefinition' => [
+                'body' => [
                     'id' => 3,
-                    'name' => 'BodyDefinition',
+                    'name' => 'body',
                     'display_name' => 'Body Definition',
                 ],
             ];

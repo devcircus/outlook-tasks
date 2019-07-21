@@ -1,4 +1,3 @@
-
 .form-label {
   @apply .mb-2 .block .text-gray-900 .font-semibold .text-sm .select-none;
 }
@@ -56,4 +55,8 @@
 
 .datepicker-top .vdp-datepicker__calendar {
   top: -200px;
+}
+
+input[type=text]:disabled, textarea:disabled {
+  @apply bg-gray-300 cursor-not-allowed;
 }

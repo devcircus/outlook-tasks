@@ -6,17 +6,14 @@ use Illuminate\Http\Request;
 
 class CategoryDefinitionData extends Data
 {
-    /** @var string|null */
-    public $words;
-
-    /** @var string|null */
-    public $exact;
-
-    /** @var string|null */
-    public $regex;
+    /** @var string */
+    public $definition_type;
 
     /** @var string */
-    public $type;
+    public $rule_type;
+
+    /** @var string */
+    public $definition;
 
     /**
      * Construct a new CategoryDefinitionData object.
@@ -35,7 +32,7 @@ class CategoryDefinitionData extends Data
      */
     public static function fromRequest(Request $request): CategoryDefinitionData
     {
-        return static::fromArray($request->only(['words', 'exact', 'regex', 'type']));
+        return static::fromArray($request->only(['definition_type', 'rule_type', 'definition']));
     }
 
     /**
@@ -46,10 +43,9 @@ class CategoryDefinitionData extends Data
     public static function fromArray(array $data): CategoryDefinitionData
     {
         return new self([
-            'words' => $data['words'] ?? null,
-            'exact' => $data['exact'] ?? null,
-            'regex' => $data['regex'] ?? null,
-            'type' => $data['type'],
+            'definition_type' => $data['definition_type'] ?? null,
+            'rule_type' => $data['rule_type'] ?? null,
+            'definition' => $data['definition'] ?? null,
         ]);
     }
 
@@ -60,10 +56,9 @@ class CategoryDefinitionData extends Data
      */
     public function validate(array $parameters): array
     {
-        $parameters['words'] = isset($parameters['words']) ? (string) $parameters['words'] : null;
-        $parameters['exact'] = isset($parameters['exact']) ? (string) $parameters['exact'] : null;
-        $parameters['regex'] = isset($parameters['regex']) ? (string) $parameters['regex'] : null;
-        $parameters['type'] = isset($parameters['type']) ? (string) $parameters['type'] : null;
+        $parameters['definition_type'] = isset($parameters['definition_type']) ? (string) $parameters['definition_type'] : null;
+        $parameters['rule_type'] = isset($parameters['rule_type']) ? (string) $parameters['rule_type'] : null;
+        $parameters['definition'] = isset($parameters['definition']) ? (string) $parameters['definition'] : null;
 
         return $parameters;
     }

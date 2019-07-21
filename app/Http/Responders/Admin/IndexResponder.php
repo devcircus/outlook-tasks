@@ -14,8 +14,6 @@ class IndexResponder extends Responder
      */
     public function respond()
     {
-        return Inertia::render('Admin/Index', [
-            'taskCategories' => $this->payload,
-        ]);
+        return Inertia::render('Admin/Index');
     }
 }

@@ -79,34 +79,6 @@ class Email extends Model
     }
 
     /**
-     * Scope the query to emails that have a category that is not "none".
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeCategoryNotNone(Builder $query): Builder
-    {
-        return $query->whereHas('category', function ($query) {
-            return $query->where('name', '!=', 'none');
-        });
-    }
-
-    /**
-     * Scope the query to emails that have a category that is "none".
-     *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
-     */
-    public function scopeCategoryNone(Builder $query): Builder
-    {
-        return $query->whereHas('category', function ($query) {
-            $query->where('name', '=', 'none');
-        });
-    }
-
-    /**
      * Scope the query to emails that have been assigned to a task.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -119,8 +91,7 @@ class Email extends Model
     }
 
     /**
-     * Scope the query to emails that have not been assigned to a task
-     * or in which the email has been assigned a task of none.
+     * Scope the query to emails that have not been assigned to a task.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
      *
@@ -128,9 +99,7 @@ class Email extends Model
      */
     public function scopeWithNoTask(Builder $query): Builder
     {
-        return $query->notAssignedToTask()->whereHas('category', function ($query) {
-            return $query->where('name', '=', 'none');
-        })->orWhereDoesntHave('category');
+        return $query->notAssignedToTask()->orWhereDoesntHave('category');
     }
 
     /**
@@ -143,6 +112,30 @@ class Email extends Model
     public function scopeNotAssignedToTask(Builder $query): Builder
     {
         return $query->where('assigned', 0);
+    }
+
+    /**
+     * Scope the query to emails that have been processed for task generation.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeProcessed(Builder $query): Builder
+    {
+        return $query->where('processed', 1);
+    }
+
+    /**
+     * Scope the query to emails that have not been processed for task generation.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeNotProcessed(Builder $query): Builder
+    {
+        return $query->where('processed', 0);
     }
 
     /**
@@ -191,7 +184,7 @@ class Email extends Model
     }
 
     /**
-     * Set an Email as assigned.
+     * Mark an Email as assigned.
      */
     public function setAssigned(): bool
     {
@@ -201,11 +194,21 @@ class Email extends Model
     }
 
     /**
-     * Set an Email as not assigned.
+     * Mark an Email as not assigned.
      */
     public function setNotAssigned(): bool
     {
         $this->assigned = 0;
+
+        return $this->save();
+    }
+
+    /**
+     * Mark an Email as processed.
+     */
+    public function setProcessed(): bool
+    {
+        $this->processed = 1;
 
         return $this->save();
     }
