@@ -13,6 +13,8 @@ class StoreCategoryResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->back()->with(['success' => 'Category created successfully!']);
+        $this->request->session()->flash('success', 'Category stored successfully!');
+
+        return redirect()->back();
     }
 }

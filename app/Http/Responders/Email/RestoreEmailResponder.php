@@ -13,6 +13,8 @@ class RestoreEmailResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->route('dashboard')->with(['success' => 'Email restored successfully.']);
+        $this->request->session()->flash('success', 'Email restored successfully!');
+
+        return redirect()->route('dashboard');
     }
 }

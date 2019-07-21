@@ -13,6 +13,8 @@ class DeleteTaskResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->back()->with(['success' => 'Task deleted successfully!']);
+        $this->request->session()->flash('success', 'Task deleted successfully!');
+
+        return redirect()->back();
     }
 }

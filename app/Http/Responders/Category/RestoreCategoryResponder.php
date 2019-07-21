@@ -13,6 +13,8 @@ class RestoreCategoryResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->back()->with(['success' => 'Category successfully restored.']);
+        $this->request->session()->flash('success', 'Category restored successfully!');
+
+        return redirect()->back();
     }
 }

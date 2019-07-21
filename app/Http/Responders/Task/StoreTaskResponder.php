@@ -13,6 +13,8 @@ class StoreTaskResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->route('dashboard')->with(['success' => 'Task created successfully!']);
+        $this->request->session()->flash('success', 'Task created successfully!');
+
+        return redirect()->route('dashboard');
     }
 }

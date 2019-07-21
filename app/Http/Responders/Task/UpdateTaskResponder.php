@@ -13,6 +13,8 @@ class UpdateTaskResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->back()->with(['success' => 'Task updated successfully!']);
+        $this->request->session()->flash('success', 'Task updated successfully!');
+
+        return redirect()->back();
     }
 }

@@ -13,6 +13,8 @@ class StoreCategoryDefinitionResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->back()->with(['success' => 'Definition created successfully!']);
+        $this->request->session()->flash('success', 'Definition created successfully!');
+
+        return redirect()->back();
     }
 }

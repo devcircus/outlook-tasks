@@ -13,6 +13,8 @@ class RestoreTaskResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->back()->with(['success' => 'Task successfully restored.']);
+        $this->request->session()->flash('success', 'Task restored successfully!');
+
+        return redirect()->back();
     }
 }
