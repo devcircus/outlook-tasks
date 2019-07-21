@@ -1,17 +1,15 @@
 <?php
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Str;
 
 class CreateCategoriesTable extends Migration
 {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
     public function up()
     {
@@ -19,26 +17,25 @@ class CreateCategoriesTable extends Migration
             $table->bigIncrements('id');
             $table->string('slug')->index();
             $table->string('name')->index();
+            $table->softDeletes();
             $table->timestamps();
         });
 
         // Insert default categories
-        $category = 'none';
-        $slug = Str::slug($category);
+        // $category = 'none';
+        // $slug = Str::slug($category);
 
-        DB::table('categories')->insert(
-            [
-                'name' => $category,
-                'slug' => $slug,
-                'created_at' => now(),
-            ]
-        );
+        // DB::table('categories')->insert(
+        //     [
+        //         'name' => $category,
+        //         'slug' => $slug,
+        //         'created_at' => now(),
+        //     ]
+        // );
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
     public function down()
     {

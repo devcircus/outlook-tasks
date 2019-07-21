@@ -34,7 +34,7 @@ class ProcessTasksService
      */
     public function run(User $user)
     {
-        $emails = $user->emails()->notAssignedToTask()->categoryNotNone()->get();
+        $emails = $user->emails()->processed()->categorized()->get();
 
         if ($emails->count() === 0) {
             return NoTasksToGenerate::broadcast();

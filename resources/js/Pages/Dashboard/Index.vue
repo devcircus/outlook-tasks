@@ -103,7 +103,9 @@ export default {
             return this.$page.categories.ready;
         },
         taskCategories () {
-            return filter(this.$page.categories.data, c => c.deleted_at === null);
+            return filter(this.$page.categories.data, category => {
+                return category.deleted_at === null && category.has_definition;
+            });
         },
         emailRows () {
             if (! this.showTrashedEmails) {

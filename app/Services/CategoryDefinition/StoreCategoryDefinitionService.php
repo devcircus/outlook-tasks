@@ -36,6 +36,6 @@ class StoreCategoryDefinitionService
     {
         $this->validator->validate($data->toArray());
 
-        return $category->storeDefinition($data->only(['words', 'exact', 'regex', 'type']));
+        return $category->storeDefinition($data->only(['definition_type', 'rule_type', 'definition']));
     }
 }

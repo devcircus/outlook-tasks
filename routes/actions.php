@@ -94,6 +94,7 @@ Route::group(['middleware' => ['auth', 'admin'], 'as' => 'categories.', 'prefix'
 
 // Category Definitions
 Route::group(['middleware' => ['auth', 'admin'], 'as' => 'definitions.', 'prefix' => 'definitions'], function ($router) {
-    // $router->get('/{category}', CategoryDefinition\\ShowCategoryDefinition::class)->name('show');
     $router->post('/{category}', CategoryDefinition\StoreCategoryDefinition::class)->name('store');
+    $router->put('/{definition}', CategoryDefinition\UpdateCategoryDefinition::class)->name('update');
+    $router->delete('/{definition}', CategoryDefinition\DeleteCategoryDefinition::class)->name('delete');
 });

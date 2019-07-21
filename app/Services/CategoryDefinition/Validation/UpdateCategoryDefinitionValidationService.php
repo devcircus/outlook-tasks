@@ -2,11 +2,9 @@
 
 namespace App\Services\CategoryDefinition\Validation;
 
-use App\Rules\IsRegex;
-use Illuminate\Contracts\Validation\Validator;
 use PerfectOblivion\Valid\ValidationService\ValidationService;
 
-class StoreCategoryDefinitionValidationService extends ValidationService
+class UpdateCategoryDefinitionValidationService extends ValidationService
 {
     /**
      * Get the validation rules that apply to the data.
@@ -16,7 +14,7 @@ class StoreCategoryDefinitionValidationService extends ValidationService
     public function rules()
     {
         return [
-            'definition_type' => ['required', 'in:from,subject,body'],
+            'definition_type' => ['required', 'in:fromDefinition,subjectDefinition,bodyDefinition'],
             'rule_type' => ['required', 'in:exact,words,regex'],
             'definition' => ['required', 'string'],
         ];
@@ -34,19 +32,5 @@ class StoreCategoryDefinitionValidationService extends ValidationService
             'rule_type' => ['strip_tags', 'trim'],
             'definition' => ['strip_tags'],
         ];
-    }
-
-    /**
-     * Additional validation to perform on the data.
-     *
-     * @param  \Illuminate\Contracts\Validation\Validator  $validator
-     *
-     * @return \Illuminate\Contracts\Validation\Validator
-     */
-    protected function withValidator(Validator $validator)
-    {
-        return $validator->sometimes('definition', new IsRegex, function ($input) {
-            return $input->rule_type === 'regex';
-        });
     }
 }

@@ -13,4 +13,24 @@ class Definition extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    /**
+     * Update a definition.
+     *
+     * @param  array  $data
+     */
+    public function updateDefinition(array $data): Definition
+    {
+        return tap($this, function ($instance) use ($data) {
+            return $instance->update($data);
+        });
+    }
+
+    /**
+     * Delete a definition.
+     */
+    public function deleteDefinition(): bool
+    {
+        return $this->delete();
+    }
 }

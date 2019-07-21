@@ -32,7 +32,11 @@ class AuthServiceProvider extends ServiceProvider
             return $authenticated->id === $task->user->id || $this->checkAdmins($authenticated);
         });
 
-        Gate::define('update-category', function ($authenticated, $task) {
+        Gate::define('update-category', function ($authenticated, $category) {
+            return $authenticated || $this->checkAdmins($authenticated);
+        });
+
+        Gate::define('update-category-definition', function ($authenticated, $category) {
             return $authenticated || $this->checkAdmins($authenticated);
         });
     }

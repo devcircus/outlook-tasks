@@ -66,9 +66,6 @@ export default {
         VueGoodTable,
         LoadingButton,
     },
-    props: {
-        taskCategories: Array,
-    },
     store: ['tables'],
     remember: 'form',
     data () {
@@ -86,10 +83,10 @@ export default {
     computed: {
         rows () {
             if (! this.showTrashed) {
-                return filter(this.taskCategories, t => t.deleted_at === null);
+                return filter(this.$page.categories.data, t => t.deleted_at === null);
             }
 
-            return this.taskCategories;
+            return this.$page.categories.data;
         },
     },
     created () {

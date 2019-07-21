@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Http\DTO\CategoryData;
 use App\Models\Concerns\Slug\HasSlug;
 use App\Models\Concerns\Slug\SlugOptions;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
 {
@@ -17,20 +17,19 @@ class Category extends Model
     /** @var array */
     protected $appends = [
         'display_name',
+        'has_definition',
+        'has_from_definition',
+        'has_subject_definition',
+        'has_body_definition',
     ];
 
-    /**
-     * Get all of categories.
-     *
-     * @param  array|mixed  $columns
-     * @return \Illuminate\Database\Eloquent\Collection|static[]
-     */
-    public static function all($columns = ['*'])
-    {
-        return static::query()->where('name', '!=', 'none')->get(
-            is_array($columns) ? $columns : func_get_args()
-        );
-    }
+    /** @var array */
+    protected $with = [
+        'definitions',
+        'fromDefinition',
+        'subjectDefinition',
+        'bodyDefinition',
+    ];
 
     /**
      * Get the display name attribute.
@@ -43,7 +42,7 @@ class Category extends Model
     /**
      * Get the options for generating the slug.
      */
-    public function getSlugOptions() : SlugOptions
+    public function getSlugOptions(): SlugOptions
     {
         return SlugOptions::create()
             ->generateSlugsFrom('name')
@@ -67,15 +66,97 @@ class Category extends Model
     }
 
     /**
-     * A Category has one Definition.
+     * A Category has many definitions.
      */
-    public function definition(): HasOne
+    public function definitions(): HasMany
     {
-        return $this->hasOne(Definition::class);
+        return $this->hasMany(Definition::class);
     }
 
     /**
-     * Create a new Category
+     * A Category has one From Definition.
+     */
+    public function fromDefinition(): HasOne
+    {
+        return $this->hasOne(Definition::class)->where(function ($query) {
+            $query->where('definition_type', 'from');
+        });
+    }
+
+    /**
+     * A Category has one Subject Definition.
+     */
+    public function subjectDefinition(): HasOne
+    {
+        return $this->hasOne(Definition::class)->where(function ($query) {
+            $query->where('definition_type', 'subject');
+        });
+    }
+
+    /**
+     * A Category has one Body Definition.
+     */
+    public function bodyDefinition(): HasOne
+    {
+        return $this->hasOne(Definition::class)->where(function ($query) {
+            $query->where('definition_type', 'body');
+        });
+    }
+
+    /**
+     * Scope the query to categories that are ready to be used in task generation.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     *
+     * @return \Illuminate\Database\Eloquent\Builder
+     */
+    public function scopeReady(Builder $query)
+    {
+        return $query->has('definitions');
+    }
+
+    /**
+     * Get has_from_definition attribute.
+     */
+    public function getHasFromDefinitionAttribute(): bool
+    {
+        return $this->fromDefinition != null;
+    }
+
+    /**
+     * Get has_subject_definition attribute.
+     */
+    public function getHasSubjectDefinitionAttribute(): bool
+    {
+        return $this->subjectDefinition != null;
+    }
+
+    /**
+     * Get has_body_definition attribute.
+     */
+    public function getHasBodyDefinitionAttribute(): bool
+    {
+        return $this->bodyDefinition != null;
+    }
+
+    /**
+     * Get has_definition attribute.
+     */
+    public function getHasDefinitionAttribute(): bool
+    {
+        return $this->hasDefinition();
+    }
+
+    /**
+     * Does the category have any definitions?
+     */
+    public function hasDefinition(): bool
+    {
+        return $this->definitions->count() > 0;
+    }
+
+    /**
+     * Create a new Category.
      *
      * @param  array  $data
      */
@@ -87,7 +168,7 @@ class Category extends Model
     }
 
     /**
-     * Update a Category
+     * Update a Category.
      *
      * @param  array  $data
      */
@@ -103,7 +184,7 @@ class Category extends Model
      */
     public function deleteCategory(): Category
     {
-        return tap($this, function($instance) {
+        return tap($this, function ($instance) {
             $instance->tasks()->withTrashed()->delete();
             $instance->emails()->delete();
             $instance->delete();
@@ -127,6 +208,10 @@ class Category extends Model
      */
     public function storeDefinition(array $data): Definition
     {
-        return $this->definition()->create($data);
+        return $this->definitions()->create([
+            'definition_type' => $data['definition_type'],
+            'rule_type' => $data['rule_type'],
+            'definition' => $data['definition'],
+        ]);
     }
 }

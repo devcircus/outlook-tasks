@@ -37,7 +37,7 @@ class SetEmailCategories implements ShouldQueue
      */
     public function handle(EmailSyncedWithOutlook $event)
     {
-        $emails = $this->emails->receivedAfter($event->date)->notCategorized()->forUser($event->user)->get();
+        $emails = $this->emails->receivedAfter($event->date)->notProcessed()->forUser($event->user)->get();
         SetCategoryService::call($emails);
     }
 }
