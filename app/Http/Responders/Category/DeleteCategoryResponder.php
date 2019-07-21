@@ -13,6 +13,8 @@ class DeleteCategoryResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->back()->with(['success' => 'Category successfully deleted!']);
+        $this->request->session()->flash('success', 'Category deleted successfully!');
+
+        return redirect()->back();
     }
 }

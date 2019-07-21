@@ -13,8 +13,6 @@ class ProcessTasksResponder extends Responder
      */
     public function respond()
     {
-        $this->request->session()->forget('success');
-
         return redirect()->route('dashboard');
     }
 }

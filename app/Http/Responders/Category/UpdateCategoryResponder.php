@@ -13,6 +13,8 @@ class UpdateCategoryResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->back()->with(['success' => 'Category successfully updated!']);
+        $this->request->session()->flash('success', 'Category updated successfully!');
+
+        return redirect()->back();
     }
 }

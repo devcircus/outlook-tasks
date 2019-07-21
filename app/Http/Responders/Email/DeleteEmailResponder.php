@@ -13,6 +13,8 @@ class DeleteEmailResponder extends Responder
      */
     public function respond()
     {
-        return redirect()->route('dashboard')->with(['success' => 'Email successfully deleted!']);
+        $this->request->session()->flash('success', 'Email deleted successfully!');
+
+        return redirect()->route('dashboard');
     }
 }
