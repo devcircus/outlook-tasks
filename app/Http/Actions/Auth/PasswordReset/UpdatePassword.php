@@ -129,7 +129,9 @@ class UpdatePassword extends Action
      */
     protected function sendResetResponse(Request $request, $response)
     {
-        return redirect()->route('dashboard')->with(['success' => trans($response)]);
+        $request->session()->flash('success', trans($response));
+
+        return redirect()->route('dashboard');
     }
 
     /**

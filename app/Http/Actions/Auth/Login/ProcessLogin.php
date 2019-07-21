@@ -100,7 +100,9 @@ class ProcessLogin extends Action
      */
     protected function authenticated(Request $request, $user)
     {
-        return redirect()->intended(route('dashboard'))->with(['success' => 'Logged in!']);
+        $request->session()->flash('success', 'Logged in!');
+
+        return redirect()->intended(route('dashboard'));
     }
 
     /**

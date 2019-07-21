@@ -38,12 +38,10 @@ export default {
             this.$snotify.clear();
             this.$snotify.success(this.$page.success.success, 'Success!');
         }
-
         if (this.$page.warning.warning) {
             this.$snotify.clear();
             this.$snotify.error(this.$page.warning.warning, 'Oops!');
         }
-
         if (this.$page.info.info) {
             this.$snotify.clear();
             this.$snotify.info(this.$page.info.info, 'Information:');

@@ -69,14 +69,6 @@ export default {
                 this.sendingCategory = false;
              });
         },
-        submitDefinition () {
-            const validatedData = this.validateDefinitionData();
-
-            this.$inertia.post(this.route('definitions.store', this.category.id), validatedData)
-            .then(() => {
-                this.sendingDefinition = false;
-             });
-        },
         destroyCategory () {
             this.$modal.show('deleteCategoryDialog', {
                 title: 'Caution!',
@@ -118,29 +110,6 @@ export default {
                     },
                 ],
             });
-        },
-        validateDefinitionData () {
-            let data = {};
-            if (this.forms.definition.fromDefinition != null && this.forms.definition.fromType != null) {
-                data['fromDefinition'] = {
-                    type: this.forms.definition.fromType,
-                    definition: this.forms.definition.fromDefinition,
-                };
-            }
-            if (this.forms.definition.subjectDefinition != null && this.forms.definition.subjectType != null) {
-                data['subjectDefinition'] = {
-                    type: this.forms.definition.subjectType,
-                    definition: this.forms.definition.subjectDefinition,
-                };
-            }
-            if (this.forms.definition.bodyDefinition != null && this.forms.definition.bodyType != null) {
-                data['bodyDefinition'] = {
-                    type: this.forms.definition.bodyType,
-                    definition: this.forms.definition.bodyDefinition,
-                };
-            }
-
-            return data;
         },
     },
 }
