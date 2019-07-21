@@ -40,7 +40,7 @@ class SetCategoryService
             while ($check) {
                 foreach($categories as $category) {
                     if (CheckCategoryService::call($email, $category)) {
-                        $email->setCategory($category->name);
+                        $email->setCategory($category);
                         $check = false;
                     }
                 }

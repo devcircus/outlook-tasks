@@ -45,13 +45,23 @@ class Email extends Model
     /**
      * Set the category for the email.
      *
-     * @param  string  $category
+     * @param  \App\Models\Category  $category
      */
-    public function setCategory(string $category): bool
+    public function setCategory(Category $category): bool
     {
-        $this->category()->associate(Category::where('name', $category)->first());
+        $this->category()->associate($category);
 
         return $this->save();
+    }
+
+    /**
+     * Set the category for the email.
+     *
+     * @param  string  $category
+     */
+    public function setCategoryByName(string $category): bool
+    {
+        $this->setCategory(Category::where('name', $category)->first());
     }
 
     /**
