@@ -242,4 +242,14 @@ class Email extends Model
             return $instance->restore();
         });
     }
+
+    /**
+     * Delete all emails without tasks, for the given user.
+     *
+     * @param  \App\Models\User  $user
+     */
+    public function deleteAllWithNoTask(User $user): bool
+    {
+        return $user->emails()->withNoTask()->delete();
+    }
 }
