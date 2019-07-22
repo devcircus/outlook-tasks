@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1 class="mb-8 font-bold text-xl text-gray-700 md:text-2xl uppercase">Email</h1>
-        <vue-good-table v-if="windowWidth >= 768" class="mb-8" :columns="emailColumns" :rows="emailRows" :row-style-class="rowClasses">
+        <vue-good-table v-if="windowWidth >= 768" class="mb-8" :columns="emailColumns" :rows="emailRows" :pagination-options="paginationOptions" :row-style-class="rowClasses">
             <div slot="table-actions">
                 <dropdown class="mt-1 mr-1" placement="bottom-end">
                     <div class="flex items-center cursor-pointer select-none group">
@@ -75,6 +75,18 @@ export default {
         return {
             showTrashed: false,
             emailColumns: null,
+            paginationOptions: {
+                enabled: true,
+                mode: 'pages',
+                perPage: 10,
+                dropdownAllowAll: true,
+                nextLabel: 'next',
+                prevLabel: 'prev',
+                rowsPerPageLabel: 'Records per page',
+                ofLabel: 'of',
+                pageLabel: 'page',
+                allLabel: 'All',
+            },
         }
     },
     store: {
