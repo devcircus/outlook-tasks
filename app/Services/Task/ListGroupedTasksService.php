@@ -37,7 +37,7 @@ class ListGroupedTasksService
 
         $result = $categories->mapWithKeys(function ($category) use ($user) {
             return  [
-                $category->name => $user->tasks()->incomplete()->forCategory($category->name)->withTrashed()->orderByColumn('due_date', 'asc')->get(),
+                $category->name => $user->tasks()->forCategory($category->name)->withTrashed()->orderByColumn('due_date', 'asc')->get(),
             ];
         });
 

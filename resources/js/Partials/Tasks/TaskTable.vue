@@ -14,6 +14,8 @@
                         <icon class="w-5 h-5 group-hover:fill-blue-700 fill-blue-900 focus:fill-blue-700" name="cheveron-down" />
                     </div>
                     <div slot="dropdown" class="mt-2 p-2 shadow-lg bg-white rounded">
+                        <checkbox v-model="showActive" class="mb-2" label="Include active tasks: " :width="4" :height="4" :checked="showActive" @input="hideDropdown()" />
+                        <checkbox v-model="showCompleted" class="mb-2" label="Include completed tasks: " :width="4" :height="4" :checked="showCompleted" @input="hideDropdown()" />
                         <checkbox v-model="showTrashed" class="mb-2" label="Include archived tasks: " :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
                         <span class="text-blue-500 font-semibold text-xs uppercase py-2 cursor-pointer" @click="newTask(category)">New Task</span>
                     </div>
@@ -22,6 +24,9 @@
             <template slot="table-row" slot-scope="props">
                 <span v-if="props.row.deleted_at">
                     <span class="text-red-500">{{ props.formattedRow[props.column.field] }}</span>
+                </span>
+                <span v-else-if="props.row.complete">
+                    <span class="text-green-500">{{ props.formattedRow[props.column.field] }}</span>
                 </span>
                 <span v-else>
                     {{ props.formattedRow[props.column.field] }}
@@ -32,8 +37,8 @@
 </template>
 
 <script>
-import { filter } from 'lodash';
 import Icon from '@/Shared/Icon';
+import { filter, concat, orderBy } from 'lodash';
 import Dropdown from '@/Shared/Dropdown';
 import Checkbox from '@/Shared/Checkbox.js';
 import { VueGoodTable } from 'vue-good-table';
@@ -55,17 +60,52 @@ export default {
     data () {
         return {
             taskColumns: null,
+            showActive: true,
+            showCompleted: false,
             showTrashed: false,
         }
     },
     computed: {
         rows () {
-            if (! this.showTrashed) {
-                return filter(this.tasks, t => t.deleted_at === null);
+            const active = filter(this.tasks, task => {
+                return task.deleted_at === null && ! task.complete;
+            });
+            const trashed = filter(this.tasks, t => t.deleted_at != null);
+            const completed = filter(this.tasks, t => t.complete === true);
+
+            if (this.showActive) {
+                if (this.showTrashed) {
+                    if (this.showCompleted) {
+                        let results = concat(active, trashed, completed);
+
+                        return orderBy(results, ['due_date'], ['asc']);
+                    }
+                    let results = concat(active, trashed);
+
+                    return orderBy(results, ['due_date'], ['asc']);
+                }
+                if (this.showCompleted) {
+                    let results = concat(active, completed);
+
+                    return orderBy(results, ['due_date'], ['asc']);
+                }
+
+                return active;
+            }
+            if (this.showTrashed) {
+                if (this.showCompleted) {
+                    let results = concat(trashed, completed);
+
+                    return orderBy(results, ['due_date'], ['asc']);
+                }
+                return trashed;
+            }
+            if (this.showCompleted) {
+                return completed;
             }
 
-            return this.tasks;
-        },
+            return [];
+        }
     },
     store: ['tables'],
     created () {
