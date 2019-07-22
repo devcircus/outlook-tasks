@@ -77,6 +77,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], 
 // Emails
 Route::group(['middleware' => ['auth'], 'as' => 'emails.', 'prefix' => 'emails'], function ($router) {
     $router->get('/', Email\ListEmails::class)->name('list');
+    $router->delete('/', Email\DeleteAllEmail::class)->name('destroy.all');
     $router->delete('/{email}', Email\DeleteEmail::class)->name('destroy');
     $router->get('/{email}', Email\ShowEmail::class)->name('show');
     $router->put('/{email}/restore', Email\RestoreEmail::class)->name('restore');

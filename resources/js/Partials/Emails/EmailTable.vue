@@ -12,6 +12,7 @@
                     </div>
                     <div slot="dropdown" class="mt-2 p-2 shadow-lg bg-white rounded">
                         <checkbox v-model="showTrashed" class="mb-2" label="Include archived emails: " :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
+                        <span class="text-red-500 font-semibold text-xs uppercase py-2 cursor-pointer" @click="deleteAll()">Delete All</span>
                     </div>
                 </dropdown>
             </div>
@@ -146,6 +147,28 @@ export default {
                         title: 'Close',
                         type: 'close',
                         handler: () => { this.$modal.hide('restoreEmailDialog') },
+                    },
+                ],
+            });
+        },
+        deleteAll () {
+            this.hideDropdown();
+            this.$modal.show('deleteAllEmailDialog', {
+                title: 'Caution!',
+                text: 'Are you sure you want to delete ALL email?',
+                buttons: [
+                    {
+                        title: 'Delete All Email',
+                        type: 'delete',
+                        handler: () => {
+                            this.$inertia.delete(this.route('emails.destroy.all'), { replace: false, preserveScroll: true, preserveState: true });
+                            this.$modal.hide('deleteAllEmailDialog');
+                         },
+                    },
+                    {
+                        title: 'Close',
+                        type: 'close',
+                        handler: () => { this.$modal.hide('deleteAllEmailDialog') },
                     },
                 ],
             });

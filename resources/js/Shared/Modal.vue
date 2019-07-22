@@ -18,6 +18,9 @@
         <modal-component name="restoreEmailDialog" width="80%" :max-width="400" :adaptive="true" :scrollable="true" :delay="250" height="auto" class="text-center center" @before-open="beforeOpenDialog($event)">
             <dialog-modal :title="restoreEmailDialog.title" :text="restoreEmailDialog.text" :buttons="restoreEmailDialog.buttons" />
         </modal-component>
+        <modal-component name="deleteAllEmailDialog" width="80%" :max-width="400" :adaptive="true" :scrollable="true" :delay="250" height="auto" class="text-center center" @before-open="beforeOpenDialog($event)">
+            <dialog-modal :title="deleteAllEmailDialog.title" :text="deleteAllEmailDialog.text" :buttons="deleteAllEmailDialog.buttons" />
+        </modal-component>
         <modal-component name="deleteTaskDialog" width="80%" :max-width="400" :adaptive="true" :scrollable="true" :delay="250" height="auto" class="text-center center" @before-open="beforeOpenDialog($event)">
             <dialog-modal :title="deleteTaskDialog.title" :text="deleteTaskDialog.text" :buttons="deleteTaskDialog.buttons" />
         </modal-component>
@@ -69,6 +72,11 @@ export default {
                 buttons: [],
             },
             restoreEmailDialog: {
+                title: null,
+                text: null,
+                buttons: [],
+            },
+            deleteAllEmailDialog: {
                 title: null,
                 text: null,
                 buttons: [],
