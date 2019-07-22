@@ -93,7 +93,7 @@ new Vue({
             Echo.channel('outlook')
                 .listen('.outlookSynced', e => {
                     this.$snotify.clear();
-                    this.$snotify.info(`Email synced for ${e.user.name}`, 'Notice:');
+                    this.$snotify.info(`Email synced for ${e.user.name}. ${e.total} email(s) received.`, 'Notice:');
                 });
             Echo.channel('categories')
                 .listen('.categoriesSet', e => {

@@ -25,16 +25,21 @@ class EmailSyncedWithOutlook implements ShouldBroadcast
     /** @var \Carbon\CarbonImmutable */
     public $date;
 
+    /** @var int */
+    public $total;
+
     /**
      * Create a new event instance.
      *
      * @param  \App\Models\User  $user
      * @param  \Carbon\CarbonImmutable  $date
+     * @param  int  $total
      */
-    public function __construct(User $user, CarbonImmutable $date)
+    public function __construct(User $user, CarbonImmutable $date, int $total)
     {
         $this->user = $user;
         $this->date = $date;
+        $this->total = $total;
     }
 
     /**

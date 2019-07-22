@@ -71,6 +71,7 @@ class FetchEmailFromOutlookService
             $mostRecentReceivedDate = $mostRecentEmail->received_at;
             $response = $this->fetchAllEmailsReceivedAt($mostRecentReceivedDate);
             $count = $response->getBody()['@odata.count'];
+            $total = 0 === $count ? 0 : $count - 1;
 
             if ($count > 1) {
                 foreach ($response->getBody()['value'] as $message) {
@@ -81,21 +82,22 @@ class FetchEmailFromOutlookService
             }
 
             $response = $this->fetchAllEmailsAfterDate($mostRecentReceivedDate);
+            $total = $total + $response['count'];
 
-            foreach ($response->getBody()['value'] as $message) {
+            foreach ($response['data']->getBody()['value'] as $message) {
                 $this->emails->storeEmailFromOutlookForUser($message, $user);
             }
 
-            EmailSyncedWithOutlook::broadcast($user, $mostRecentReceivedDate);
+            EmailSyncedWithOutlook::broadcast($user, $mostRecentReceivedDate, $total);
         } else {
             $startDate = CarbonImmutable::now()->subDays(config('outlook.days_back', 10) + 1);
             $response = $this->fetchAllEmailsAfterDate($startDate);
 
-            foreach ($response->getBody()['value'] as $message) {
+            foreach ($response['data']->getBody()['value'] as $message) {
                 $this->emails->storeEmailFromOutlookForUser($message, $user);
             }
 
-            EmailSyncedWithOutlook::broadcast($user, $startDate);
+            EmailSyncedWithOutlook::broadcast($user, $startDate, $response['count']);
         }
     }
 
@@ -119,7 +121,7 @@ class FetchEmailFromOutlookService
      *
      * @param  \Carbon\CarbonImmutable  $date
      */
-    private function fetchAllEmailsAfterDate(CarbonImmutable $date): GraphResponse
+    private function fetchAllEmailsAfterDate(CarbonImmutable $date): array
     {
         $this->queryParameter->set('filter', "receivedDateTime ge {$date->addSeconds(1)->toIso8601ZuluString()}");
         $this->queryParameter->set('select', 'subject');
@@ -137,8 +139,9 @@ class FetchEmailFromOutlookService
 
         $listMessagesUrl = '/me/mailfolders/inbox/messages?'.http_build_query($this->queryParameter->get());
 
-        return $this->graph->createRequest('GET', $listMessagesUrl)
-            ->addHeaders(['Prefer' => 'outlook.body-content-type="text"'])
-            ->execute();
+        return [
+            'data' => $this->graph->createRequest('GET', $listMessagesUrl)->addHeaders(['Prefer' => 'outlook.body-content-type="text"'])->execute(),
+            'count' => $total,
+        ];
     }
 }
