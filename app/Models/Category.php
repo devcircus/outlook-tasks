@@ -120,7 +120,7 @@ class Category extends Model
      */
     public function getHasFromDefinitionAttribute(): bool
     {
-        return $this->fromDefinition != null;
+        return null != $this->fromDefinition;
     }
 
     /**
@@ -128,7 +128,7 @@ class Category extends Model
      */
     public function getHasSubjectDefinitionAttribute(): bool
     {
-        return $this->subjectDefinition != null;
+        return null != $this->subjectDefinition;
     }
 
     /**
@@ -136,7 +136,7 @@ class Category extends Model
      */
     public function getHasBodyDefinitionAttribute(): bool
     {
-        return $this->bodyDefinition != null;
+        return null != $this->bodyDefinition;
     }
 
     /**
@@ -212,6 +212,7 @@ class Category extends Model
             'definition_type' => $data['definition_type'],
             'rule_type' => $data['rule_type'],
             'definition' => $data['definition'],
+            'optional' => $data['optional'],
         ]);
     }
 }

@@ -19,6 +19,7 @@ class StoreCategoryDefinitionValidationService extends ValidationService
             'definition_type' => ['required', 'in:from,subject,body'],
             'rule_type' => ['required', 'in:exact,words,regex'],
             'definition' => ['required', 'string'],
+            'optional' => ['required', 'boolean'],
         ];
     }
 
@@ -46,7 +47,7 @@ class StoreCategoryDefinitionValidationService extends ValidationService
     protected function withValidator(Validator $validator)
     {
         return $validator->sometimes('definition', new IsRegex, function ($input) {
-            return $input->rule_type === 'regex';
+            return 'regex' === $input->rule_type;
         });
     }
 }
