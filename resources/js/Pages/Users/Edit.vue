@@ -8,7 +8,7 @@
         <trashed-message v-if="user.deleted_at" class="mb-6" @restore="restore">
             This user has been deleted.
         </trashed-message>
-        <div class="bg-white rounded shadow overflow-hidden max-w-lg">
+        <div class="bg-white rounded shadow overflow-hidden max-w-lg mb-8">
             <form @submit.prevent="submit">
                 <div class="p-8 -mr-6 -mb-8 flex flex-wrap">
                     <text-input v-model="form.name" :errors="errors.name" class="pr-6 pb-8 w-full lg:w-1/2" label="Name" />
@@ -65,14 +65,46 @@ export default {
              });
         },
         destroy () {
-            if (confirm('Are you sure you want to delete this user?')) {
-                this.$inertia.delete(this.route('users.destroy', this.user.id));
-            }
+            this.$modal.show('deleteUserDialog', {
+                title: 'Caution!',
+                text: 'Are you sure you want to delete this user?',
+                buttons: [
+                    {
+                        title: 'Delete User',
+                        type: 'delete',
+                        handler: () => {
+                            this.$inertia.delete(this.route('users.destroy', this.user.id), { replace: false, preserveScroll: true, preserveState: true });
+                            this.$modal.hide('deleteUserDialog');
+                         },
+                    },
+                    {
+                        title: 'Close',
+                        type: 'close',
+                        handler: () => { this.$modal.hide('deleteUserDialog') },
+                    },
+                ],
+            });
         },
         restore () {
-            if (confirm('Are you sure you want to restore this user?')) {
-                this.$inertia.put(this.route('users.restore', this.user.id));
-            }
+            this.$modal.show('restoreUserDialog', {
+                title: 'Notice!',
+                text: 'Are you sure you want to restore this user?',
+                buttons: [
+                    {
+                        title: 'Restore User',
+                        type: 'restore',
+                        handler: () => {
+                            this.$inertia.put(this.route('users.restore', this.user.id), null, { replace: false, preserveScroll: true, preserveState: true });
+                            this.$modal.hide('restoreUserDialog');
+                         },
+                    },
+                    {
+                        title: 'Close',
+                        type: 'close',
+                        handler: () => { this.$modal.hide('restoreUserDialog') },
+                    },
+                ],
+            });
         },
     },
 }

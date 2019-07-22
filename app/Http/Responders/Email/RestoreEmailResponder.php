@@ -15,6 +15,6 @@ class RestoreEmailResponder extends Responder
     {
         $this->request->session()->flash('success', 'Email restored successfully!');
 
-        return redirect()->route('dashboard');
+        return redirect()->back();
     }
 }

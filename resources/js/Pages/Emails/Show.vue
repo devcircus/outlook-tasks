@@ -49,14 +49,46 @@ export default {
     },
     methods: {
         destroy () {
-            if (confirm('Are you sure you want to delete this email?')) {
-                this.$inertia.delete(this.route('emails.destroy', this.email.id));
-            }
+            this.$modal.show('deleteEmailDialog', {
+                title: 'Caution!',
+                text: 'Are you sure you want to delete this email?',
+                buttons: [
+                    {
+                        title: 'Delete Email',
+                        type: 'delete',
+                        handler: () => {
+                            this.$inertia.delete(this.route('emails.destroy', this.email.id), { replace: false, preserveScroll: true, preserveState: true });
+                            this.$modal.hide('deleteEmailDialog');
+                         },
+                    },
+                    {
+                        title: 'Close',
+                        type: 'close',
+                        handler: () => { this.$modal.hide('deleteEmailDialog') },
+                    },
+                ],
+            });
         },
         restore () {
-            if (confirm('Are you sure you want to restore this email?')) {
-                this.$inertia.put(this.route('emails.restore', this.email.id));
-            }
+            this.$modal.show('restoreEmailDialog', {
+                title: 'Notice!',
+                text: 'Are you sure you want to restore this email?',
+                buttons: [
+                    {
+                        title: 'Restore Email',
+                        type: 'restore',
+                        handler: () => {
+                            this.$inertia.put(this.route('emails.restore', this.email.id), null, { replace: false, preserveScroll: true, preserveState: true });
+                            this.$modal.hide('restoreEmailDialog');
+                         },
+                    },
+                    {
+                        title: 'Close',
+                        type: 'close',
+                        handler: () => { this.$modal.hide('restoreEmailDialog') },
+                    },
+                ],
+            });
         },
     },
 }
