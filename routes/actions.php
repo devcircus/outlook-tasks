@@ -99,3 +99,8 @@ Route::group(['middleware' => ['auth', 'admin'], 'as' => 'definitions.', 'prefix
     $router->put('/{definition}', CategoryDefinition\UpdateCategoryDefinition::class)->name('update');
     $router->delete('/{definition}', CategoryDefinition\DeleteCategoryDefinition::class)->name('delete');
 });
+
+// PDF
+Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], function ($router) {
+    $router->get('/{task}/pdf', Pdf\ShowTaskPdf::class)->name('pdf');
+});
