@@ -1,7 +1,7 @@
 <template>
     <div class="flex flex-col">
         <div class="flex flex-col bg-blue-900 w-full text-center py-4">
-            <h1 class="text-white text-3xl uppercase mb-4">{{ `"${type}"` }} Rule</h1>
+            <h1 class="text-white text-3xl uppercase mb-4">{{ type }} Rule</h1>
             <span class="text-white text-sm italic">{{ explanation }}</span>
         </div>
         <div class="bg-white mx-4 my-4">
