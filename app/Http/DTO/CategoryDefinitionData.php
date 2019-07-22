@@ -15,6 +15,9 @@ class CategoryDefinitionData extends Data
     /** @var string */
     public $definition;
 
+    /** @var bool */
+    public $optional;
+
     /**
      * Construct a new CategoryDefinitionData object.
      *
@@ -32,7 +35,7 @@ class CategoryDefinitionData extends Data
      */
     public static function fromRequest(Request $request): CategoryDefinitionData
     {
-        return static::fromArray($request->only(['definition_type', 'rule_type', 'definition']));
+        return static::fromArray($request->only(['definition_type', 'rule_type', 'definition', 'optional']));
     }
 
     /**
@@ -46,6 +49,7 @@ class CategoryDefinitionData extends Data
             'definition_type' => $data['definition_type'] ?? null,
             'rule_type' => $data['rule_type'] ?? null,
             'definition' => $data['definition'] ?? null,
+            'optional' => $data['optional'] ?? null,
         ]);
     }
 
@@ -59,6 +63,7 @@ class CategoryDefinitionData extends Data
         $parameters['definition_type'] = isset($parameters['definition_type']) ? (string) $parameters['definition_type'] : null;
         $parameters['rule_type'] = isset($parameters['rule_type']) ? (string) $parameters['rule_type'] : null;
         $parameters['definition'] = isset($parameters['definition']) ? (string) $parameters['definition'] : null;
+        $parameters['optional'] = isset($parameters['optional']) ? (bool) $parameters['optional'] : false;
 
         return $parameters;
     }

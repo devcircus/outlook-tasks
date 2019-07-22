@@ -13,6 +13,7 @@
                         <option value="words">These words or phrases.</option>
                         <option value="regex">Regex Match (Advanced)</option>
                     </select-input>
+                    <checkbox v-model="form.optional" class="mb-6" :errors="$page.errors.optional" label="Optional" :checked="form.optional" />
                     <p v-if="form.rule_type === 'words'" class="text-sm text-blue-500 mb-4 w-full mx-auto">Separate words/phrases with a new line.</p>
                     <textarea-input v-if="form.rule_type === 'words'" v-model="form.definition" :errors="$page.errors.definition" rows="8" class="md:pr-6 pb-8 w-full" :label="label" />
                     <text-input v-if="form.rule_type != 'words' && form.rule_type != null" v-model="form.definition" :errors="$page.errors.definition" rows="8" class="md:pr-6 pb-8 w-full" :label="label" />
@@ -27,6 +28,7 @@
 </template>
 
 <script>
+import Checkbox from '@/Shared/Checkbox';
 import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TextareaInput from '@/Shared/TextareaInput';
@@ -34,6 +36,7 @@ import LoadingButton from '@/Shared/LoadingButton';
 
 export default {
     components: {
+        Checkbox,
         TextInput,
         SelectInput,
         TextareaInput,
@@ -52,6 +55,7 @@ export default {
                 definition_type: this.type,
                 rule_type: null,
                 definition: null,
+                optional: false,
             },
         }
     },
