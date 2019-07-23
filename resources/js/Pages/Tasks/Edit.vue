@@ -8,7 +8,10 @@
         <trashed-message v-if="task.deleted_at" class="mb-6" @restore="restore">
             This task has been deleted.
         </trashed-message>
-        <div class="bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8">
+        <div class="flex flex-col bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8">
+            <div class="w-full flex">
+                <a :href="route('tasks.pdf', task.id)" class="btn btn-text text-blue-500 font-semibold ml-auto" target="_blank">PDF</a>
+            </div>
             <form @submit.prevent="submit">
                 <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
                     <text-input v-model="form.title" :errors="$page.errors.title" class="md:pr-6 pb-8 w-full md:w-1/2" label="Title" />

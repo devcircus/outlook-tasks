@@ -1,6 +1,9 @@
 <template>
     <div>
-        <h2 class="mb-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">{{ category.display_name }}</h2>
+        <div class="flex">
+            <h2 class="mb-2 mr-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">{{ category.display_name }}</h2>
+            <a :href="route('tasks.list.pdf', { type: category.name })" class="btn btn-text text-xs text-blue-500 font-semibold px-0 pt-1" target="_blank">[PDF]</a>
+        </div>
         <vue-good-table ref="table" class="mb-8" :columns="taskColumns" :rows="rows" @on-row-click="taskClicked">
             <div slot="emptystate">
                 No {{ category.name }} tasks found.

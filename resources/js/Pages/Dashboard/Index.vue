@@ -3,7 +3,10 @@
         <div class="flex flex-col min-h-screen">
             <div class="flex flex-col">
                 <!-- Task Tables -->
-                <h1 class="mb-8 font-bold text-xl text-gray-700 md:text-2xl uppercase">Tasks</h1>
+                <div class="flex">
+                    <h1 class="mb-8 mr-2 font-bold text-xl text-gray-700 md:text-2xl uppercase">Tasks</h1>
+                    <a :href="route('tasks.list.pdf')" class="btn btn-text text-xs text-blue-500 font-semibold px-0 pt-2" target="_blank">[PDF]</a>
+                </div>
                 <div v-if="categoriesReady" class="flex flex-wrap w-full md:-mx-2">
                     <div v-for="category in taskCategories" :key="category.id" class="flex flex-col w-full md:w-1/3 md:px-2">
                         <task-table :category="category" :tasks="getTasksForCategory(category.name)" />

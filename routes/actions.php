@@ -99,3 +99,10 @@ Route::group(['middleware' => ['auth', 'admin'], 'as' => 'definitions.', 'prefix
     $router->put('/{definition}', CategoryDefinition\UpdateCategoryDefinition::class)->name('update');
     $router->delete('/{definition}', CategoryDefinition\DeleteCategoryDefinition::class)->name('delete');
 });
+
+// PDF
+$types = \implode('|', \array_keys(resolve('categories')->toArray()));
+Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], function ($router) use ($types) {
+    $router->get('/pdf/{type?}', Pdf\ShowTaskListPdf::class)->where('type', "(prototype|vsf|ozone|production|lettering|swatch)")->name('list.pdf');
+    $router->get('/{task}/pdf', Pdf\ShowTaskPdf::class)->name('pdf');
+});
