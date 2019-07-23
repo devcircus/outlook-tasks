@@ -1,4 +1,4 @@
-@extends('pdf.layout')
+@extends('pdf.layouts.single')
 
 @section('content')
 <div class="w-1/2">

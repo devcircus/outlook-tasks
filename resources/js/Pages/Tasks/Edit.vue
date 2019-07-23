@@ -10,7 +10,7 @@
         </trashed-message>
         <div class="flex flex-col bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8">
             <div class="w-full flex">
-                <a :href="route('tasks.pdf', task.id)" class="btn btn-text text-blue-500 font-semibold ml-auto" target="_blank">View PDF</a>
+                <a :href="route('tasks.pdf', task.id)" class="btn btn-text text-blue-500 font-semibold ml-auto" target="_blank">PDF</a>
             </div>
             <form @submit.prevent="submit">
                 <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
