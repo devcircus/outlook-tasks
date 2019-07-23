@@ -27,7 +27,8 @@
                     <text-input v-model="form.report_to" :errors="$page.errors.report_to" class="md:pr-6 pb-8 w-full md:w-1/2" label="Report To" />
                 </div>
                 <div class="px-8 py-4 bg-gray-100 border-t border-gray-200 flex items-center">
-                    <button v-if="! task.deleted_at" class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroy">Delete Task</button>
+                    <button v-if="! task.deleted_at" class="text-red-500 hover:underline mr-8" tabindex="-1" type="button" @click="destroy">Delete Task</button>
+                    <button class="text-blue-500 hover:underline" tabindex="-1" type="button" @click="email">Email Task</button>
                     <loading-button :loading="sending" class="btn-blue ml-auto" type="submit">Update Task</loading-button>
                 </div>
             </form>
@@ -79,6 +80,11 @@ export default {
             .then(() => {
                 this.sending = false;
              });
+        },
+        email () {
+            this.$modal.show('emailTaskModal', {
+                task: this.task,
+            });
         },
         destroy () {
             this.$modal.show('deleteTaskDialog', {

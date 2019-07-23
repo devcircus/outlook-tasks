@@ -72,6 +72,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], 
     $router->get('/{task}/edit', Task\EditTask::class)->name('edit');
     $router->put('/{task}', Task\UpdateTask::class)->name('update');
     $router->put('/{task}/restore', Task\RestoreTask::class)->name('restore');
+    $router->post('/{task}/email', Task\EmailTask::class)->middleware(['auth', 'admin'])->name('email');
 });
 
 // Emails
@@ -103,6 +104,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'as' => 'definitions.', 'prefix
 // PDF
 $types = \implode('|', \array_keys(resolve('categories')->toArray()));
 Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], function ($router) use ($types) {
-    $router->get('/pdf/{type?}', Pdf\ShowTaskListPdf::class)->where('type', "(prototype|vsf|ozone|production|lettering|swatch)")->name('list.pdf');
+    $router->get('/pdf/{type?}', Pdf\ShowTaskListPdf::class)->where('type', '(prototype|vsf|ozone|production|lettering|swatch)')->name('list.pdf');
     $router->get('/{task}/pdf', Pdf\ShowTaskPdf::class)->name('pdf');
 });

@@ -6,6 +6,9 @@
         <modal-component name="editRuleModal" width="80%" :max-width="400" :adaptive="true" :scrollable="true" :delay="250" height="auto" class="text-center center" @before-open="beforeOpenEditRuleModal($event)">
             <edit-rule-modal :rule="editRuleModal.rule" />
         </modal-component>
+        <modal-component name="emailTaskModal" width="80%" :max-width="400" :adaptive="true" :scrollable="true" :delay="250" height="auto" class="text-center center" @before-open="beforeOpenEmailTaskModal($event)">
+            <email-task-modal :task="emailTaskModal.task" />
+        </modal-component>
         <modal-component name="deleteCategoryDialog" width="80%" :max-width="400" :adaptive="true" :scrollable="true" :delay="250" height="auto" class="text-center center" @before-open="beforeOpenDialog($event)">
             <dialog-modal :title="deleteCategoryDialog.title" :text="deleteCategoryDialog.text" :buttons="deleteCategoryDialog.buttons" />
         </modal-component>
@@ -40,12 +43,14 @@
 import DialogModal from '@/Modals/DialogModal';
 import AddRuleModal from '@/Modals/AddRuleModal';
 import EditRuleModal from '@/Modals/EditRuleModal';
+import EmailTaskModal from '@/Modals/EmailTaskModal';
 
 export default {
     components: {
         DialogModal,
         AddRuleModal,
         EditRuleModal,
+        EmailTaskModal,
     },
     data () {
         return {
@@ -55,6 +60,9 @@ export default {
             },
             editRuleModal: {
                 rule: null,
+            },
+            emailTaskModal: {
+                task: null,
             },
             deleteCategoryDialog: {
                 title: null,
@@ -110,6 +118,9 @@ export default {
         },
         beforeOpenEditRuleModal (event) {
             this.editRuleModal.rule = event.params.rule;
+        },
+        beforeOpenEmailTaskModal (event) {
+            this.emailTaskModal.task = event.params.task;
         },
         beforeOpenDialog (event) {
             this[event.name].title = event.params.title;
