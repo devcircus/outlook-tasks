@@ -2,8 +2,9 @@
 
 @section('content')
 @foreach($data as $category => $tasks)
+    <caption class="heading">{{ ucfirst($category) }} Tasks</caption>
+
     <table class="table table-striped">
-        <caption class="heading">{{ ucfirst($category) }} Tasks</caption>
         <thead>
             <tr>
                 <th style="width:100px;">Due Date</th>
@@ -21,5 +22,6 @@
             @endforeach
         </tbody>
     </table>
+    <div class="page-break" />
 @endforeach
 @stop
