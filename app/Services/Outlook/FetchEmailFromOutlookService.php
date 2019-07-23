@@ -108,9 +108,9 @@ class FetchEmailFromOutlookService
      */
     private function fetchAllEmailsReceivedAt(CarbonImmutable $date): GraphResponse
     {
-        $this->queryParameter->set('filter', "receivedDateTime eq {$date->toIso8601ZuluString()}");
+        $this->queryParameter->set('filter', "receivedDateTime eq {$date->toIso8601ZuluString()}", 'list');
 
-        $listMessagesUrl = '/me/mailfolders/inbox/messages?'.http_build_query($this->queryParameter->get());
+        $listMessagesUrl = '/me/mailfolders/inbox/messages?'.http_build_query($this->queryParameter->get('list'));
 
         return $this->graph->createRequest('GET', $listMessagesUrl)
             ->addHeaders(['Prefer' => 'outlook.body-content-type="text"'])->execute();
@@ -123,21 +123,21 @@ class FetchEmailFromOutlookService
      */
     private function fetchAllEmailsAfterDate(CarbonImmutable $date): array
     {
-        $this->queryParameter->set('filter', "receivedDateTime ge {$date->addSeconds(1)->toIso8601ZuluString()}");
-        $this->queryParameter->set('select', 'subject');
+        $this->queryParameter->set('filter', "receivedDateTime ge {$date->addSeconds(1)->toIso8601ZuluString()}", 'list');
+        $this->queryParameter->set('select', 'subject', 'list');
 
-        $listMessagesUrl = '/me/mailfolders/inbox/messages?'.http_build_query($this->queryParameter->get());
+        $listMessagesUrl = '/me/mailfolders/inbox/messages?'.http_build_query($this->queryParameter->get('list'));
 
         $forCount = $this->graph->createRequest('GET', $listMessagesUrl)
             ->execute();
 
         $total = $forCount->getBody()['@odata.count'];
 
-        $this->queryParameter->set('filter', "receivedDateTime ge {$date->addSeconds(1)->toIso8601ZuluString()}");
-        $this->queryParameter->set('top', $total);
-        $this->queryParameter->reset('select');
+        $this->queryParameter->set('filter', "receivedDateTime ge {$date->addSeconds(1)->toIso8601ZuluString()}", 'list');
+        $this->queryParameter->set('top', $total, 'list');
+        $this->queryParameter->reset('select', 'list');
 
-        $listMessagesUrl = '/me/mailfolders/inbox/messages?'.http_build_query($this->queryParameter->get());
+        $listMessagesUrl = '/me/mailfolders/inbox/messages?'.http_build_query($this->queryParameter->get('list'));
 
         return [
             'data' => $this->graph->createRequest('GET', $listMessagesUrl)->addHeaders(['Prefer' => 'outlook.body-content-type="text"'])->execute(),

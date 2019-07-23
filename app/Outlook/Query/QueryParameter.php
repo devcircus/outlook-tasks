@@ -6,24 +6,31 @@ class QueryParameter
 {
     /** @var array */
     private $default = [
-        "\$select" => 'receivedDateTime,from,subject,body',
-        "\$orderBy" => 'receivedDateTime DESC',
-        "\$count" => 'true',
+        'list' => [
+            '$select' => 'receivedDateTime,from,subject,body',
+            '$orderBy' => 'receivedDateTime DESC',
+            '$count' => 'true',
+        ],
+        'send' => [],
     ];
 
     /** @var array */
-    private $queryParameters = [];
+    private $queryParameters = [
+        'list' => [],
+        'send' => [],
+    ];
 
     /**
      * Construct a new QueryParameter.
      *
      * @param  string|null  $key
      * @param  string|null  $value
+     * @param  string|null  $type
      */
-    public function __construct(?string $key = null, ?string $value = null)
+    public function __construct(?string $key = null, ?string $value = null, ?string $type = 'list')
     {
         if ($key && $value) {
-            $this->queryParameters["\${$key}"] = $value;
+            $this->queryParameters[$type]["\${$key}"] = $value;
         }
     }
 
@@ -32,10 +39,11 @@ class QueryParameter
      *
      * @param  string  $key
      * @param  string  $value
+     * @param  string  $type
      */
-    public static function add(string $key, string $value): QueryParameter
+    public static function add(string $key, string $value, string $type): QueryParameter
     {
-        return new self($key, $value);
+        return new self($key, $value, $type);
     }
 
     /**
@@ -43,10 +51,11 @@ class QueryParameter
      *
      * @param  string  $key
      * @param  string  $value
+     * @param  string  $type
      */
-    public function set(string $key, string $value): QueryParameter
+    public function set(string $key, string $value, string $type): QueryParameter
     {
-        $this->queryParameters["\${$key}"] = $value;
+        $this->queryParameters[$type]["\${$key}"] = $value;
 
         return $this;
     }
@@ -55,17 +64,20 @@ class QueryParameter
      * Remove a query parameter, so default is used.
      *
      * @param  string  $key
+     * @param  string  $type
      */
-    public function reset(string $key): void
+    public function reset(string $key, string $type): void
     {
-        unset($this->queryParameters["\${$key}"]);
+        unset($this->queryParameters[$type]["\${$key}"]);
     }
 
     /**
      * Get the full queryParameters array.
+     *
+     * @param  string  $type
      */
-    public function get(): array
+    public function get(string $type): array
     {
-        return array_merge($this->default, $this->queryParameters);
+        return array_merge($this->default[$type], $this->queryParameters[$type]);
     }
 }
