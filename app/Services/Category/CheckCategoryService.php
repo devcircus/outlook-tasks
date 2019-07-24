@@ -42,21 +42,21 @@ class CheckCategoryService
     private function processDefinition(Definition $definition, string $data): bool
     {
         if ('exact' === $definition->rule_type) {
-            if ($definition->definition === $data) {
+            if ($data === strtolower($definition->definition)) {
                 return true;
             }
 
             return $definition->optional ? true : false;
         }
         if ('words' === $definition->rule_type) {
-            if (Str::contains($data, \explode(PHP_EOL, $definition->definition))) {
+            if (Str::contains($data, \explode(PHP_EOL, strtolower($definition->definition)))) {
                 return true;
             }
 
             return $definition->optional ? true : false;
         }
         if ('regex' === $definition->rule_type) {
-            if (\preg_match($definition->definition, $data)) {
+            if (\preg_match(strtolower($definition->definition), $data)) {
                 return true;
             }
 
