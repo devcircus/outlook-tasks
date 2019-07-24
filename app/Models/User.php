@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use App\Http\DTO\UserData;
 use Carbon\CarbonImmutable;
+use App\Http\DTO\User as UserData;
 use App\Models\Concerns\Uuid\HasUuids;
 use Illuminate\Notifications\Notifiable;
 use App\Models\Concerns\Oauth\HasOauthTokens;
@@ -137,7 +137,7 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     /**
      * Create a user with the provided data.
      *
-     * @param  \App\Http\DTO\UserData  $user
+     * @param  \App\Http\DTO\User  $user
      *
      * @return \App\Models\User
      */
@@ -178,7 +178,7 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     /**
      * Update user data.
      *
-     * @param  \App\Http\DTO\UserData  $data
+     * @param  \App\Http\DTO\User  $data
      *
      * @return \App\Models\User
      */
@@ -192,7 +192,7 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     /**
      * Update user password.
      *
-     * @param  \App\Http\DTO\UserData  $data
+     * @param  \App\Http\DTO\User  $data
      *
      * @return \App\Models\User
      */

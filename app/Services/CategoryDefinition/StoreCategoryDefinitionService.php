@@ -3,7 +3,7 @@
 namespace App\Services\CategoryDefinition;
 
 use App\Models\Category;
-use App\Http\DTO\CategoryDefinitionData;
+use App\Http\DTO\CategoryDefinition;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 use App\Services\CategoryDefinition\Validation\StoreCategoryDefinitionValidationService;
 
@@ -27,12 +27,12 @@ class StoreCategoryDefinitionService
     /**
      * Handle the call to the service.
      *
-     * @param  \App\Http\DTO\CategoryDefinitionData  $data
+     * @param  \App\Http\DTO\CategoryDefinition  $data
      * @param  \App\Models\Category  $category
      *
      * @return \App\Models\CategoryDefinition
      */
-    public function run(CategoryDefinitionData $data, Category $category)
+    public function run(CategoryDefinition $data, Category $category)
     {
         $this->validator->validate($data->toArray());
 

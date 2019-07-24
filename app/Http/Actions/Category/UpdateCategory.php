@@ -4,8 +4,8 @@ namespace App\Http\Actions\Category;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\DTO\CategoryData;
 use PerfectOblivion\Actions\Action;
+use App\Http\DTO\Category as CategoryData;
 use Illuminate\Contracts\Auth\Access\Gate;
 use App\Services\Category\UpdateCategoryService;
 use App\Http\Responders\Category\UpdateCategoryResponder;

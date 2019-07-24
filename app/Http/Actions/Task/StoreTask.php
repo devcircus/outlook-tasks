@@ -2,7 +2,7 @@
 
 namespace App\Http\Actions\Task;
 
-use App\Http\DTO\TaskData;
+use App\Http\DTO\Task;
 use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
 use App\Services\Task\StoreTaskService;
@@ -33,7 +33,7 @@ class StoreTask extends Action
     public function __invoke(Request $request)
     {
         $task = StoreTaskService::call(
-            TaskData::fromRequest($request),
+            Task::fromRequest($request),
             $request->user(),
             $request->input('email_id')
         );

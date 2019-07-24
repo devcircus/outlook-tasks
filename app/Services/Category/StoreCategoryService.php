@@ -3,7 +3,7 @@
 namespace App\Services\Category;
 
 use App\Models\Category;
-use App\Http\DTO\CategoryData;
+use App\Http\DTO\Category as CategoryData;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 use App\Services\Category\Validation\StoreCategoryValidationService;
 
@@ -29,7 +29,7 @@ class StoreCategoryService
     /**
      * Handle the call to the service.
      *
-     * @param  \App\Http\DTO\CategoryData  $category
+     * @param  \App\Http\DTO\Category  $category
      *
      * @return \App\Models\Category
      */

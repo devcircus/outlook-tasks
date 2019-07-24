@@ -2,8 +2,8 @@
 
 namespace App\Listeners\Models\Task;
 
+use App\Http\DTO\Task;
 use App\Events\Models\Task\Deleting;
-use App\Http\DTO\TaskData;
 
 class ClearDueDate
 {
@@ -14,7 +14,7 @@ class ClearDueDate
      */
     public function handle(Deleting $event): void
     {
-        $data = TaskData::fromArray(['due_date' => null]);
+        $data = Task::fromArray(['due_date' => null]);
 
         $event->task->updateTaskData($data->only(['due_date']));
     }

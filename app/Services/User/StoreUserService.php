@@ -3,7 +3,7 @@
 namespace App\Services\User;
 
 use App\Models\User;
-use App\Http\DTO\UserData;
+use App\Http\DTO\User as UserData;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 use App\Services\User\Validation\StoreUserValidationService;
 
@@ -32,7 +32,7 @@ class StoreUserService
     /**
      * Handle the call to the service.
      *
-     * @param  \App\Http\DTO\UserData  $user
+     * @param  \App\Http\DTO\User  $user
      *
      * @return \App\Models\User
      */

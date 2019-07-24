@@ -4,7 +4,7 @@ namespace App\Http\DTO;
 
 use Illuminate\Http\Request;
 
-class CategoryDefinitionData extends Data
+class CategoryDefinition extends Data
 {
     /** @var string */
     public $definition_type;
@@ -19,7 +19,7 @@ class CategoryDefinitionData extends Data
     public $optional;
 
     /**
-     * Construct a new CategoryDefinitionData object.
+     * Construct a new CategoryDefinition object.
      *
      * @param  array  $parameters
      */
@@ -29,21 +29,21 @@ class CategoryDefinitionData extends Data
     }
 
     /**
-     * Create a new CategoryDefinitionData object from request.
+     * Create a new CategoryDefinition object from request.
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public static function fromRequest(Request $request): CategoryDefinitionData
+    public static function fromRequest(Request $request): CategoryDefinition
     {
         return static::fromArray($request->only(['definition_type', 'rule_type', 'definition', 'optional']));
     }
 
     /**
-     * Create a new CategoryDefinitionData object from an array.
+     * Create a new CategoryDefinition object from an array.
      *
      * @param  array  $data
      */
-    public static function fromArray(array $data): CategoryDefinitionData
+    public static function fromArray(array $data): CategoryDefinition
     {
         return new self([
             'definition_type' => $data['definition_type'] ?? null,

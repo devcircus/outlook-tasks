@@ -3,8 +3,8 @@
 namespace App\Http\Actions\User;
 
 use App\Models\User;
-use App\Http\DTO\UserData;
 use Illuminate\Http\Request;
+use App\Http\DTO\User as UserData;
 use PerfectOblivion\Actions\Action;
 use App\Services\User\UpdateUserService;
 use Illuminate\Contracts\Auth\Access\Gate;

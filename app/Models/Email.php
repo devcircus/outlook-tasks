@@ -22,10 +22,6 @@ class Email extends Model
     /** @var array */
     protected $with = ['category'];
 
-    protected $casts = [
-        'received_at' => 'date:M d',
-    ];
-
     /**
      * An Email belongs to a User.
      */
@@ -40,6 +36,18 @@ class Email extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get the display_received_at_date attribute for the task.
+     */
+    public function getDisplayReceivedAtAttribute(): string
+    {
+        if ($date = $this->received_at) {
+            return CarbonImmutable::parse($date)->format('M d');
+        }
+
+        return '';
     }
 
     /**

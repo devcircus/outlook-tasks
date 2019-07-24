@@ -5,7 +5,7 @@ namespace App\Http\Actions\CategoryDefinition;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
-use App\Http\DTO\CategoryDefinitionData;
+use App\Http\DTO\CategoryDefinition;
 use App\Services\CategoryDefinition\StoreCategoryDefinitionService;
 use App\Http\Responders\CategoryDefinition\StoreCategoryDefinitionResponder;
 
@@ -34,7 +34,7 @@ class StoreCategoryDefinition extends Action
      */
     public function __invoke(Request $request, Category $category)
     {
-        $data = CategoryDefinitionData::fromRequest($request);
+        $data = CategoryDefinition::fromRequest($request);
 
         StoreCategoryDefinitionService::call($data, $category);
 

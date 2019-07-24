@@ -4,7 +4,7 @@ namespace App\Http\DTO;
 
 use Illuminate\Http\Request;
 
-class UserData extends Data
+class User extends Data
 {
     /** @var string|null */
     public $name;
@@ -19,7 +19,7 @@ class UserData extends Data
     public $is_admin;
 
     /**
-     * Construct a new UserData object.
+     * Construct a new User object.
      *
      * @param  array  $parameters
      */
@@ -29,21 +29,21 @@ class UserData extends Data
     }
 
     /**
-     * Create a new UserData object from request.
+     * Create a new User object from request.
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public static function fromRequest(Request $request): UserData
+    public static function fromRequest(Request $request): User
     {
         return static::fromArray($request->only(['name', 'email', 'password']));
     }
 
     /**
-     * Create a new UserData object from an array.
+     * Create a new User object from an array.
      *
      * @param  array  $data
      */
-    public static function fromArray(array $data): UserData
+    public static function fromArray(array $data): User
     {
         return new self([
             'name' => $data['name'] ?? null,

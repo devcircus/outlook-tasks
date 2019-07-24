@@ -5,7 +5,7 @@ namespace App\Http\DTO;
 use Carbon\CarbonImmutable;
 use Illuminate\Http\Request;
 
-class TaskData extends Data
+class Task extends Data
 {
 
     /** @var string|null */
@@ -30,7 +30,7 @@ class TaskData extends Data
     public $complete;
 
     /**
-     * Construct a new TaskData object.
+     * Construct a new Task object.
      *
      * @param  array  $parameters
      */
@@ -40,21 +40,21 @@ class TaskData extends Data
     }
 
     /**
-     * Create a new TaskData object from request.
+     * Create a new Task object from request.
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public static function fromRequest(Request $request): TaskData
+    public static function fromRequest(Request $request): Task
     {
         return static::fromArray($request->only(['title', 'description', 'report_to', 'complete', 'due_date', 'category']));
     }
 
     /**
-     * Create a new TaskData object from an array.
+     * Create a new Task object from an array.
      *
      * @param  array  $data
      */
-    public static function fromArray(array $data): TaskData
+    public static function fromArray(array $data): Task
     {
         return new self([
             'title' => $data['title'] ?? null,
@@ -67,11 +67,11 @@ class TaskData extends Data
     }
 
     /**
-     * Create a new TaskData object from email data.
+     * Create a new Task object from email data.
      *
      * @param  array  $data
      */
-    public static function fromEmail(array $data): TaskData
+    public static function fromEmail(array $data): Task
     {
         return new self([
             'title' => strtoupper($data['subject']) ?? null,
