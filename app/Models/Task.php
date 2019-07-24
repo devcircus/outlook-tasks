@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\CarbonImmutable;
-use App\Events\Models\Task\Deleting;
 use App\Models\Concerns\Slug\HasSlug;
 use App\Models\Concerns\Uuid\HasUuids;
 use App\Models\Concerns\Slug\SlugOptions;
@@ -17,11 +16,6 @@ class Task extends Model
     use HasSlug;
     use HasUuids;
     use SoftDeletes;
-
-    /** @var array */
-    protected $dispatchesEvents = [
-        'deleting' => Deleting::class,
-    ];
 
     /** @var array */
     protected $casts = [
