@@ -2,11 +2,11 @@
 
 namespace App\Http\Actions\Category;
 
+use App\Http\DTO\Category;
 use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
 use App\Services\Category\StoreCategoryService;
 use App\Http\Responders\Category\StoreCategoryResponder;
-use App\Http\DTO\CategoryData;
 
 class StoreCategory extends Action
 {
@@ -32,7 +32,7 @@ class StoreCategory extends Action
      */
     public function __invoke(Request $request)
     {
-        $category = StoreCategoryService::call(CategoryData::fromRequest($request));
+        $category = StoreCategoryService::call(Category::fromRequest($request));
 
         return $this->responder->withPayload($category)->respond();
     }

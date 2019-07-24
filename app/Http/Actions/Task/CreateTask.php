@@ -2,7 +2,7 @@
 
 namespace App\Http\Actions\Task;
 
-use App\Http\DTO\TaskData;
+use App\Http\DTO\Task;
 use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
 use App\Http\Responders\Task\CreateTaskResponder;

@@ -4,13 +4,13 @@ namespace App\Http\DTO;
 
 use Illuminate\Http\Request;
 
-class CategoryData extends Data
+class Category extends Data
 {
     /** @var string */
     public $name;
 
     /**
-     * Construct a new CategoryData object.
+     * Construct a new Category object.
      *
      * @param  array  $parameters
      */
@@ -20,21 +20,21 @@ class CategoryData extends Data
     }
 
     /**
-     * Create a new CategoryData object from request.
+     * Create a new Category object from request.
      *
      * @param  \Illuminate\Http\Request  $request
      */
-    public static function fromRequest(Request $request): CategoryData
+    public static function fromRequest(Request $request): Category
     {
         return static::fromArray($request->only(['name']));
     }
 
     /**
-     * Create a new CategoryData object from an array.
+     * Create a new Category object from an array.
      *
      * @param  array  $data
      */
-    public static function fromArray(array $data): CategoryData
+    public static function fromArray(array $data): Category
     {
         return new self([
             'name' => $data['name'] ?? null,
@@ -42,11 +42,11 @@ class CategoryData extends Data
     }
 
     /**
-     * Create a new CategoryData object from a name.
+     * Create a new Category object from a name.
      *
      * @param  string  $name
      */
-    public static function fromName(string $name): CategoryData
+    public static function fromName(string $name): Category
     {
         return new self([
             'name' => $name,

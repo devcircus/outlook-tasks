@@ -3,8 +3,8 @@
 namespace App\Http\Actions\Task;
 
 use App\Models\Task;
-use App\Http\DTO\TaskData;
 use Illuminate\Http\Request;
+use App\Http\DTO\Task as TaskData;
 use PerfectOblivion\Actions\Action;
 use App\Services\Task\UpdateTaskService;
 use Illuminate\Contracts\Auth\Access\Gate;

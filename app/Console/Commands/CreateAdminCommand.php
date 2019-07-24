@@ -3,8 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Models\User;
-use App\Http\DTO\UserData;
 use Illuminate\Console\Command;
+use App\Http\DTO\User as UserData;
 use App\Services\User\StoreUserService;
 use Symfony\Component\Console\Input\InputOption;
 
@@ -23,7 +23,6 @@ class CreateAdminCommand extends Command
      * Create a new command instance.
      *
      * @param  \App\Models\User  $users
-     * @return void
      */
     public function __construct(User $users)
     {

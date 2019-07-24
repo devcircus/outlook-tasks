@@ -4,7 +4,7 @@ namespace App\Services\Task;
 
 use App\Models\Task;
 use App\Models\User;
-use App\Http\DTO\TaskData;
+use App\Http\DTO\Task as TaskData;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 use App\Services\Task\Validation\StoreTaskValidationService;
 
@@ -30,16 +30,16 @@ class StoreTaskService
     /**
      * Handle the call to the service.
      *
-     * @param  \App\Http\DTO\TaskData  $task
+     * @param  \App\Http\DTO\Task  $data
      * @param  \App\Models\User  $user
      * @param  int|null  $email
      *
      * @return \App\Http\Task
      */
-    public function run(TaskData $task, User $user, ?int $email = null)
+    public function run(TaskData $data, User $user, ?int $email = null)
     {
-        $this->validator->validate($task->toArray());
+        $this->validator->validate($data->toArray());
 
-        return $this->tasks->createTaskForUser($task->only(['title', 'description', 'report_to', 'due_date', 'complete', 'category']), $user, $email);
+        return $this->tasks->createTaskForUser($data->only(['title', 'description', 'report_to', 'due_date', 'complete', 'category']), $user, $email);
     }
 }

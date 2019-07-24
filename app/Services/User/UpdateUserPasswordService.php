@@ -3,7 +3,7 @@
 namespace App\Services\User;
 
 use App\Models\User;
-use App\Http\DTO\UserData;
+use App\Http\DTO\User as UserData;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 use App\Services\User\Validation\UpdateUserPasswordValidationService;
 
@@ -28,7 +28,7 @@ class UpdateUserPasswordService
      * Handle the call to the service.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Http\DTO\UserData  $data
+     * @param  \App\Http\DTO\User  $data
      *
      * @return mixed
      */

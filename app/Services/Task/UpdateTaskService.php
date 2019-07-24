@@ -3,7 +3,7 @@
 namespace App\Services\Task;
 
 use App\Models\Task;
-use App\Http\DTO\TaskData;
+use App\Http\DTO\Task as TaskData;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 use App\Services\Task\Validation\UpdateTaskValidationService;
 
@@ -28,7 +28,7 @@ class UpdateTaskService
      * Handle the call to the service.
      *
      * @param  \App\Models\Task  $task
-     * @param  \App\Http\DTO\TaskData  $data
+     * @param  \App\Http\DTO\Task  $data
      *
      * @return mixed
      */

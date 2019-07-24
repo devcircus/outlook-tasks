@@ -5,7 +5,7 @@ namespace App\Http\Actions\CategoryDefinition;
 use App\Models\Definition;
 use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
-use App\Http\DTO\CategoryDefinitionData;
+use App\Http\DTO\CategoryDefinition;
 use Illuminate\Contracts\Auth\Access\Gate;
 use App\Services\CategoryDefinition\UpdateCategoryDefinitionService;
 use App\Http\Responders\CategoryDefinition\UpdateCategoryDefinitionResponder;
@@ -44,7 +44,7 @@ class UpdateCategoryDefinition extends Action
             return redirect()->back()->with(['warning' => 'You do not have permission to edit this definition.']);
         }
 
-        $updated = UpdateCategoryDefinitionService::call($definition, CategoryDefinitionData::fromRequest($request));
+        $updated = UpdateCategoryDefinitionService::call($definition, CategoryDefinition::fromRequest($request));
 
         return $this->responder->withPayload($updated)->respond();
     }

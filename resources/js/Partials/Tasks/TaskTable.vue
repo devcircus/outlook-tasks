@@ -81,16 +81,16 @@ export default {
                     if (this.showCompleted) {
                         let results = concat(active, trashed, completed);
 
-                        return orderBy(results, ['due_date'], ['asc']);
+                        return orderBy(results, ({ due_date }) => due_date || '', ['asc']);
                     }
                     let results = concat(active, trashed);
 
-                    return orderBy(results, ['due_date'], ['asc']);
+                    return orderBy(results, ({ due_date }) => due_date || '', ['asc']);
                 }
                 if (this.showCompleted) {
                     let results = concat(active, completed);
 
-                    return orderBy(results, ['due_date'], ['asc']);
+                    return orderBy(results, ({ due_date }) => due_date || '', ['asc']);
                 }
 
                 return active;
@@ -99,7 +99,7 @@ export default {
                 if (this.showCompleted) {
                     let results = concat(trashed, completed);
 
-                    return orderBy(results, ['due_date'], ['asc']);
+                    return orderBy(results, ({ due_date }) => due_date || '', ['asc']);
                 }
                 return trashed;
             }
@@ -108,7 +108,7 @@ export default {
             }
 
             return [];
-        }
+        },
     },
     store: ['tables'],
     created () {
