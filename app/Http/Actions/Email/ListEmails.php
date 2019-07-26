@@ -9,15 +9,15 @@ use App\Http\Responders\Email\ListEmailsResponder;
 
 class ListEmails extends Action
 {
-    /** @var \App\Http\Responders\Email\ListEmailResponder */
+    /** @var \App\Http\Responders\Email\ListEmailsResponder */
     private $responder;
 
     /**
     * Construct a new ListEmails action.
     *
-    * @param  \App\Http\Responders\Email\ListEmailResponder  $responder
+    * @param  \App\Http\Responders\Email\ListEmailsResponder  $responder
     */
-    public function __construct(ListEmailResponder $responder)
+    public function __construct(ListEmailsResponder $responder)
     {
         $this->responder = $responder;
     }
