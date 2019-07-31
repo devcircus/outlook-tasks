@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Category\ListCategoriesService;
 
@@ -9,8 +10,6 @@ class TaskServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
-     *
-     * @return void
      */
     public function register()
     {
@@ -35,19 +34,23 @@ class TaskServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('categories', function ($app) {
-            return ListCategoriesService::call($withTrashed = false)->mapWithKeys(function ($category) {
-                return [
-                    $category->name => $category,
-                ];
-            });
+            if (Auth::user()) {
+                return ListCategoriesService::call($withTrashed = false)->mapWithKeys(function ($category) {
+                    return [
+                        $category->name => $category,
+                    ];
+                });
+            }
         });
 
         $this->app->singleton('checkers', function ($app) {
-            return resolve('categories')->map(function ($category, $key) {
-                $name = ucfirst($key);
+            if (Auth::user()) {
+                return resolve('categories')->map(function ($category, $key) {
+                    $name = ucfirst($key);
 
-                return "\App\Services\Category\Checkers\CheckFor{$name}Category";
-            });
+                    return "\App\Services\Category\Checkers\CheckFor{$name}Category";
+                });
+            }
         });
     }
 }
