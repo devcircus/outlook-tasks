@@ -34,23 +34,19 @@ class TaskServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton('categories', function ($app) {
-            if (Auth::user()) {
-                return ListCategoriesService::call($withTrashed = false)->mapWithKeys(function ($category) {
-                    return [
-                        $category->name => $category,
-                    ];
-                });
-            }
+            return ListCategoriesService::call($withTrashed = false)->mapWithKeys(function ($category) {
+                return [
+                    $category->name => $category,
+                ];
+            });
         });
 
         $this->app->singleton('checkers', function ($app) {
-            if (Auth::user()) {
-                return resolve('categories')->map(function ($category, $key) {
-                    $name = ucfirst($key);
+            return resolve('categories')->map(function ($category, $key) {
+                $name = ucfirst($key);
 
-                    return "\App\Services\Category\Checkers\CheckFor{$name}Category";
-                });
-            }
+                return "\App\Services\Category\Checkers\CheckFor{$name}Category";
+            });
         });
     }
 }
