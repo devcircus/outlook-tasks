@@ -76,20 +76,16 @@ class InertiaServiceProvider extends ServiceProvider
         });
 
         Inertia::share('categories', static function () {
-            if (Auth::user()) {
-                $categories = ListCategoriesService::call();
+            $categories = ListCategoriesService::call();
 
-                return [
-                    'data' => $categories,
-                    'ready' => count($categories) > 0,
-                ];
-            }
+            return [
+                'data' => $categories,
+                'ready' => count($categories) > 0,
+            ];
         });
 
         Inertia::share('definitionTypes', static function () {
-            if (Auth::user()) {
-                return resolve('definitionTypes');
-            }
+            return resolve('definitionTypes');
         });
     }
 }
