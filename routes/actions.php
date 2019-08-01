@@ -103,6 +103,6 @@ Route::group(['middleware' => ['auth', 'admin'], 'as' => 'definitions.', 'prefix
 
 // PDF
 Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], function ($router) {
-    $router->get('/pdf/{type?}', Pdf\ShowTaskListPdf::class);
+    $router->get('/pdf/{type?}', Pdf\ShowTaskListPdf::class)->name('list.pdf');
     $router->get('/{task}/pdf', Pdf\ShowTaskPdf::class)->name('pdf');
 });
