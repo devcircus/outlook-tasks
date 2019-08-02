@@ -49,11 +49,12 @@ export default {
     data () {
         return {
             sending: false,
+            submitted: false,
             form: {
                 definition_type: this.rule.definition_type,
                 rule_type: this.rule.rule_type,
                 definition: this.rule.definition,
-                optional: this.rule.optional,
+                optional: !! this.rule.optional,
             },
         }
     },
@@ -77,11 +78,24 @@ export default {
             }
         },
     },
+    watch: {
+        '$page.errors': {
+            immediate: true,
+            handler (newErrors, oldErrors) {
+                if (this.isObjectEmpty(newErrors) && this.submitted === true) {
+                    this.submitted = false;
+                    this.cancel();
+                }
+            },
+            deep: true,
+        },
+    },
     methods: {
         submit () {
+            this.sending = true;
+            this.submitted = true;
             this.$inertia.put(this.route('definitions.update', this.rule.id), this.form).then( () => {
                 this.sending = false;
-                this.$modal.hide('editRuleModal');
             });
         },
         cancel () {

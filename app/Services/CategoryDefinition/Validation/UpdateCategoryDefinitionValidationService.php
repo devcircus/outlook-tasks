@@ -14,7 +14,7 @@ class UpdateCategoryDefinitionValidationService extends ValidationService
     public function rules()
     {
         return [
-            'definition_type' => ['required', 'in:fromDefinition,subjectDefinition,bodyDefinition'],
+            'definition_type' => ['required', 'in:from,subject,body'],
             'rule_type' => ['required', 'in:exact,words,regex'],
             'definition' => ['required', 'string'],
         ];

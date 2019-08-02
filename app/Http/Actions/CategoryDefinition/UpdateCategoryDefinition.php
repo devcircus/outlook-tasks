@@ -19,11 +19,11 @@ class UpdateCategoryDefinition extends Action
     private $responder;
 
     /**
-    * Construct a new UpdateCategoryDefinition action.
-    *
-    * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
-    * @param  \App\Http\Responders\CategoryDefinition\UpdateCategoryDefinitionResponder  $responder
-    */
+     * Construct a new UpdateCategoryDefinition action.
+     *
+     * @param  \Illuminate\Contracts\Auth\Access\Gate  $gate
+     * @param  \App\Http\Responders\CategoryDefinition\UpdateCategoryDefinitionResponder  $responder
+     */
     public function __construct(Gate $gate, UpdateCategoryDefinitionResponder $responder)
     {
         $this->gate = $gate;
