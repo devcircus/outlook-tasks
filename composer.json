@@ -55,8 +55,7 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true,
-        "bin-compat": "full"
+        "sort-packages": true
     },
     "extra": {
         "laravel": {
@@ -82,6 +81,7 @@
             "Tests\\": "tests/"
         }
     },
+    "minimum-stability": "dev",
     "prefer-stable": true,
     "scripts": {
         "post-autoload-dump": [
