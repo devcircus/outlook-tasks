@@ -2,16 +2,15 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\ServiceProvider;
 use App\Services\Category\ListCategoriesService;
 
 class TaskServiceProvider extends ServiceProvider
 {
     /**
-     * Register services.
+     * Boot services.
      */
-    public function register()
+    public function boot()
     {
         $this->app->singleton('definitionTypes', function ($app) {
             return [
