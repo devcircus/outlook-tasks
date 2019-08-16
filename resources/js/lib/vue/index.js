@@ -4,11 +4,11 @@ import VueHead from 'vue-head';
 import { config } from 'Config';
 import Dates from 'Mixins/Dates';
 import VueStash from 'vue-stash';
-import Inertia from 'inertia-vue';
 import VModal from 'vue-js-modal';
 import PortalVue from 'portal-vue';
 import ParsesUrls from 'Mixins/ParsesUrls';
 import VueWindowSize from 'vue-window-size';
+import { InertiaApp } from '@inertiajs/inertia-vue';
 import Dispatchable from 'Mixins/Dispatchable';
 import Snotify, { SnotifyPosition } from 'vue-snotify';
 
@@ -58,7 +58,7 @@ Vue.use(Snotify, {
 });
 
 // Use Inertia
-Vue.use(Inertia);
+Vue.use(InertiaApp);
 
 // Use vue-window-size
 Vue.use(VueWindowSize);
@@ -111,7 +111,7 @@ new Vue({
                 });
         },
     },
-    render: h => h(Inertia, {
+    render: h => h(InertiaApp, {
         props: {
             initialPage: JSON.parse(app.dataset.page),
             resolveComponent: name => import (`@/Pages/${name}`).then(module => module.default),

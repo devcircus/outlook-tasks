@@ -24,70 +24,84 @@ class InertiaServiceProvider extends ServiceProvider
      */
     protected function shareWithInertia()
     {
-        Inertia::version(static function () {
-            return md5_file(public_path('mix-manifest.json'));
-        });
-
-        Inertia::share('app.name', Config::get('app.name'));
-
-        Inertia::share('errors', static function () {
-            return Session::get('errors') ? Session::get('errors')->getBag('default')->getMessages() : (object) [];
-        });
-
-        Inertia::share('success', static function () {
-            return [
-                'success' => Session::get('success'),
-            ];
-        });
-
-        Inertia::share('warning', static function () {
-            return [
-                'warning' => Session::get('warning'),
-            ];
-        });
-
-        Inertia::share('info', static function () {
-            return [
-                'info' => Session::get('info'),
-            ];
-        });
-
-        Inertia::share('token', static function () {
-            if ($user = Auth::user()) {
-                return $user->outlook_access_token;
-            }
-
-            return '';
-        });
-
-        Inertia::share('auth.user', static function () {
-            if ($user = Auth::user()) {
-                return [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'is_admin' => $user->is_admin,
-                    'has_oauth_tokens' => $user->has_oauth_tokens,
-                    'token' => $user->outlook_access_token,
-                ];
-            }
-
-            return [];
-        });
-
-        Inertia::share('categories', static function () {
-            if (Auth::user()) {
-                $categories = ListCategoriesService::call();
+        Inertia::share([
+            'auth' => function () {
+                $user = Auth::user();
 
                 return [
-                    'data' => $categories,
-                    'ready' => count($categories) > 0,
+                    'user' => $user ? [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'is_admin' => $user->is_admin,
+                        'has_oauth_tokens' => $user->has_oauth_tokens,
+                        'token' => $user->outlook_access_token,
+                    ] : null,
                 ];
-            }
-        });
+            },
+            'app' => static function () {
+                return [
+                    'name' => Config::get('app.name'),
+                ];
+            },
+            'flash' => function () {
+                return [
+                    'success' => Session::get('success'),
+                ];
+            },
+            'errors' => function () {
+                if ($errors = Session::get('errors')) {
+                    $bags = $errors->getBags();
 
-        Inertia::share('definitionTypes', static function () {
-            return resolve('definitionTypes');
-        });
+                    return collect($bags)->map(function ($bag, $key) {
+                        return $bag->getMessages();
+                    });
+                }
+
+                return (object) [];
+            },
+            'success' => static function () {
+                return [
+                    'success' => Session::get('success'),
+                ];
+            },
+            'warning' => static function () {
+                return [
+                    'warning' => Session::get('warning'),
+                ];
+            },
+            'info' => static function () {
+                return [
+                    'info' => Session::get('info'),
+                ];
+            },
+            'session' => static function () {
+                return [
+                    'session' => Session::get('session'),
+                ];
+            },
+            'token' => static function () {
+                if ($user = Auth::user()) {
+                    return $user->outlook_access_token;
+                }
+
+                return '';
+            },
+            'categories' => static function () {
+                if (Auth::user()) {
+                    $categories = ListCategoriesService::call();
+
+                    return [
+                        'data' => $categories,
+                        'ready' => count($categories) > 0,
+                    ];
+                }
+            },
+            'definitionTypes' => static function () {
+                if (Auth::user()) {
+                    return resolve('definitionTypes');
+                }
+            },
+        ]);
     }
 }

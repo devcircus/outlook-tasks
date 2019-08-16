@@ -3,12 +3,10 @@ const cssNesting = require('postcss-nesting');
 const mix = require('laravel-mix');
 const path = require('path');
 const tailwindcss = require('tailwindcss');
-const glob = require('glob-all');
-const PurgecssPlugin = require('purgecss-webpack-plugin');
 
 class TailwindExtractor {
     static extract (content) {
-        return content.match(/[A-Za-z0-9-_:/]+/g) || [];
+        return content.match(/[\w-/:]+(?<!:)/g) || [];
     }
 }
 
@@ -17,6 +15,20 @@ mix.js('resources/js/main.js', 'public/js')
         cssImport(),
         cssNesting(),
         tailwindcss('tailwind.config.js'),
+        require('@fullhuman/postcss-purgecss')({
+            content: [
+                path.join(__dirname, 'resources/views/**/*.blade.php'),
+                path.join(__dirname, 'resources/js/**/*.vue'),
+            ],
+            whitelist: ['html', 'body'],
+            whitelistPatterns: [/^attachment/, /^v-/, /^nprogress/, /^spinner/, /^peg/, /^bar/, /^vdp/, /^form/, /^snotify/, /^animated/, /^footer/, /^vgt/],
+            extractors: [
+                {
+                    extractor: TailwindExtractor,
+                    extensions: ['html', 'js', 'php', 'vue'],
+                },
+            ],
+        }),
     ])
     .webpackConfig({
         output: { chunkFilename: 'js/[name].js?id=[chunkhash]' },
@@ -29,7 +41,7 @@ mix.js('resources/js/main.js', 'public/js')
                 Pages: path.resolve(__dirname, 'resources/js/Pages'),
                 Shared: path.resolve(__dirname, 'resources/js/Shared'),
                 Libraries: path.resolve(__dirname, 'resources/js/lib'),
-                Modals: path.resolve(__dirname, 'resources/js/Modals'),
+                Models: path.resolve(__dirname, 'resources/js/models'),
                 Config: path.resolve(__dirname, 'resources/js/config'),
                 Events: path.resolve(__dirname, 'resources/js/events'),
                 Mixins: path.resolve(__dirname, 'resources/js/mixins'),
@@ -41,28 +53,3 @@ mix.js('resources/js/main.js', 'public/js')
     })
     .version()
     .sourceMaps();
-
-if (mix.inProduction()) {
-    mix.webpackConfig({
-        plugins: [
-            new PurgecssPlugin({
-
-                // Specify the locations of any files you want to scan for class names.
-                paths: glob.sync([
-                    path.join(__dirname, 'resources/views/**/*.blade.php'),
-                    path.join(__dirname, 'resources/js/**/*.vue')
-                ]),
-                whitelistPatterns: [/^attachment/, /^v--/, /^nprogress/, /^spinner/, /^peg/, /^bar/, /^vdp/, /^form/, /^snotify/, /^animated/],
-                extractors: [
-                    {
-                        extractor: TailwindExtractor,
-
-                        // Specify the file extensions to include when scanning for
-                        // class names.
-                        extensions: ['html', 'js', 'php', 'vue'],
-                    },
-                ],
-            }),
-        ],
-    });
-}
