@@ -27,7 +27,7 @@
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "fzaninotto/faker": "^1.4",
-        "inertiajs/inertia-laravel": "dev-master",
+        "inertiajs/inertia-laravel": "^0.1",
         "laravel/framework": "5.8.*",
         "laravel/horizon": "^3.2.4",
         "laravel/tinker": "^1.0",
