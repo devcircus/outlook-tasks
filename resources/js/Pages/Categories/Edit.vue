@@ -14,7 +14,7 @@
             <div class="bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8 md:mr-2 p-8">
                 <form @submit.prevent="updateCategory()">
                     <div class="-mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
-                        <text-input v-model="forms.category.name" :errors="$page.errors.name" class="md:pr-6 pb-8 w-full md:w-1/2" label="Name" />
+                        <text-input v-model="forms.category.name" :errors="getErrors('name')" class="md:pr-6 pb-8 w-full md:w-1/2" label="Name" />
                     </div>
                     <div class="bg-gray-100 border-t border-gray-200 flex items-center">
                         <button v-if="! category.deleted_at" class="text-red-500 hover:underline" tabindex="-1" type="button" @click="destroyCategory">Delete Category</button>

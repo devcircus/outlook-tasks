@@ -2,7 +2,7 @@
     <div class="bg-white rounded shadow overflow-hidden w-full md:w-2/5 mb-8 p-8">
         <div class="flex content-center mb-4">
             <h1 class="text-lg text-gray-800 font-semibold uppercase">Category Definition</h1>
-            <dropdown class="mr-1 ml-auto" placement="bottom-end">
+            <dropdown v-if="showAddDefinitions" class="mr-1 ml-auto" placement="bottom-end">
                 <div class="flex items-center cursor-pointer select-none group">
                     <div class="text-blue-900 group-hover:text-blue-700 focus:text-blue-700 mr-1 whitespace-no-wrap">
                         <span class="inline text-sm">Options</span>
@@ -63,6 +63,11 @@ export default {
         return {
             deleteSending: false,
         }
+    },
+    computed: {
+        showAddDefinitions () {
+            return ! (this.category.has_from_definition && this.category.has_subject_definition && this.category.has_body_definition);
+        },
     },
     methods: {
         addRule (category, type) {

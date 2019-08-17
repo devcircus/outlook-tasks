@@ -6,28 +6,46 @@ import Dates from 'Mixins/Dates';
 import VueStash from 'vue-stash';
 import VModal from 'vue-js-modal';
 import PortalVue from 'portal-vue';
+import Objects from '@/plugins/Objects';
+import Dialogs from '@/plugins/Dialogs';
+import GetsErrors from 'Mixins/GetsErrors';
 import ParsesUrls from 'Mixins/ParsesUrls';
 import VueWindowSize from 'vue-window-size';
+import Dispatcher from '@/plugins/Dispatcher';
 import { InertiaApp } from '@inertiajs/inertia-vue';
-import Dispatchable from 'Mixins/Dispatchable';
 import Snotify, { SnotifyPosition } from 'vue-snotify';
+import HandlesDropdowns from 'Mixins/HandlesDropdowns';
+import ScreenChanges from 'Mixins/HandlesScreenSizeChanges';
 
 // Use mixins
+Vue.mixin(Dates);
+Vue.mixin(ParsesUrls);
+Vue.mixin(GetsErrors);
+Vue.mixin(ScreenChanges);
+Vue.mixin(HandlesDropdowns);
+
 Vue.mixin({
     methods: {
-         route: (...args) => window.route(...args).url(),
-         isObjectEmpty: (obj) => ! Object.values(obj).length >= 1,
-         objectContains: (obj, needle) => {
-            if (typeof obj === 'object' && obj !== null) {
-                return obj.hasOwnProperty(needle);
-            }
-            return false;
-         },
+        route (...args) {
+            return window.route(...args).url();
+        },
+        setAllProperties (obj, value) {
+            return Object.keys(obj).forEach(prop => obj[prop] = value);
+        },
+        setAllToNull (obj) {
+            return this.setAllProperties(obj, null);
+        },
     },
 });
-Vue.mixin(Dispatchable);
-Vue.mixin(ParsesUrls);
-Vue.mixin(Dates);
+
+// Use Dispatcher
+Vue.use(Dispatcher);
+
+// Use Dialogs
+Vue.use(Dialogs);
+
+// Use Objects
+Vue.use(Objects);
 
 // Use VueHead
 Vue.use(VueHead, {
@@ -54,10 +72,11 @@ Vue.use(Snotify, {
         showProgressBar: true,
         closeOnClick: false,
         pauseOnHover: true,
+        backdrop: 0.7,
     }
 });
 
-// Use Inertia
+// Use InertiaApp
 Vue.use(InertiaApp);
 
 // Use vue-window-size
@@ -76,7 +95,7 @@ Vue.filter('capitalize', value => {
 if (process.env.MIX_APP_ENV === 'production') {
     Vue.config.devtools = false;
     Vue.config.debug = false;
-    Vue.config.silent = true;
+    Vue.config.silent = false;
     Vue.config.productionTip = false;
 }
 

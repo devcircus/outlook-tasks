@@ -14,10 +14,8 @@
 
 <script>
 import Popper from 'popper.js';
-import Dispatchable from 'Mixins/Dispatchable';
 
 export default {
-    mixins: [ Dispatchable ],
     props: {
         placement: {
             type: String,

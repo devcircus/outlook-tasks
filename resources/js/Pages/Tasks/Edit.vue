@@ -14,17 +14,17 @@
             </div>
             <form @submit.prevent="submit">
                 <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
-                    <text-input v-model="form.title" :errors="$page.errors.title" class="md:pr-6 pb-8 w-full md:w-1/2" label="Title" />
+                    <text-input v-model="form.title" :errors="getErrors('title')" class="md:pr-6 pb-8 w-full md:w-1/2" label="Title" />
                     <div class="md:pr-6 pb-8 w-full md:w-1/2">
                         <span class="text-gray-800 mr-2">Category: </span>
                         <span class="text-blue-600 uppercase">{{ task.category.name }}</span>
                     </div>
                     <div class="w-full md:w-1/2 md:pr-6">
-                        <datepicker class="mb-6 w-full" :value="form.due_date" :errors="$page.errors.due_date" label="Due Date" @input="setDate($event, 'due_date')" />
-                        <checkbox v-model="form.complete" class="mb-8 md:mb-0" :errors="$page.errors.complete" label="Complete" :checked="form.complete" />
+                        <datepicker class="mb-6 w-full" :value="form.due_date" :errors="getErrors('due_date')" label="Due Date" @input="setDate($event, 'due_date')" />
+                        <checkbox v-model="form.complete" class="mb-8 md:mb-0" :errors="getErrors('complete')" label="Complete" :checked="form.complete" />
                     </div>
-                    <textarea-input v-model="form.description" :errors="$page.errors.description" rows="8" class="md:pr-6 pb-8 w-full md:w-1/2" label="Description" />
-                    <text-input v-model="form.report_to" :errors="$page.errors.report_to" class="md:pr-6 pb-8 w-full md:w-1/2" label="Report To" />
+                    <textarea-input v-model="form.description" :errors="getErrors('description')" rows="8" class="md:pr-6 pb-8 w-full md:w-1/2" label="Description" />
+                    <text-input v-model="form.report_to" :errors="getErrors('report_to')" class="md:pr-6 pb-8 w-full md:w-1/2" label="Report To" />
                 </div>
                 <div class="px-8 py-4 bg-gray-100 border-t border-gray-200 flex items-center">
                     <button v-if="! task.deleted_at" class="text-red-500 hover:underline mr-8" tabindex="-1" type="button" @click="destroy">Delete Task</button>
@@ -63,6 +63,7 @@ export default {
     data () {
         return {
             sending: false,
+            submitted: false,
             form: {
                 id: this.task.id,
                 title: this.task.title,
@@ -76,6 +77,7 @@ export default {
     methods: {
         submit () {
             this.sending = true;
+            this.submitted = true;
             this.$inertia.put(this.route('tasks.update', this.task.id), this.form)
             .then(() => {
                 this.sending = false;

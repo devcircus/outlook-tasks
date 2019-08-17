@@ -12,7 +12,7 @@
                 <p class="text-base text-gray-600 mb-4">{{ task.description }}</p>
                 <textarea-input v-model="notes" rows="8" class="w-full mb-4" label="Additional notes:" />
                 <div class="bg-gray-100 border-t border-gray-200 flex items-center">
-                    <button class="btn-text text-gray-500" type="button" @click="cancel()">Cancel</button>
+                    <button class="btn-text text-gray-500" type="button" @click="resetForm()">Cancel</button>
                     <loading-button :loading="sending" class="btn-blue ml-auto" type="button" @clicked="sendEmail">Send Email</loading-button>
                 </div>
             </div>
@@ -24,6 +24,7 @@
 import TextInput from '@/Shared/TextInput';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextareaInput from '@/Shared/TextareaInput';
+import WatchesForErrors from 'Mixins/WatchesForErrors';
 
 export default {
     components: {
@@ -31,6 +32,7 @@ export default {
         LoadingButton,
         TextareaInput,
     },
+    mixins: [ WatchesForErrors ],
     props: {
         task: Object,
     },
@@ -56,10 +58,11 @@ export default {
                 notes: this.notes,
             }).then( () => {
                 this.sending = false;
-                this.cancel();
+                this.resetForm();
             });
         },
-        cancel () {
+        resetForm () {
+            this.setAllToNull(this.form);
             this.$modal.hide('emailTaskModal');
         },
     },

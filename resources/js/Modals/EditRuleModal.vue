@@ -7,18 +7,18 @@
         <div class="bg-white mx-4 my-4">
             <div class="bg-white overflow-hidden w-full h-auto mb-8 md:mr-2 p-8">
                 <form @submit.prevent="submit()">
-                    <select-input v-model="form.rule_type" class="md:pr-6 pb-8 w-full" :errors="$page.errors.rule_type" label="Rule type">
+                    <select-input v-model="form.rule_type" class="md:pr-6 pb-8 w-full" :errors="getErrors('rule_type')" label="Rule type">
                         <option :value="null" />
                         <option value="exact">Exact Match</option>
                         <option value="words">These words or phrases.</option>
                         <option value="regex">Regex Match (Advanced)</option>
                     </select-input>
-                    <checkbox v-model="form.optional" class="mb-6" :errors="$page.errors.optional" label="Optional" :checked="form.optional" />
+                    <checkbox v-model="form.optional" class="mb-6" :errors="getErrors('optional')" label="Optional" :checked="form.optional" />
                     <p v-if="form.rule_type === 'words'" class="text-sm text-blue-500 mb-4 w-full mx-auto">Separate words/phrases with a new line.</p>
-                    <textarea-input v-if="form.rule_type === 'words'" v-model="form.definition" :errors="$page.errors.definition" rows="8" class="md:pr-6 pb-8 w-full" :label="label" />
-                    <text-input v-if="form.rule_type != 'words' && form.rule_type != null" v-model="form.definition" :errors="$page.errors.definition" rows="8" class="md:pr-6 pb-8 w-full" :label="label" />
+                    <textarea-input v-if="form.rule_type === 'words'" v-model="form.definition" :errors="getErrors('definition')" rows="8" class="md:pr-6 pb-8 w-full" :label="label" />
+                    <text-input v-if="form.rule_type != 'words' && form.rule_type != null" v-model="form.definition" :errors="getErrors('definition')" rows="8" class="md:pr-6 pb-8 w-full" :label="label" />
                     <div class="bg-gray-100 border-t border-gray-200 flex items-center">
-                        <button class="btn-text text-gray-500" type="button" @click="cancel()">Cancel</button>
+                        <button class="btn-text text-gray-500" type="button" @click="resetForm()">Cancel</button>
                         <loading-button :loading="sending" class="btn-blue ml-auto" type="submit">Update Rule</loading-button>
                     </div>
                 </form>
@@ -33,6 +33,7 @@ import TextInput from '@/Shared/TextInput';
 import SelectInput from '@/Shared/SelectInput';
 import TextareaInput from '@/Shared/TextareaInput';
 import LoadingButton from '@/Shared/LoadingButton';
+import WatchesForErrors from 'Mixins/WatchesForErrors';
 
 export default {
     components: {
@@ -42,6 +43,7 @@ export default {
         TextareaInput,
         LoadingButton,
     },
+    mixins: [ WatchesForErrors ],
     props: {
         rule: Object,
 
@@ -78,18 +80,6 @@ export default {
             }
         },
     },
-    watch: {
-        '$page.errors': {
-            immediate: true,
-            handler (newErrors, oldErrors) {
-                if (this.isObjectEmpty(newErrors) && this.submitted === true) {
-                    this.submitted = false;
-                    this.cancel();
-                }
-            },
-            deep: true,
-        },
-    },
     methods: {
         submit () {
             this.sending = true;
@@ -98,7 +88,8 @@ export default {
                 this.sending = false;
             });
         },
-        cancel () {
+        resetForm () {
+            this.setAllToNull(this.form);
             this.$modal.hide('editRuleModal');
         },
     },
