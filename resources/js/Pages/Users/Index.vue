@@ -57,7 +57,7 @@ export default {
         form: {
             handler: _.throttle(function () {
                 let query = _.pickBy(this.form);
-                this.$inertia.replace(this.route('users', Object.keys(query).length ? query : { remember: 'forget' }))
+                this.$inertia.replace(this.route('users.list', Object.keys(query).length ? query : { remember: 'forget' }))
             }, 150),
             deep: true,
         },

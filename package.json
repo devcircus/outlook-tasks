@@ -20,6 +20,7 @@
         "babel-eslint": "^10.0.2",
         "babel-loader": "^8.0.6",
         "babel-plugin-transform-object-rest-spread": "^6.26.0",
+        "collect.js": "^4.16.4",
         "config": "^3.1.0",
         "cross-env": "^5.1",
         "eslint": "^5.14.1",
