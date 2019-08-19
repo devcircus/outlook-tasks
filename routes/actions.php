@@ -73,7 +73,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], 
     $router->get('/{task}/edit', Task\EditTask::class)->name('edit');
     $router->put('/{task}', Task\UpdateTask::class)->name('update');
     $router->put('/{task}/restore', Task\RestoreTask::class)->name('restore');
-    $router->post('/{task}/email', Task\EmailTask::class)->middleware(['auth', 'admin'])->name('email');
+    $router->post('/email', Task\EmailTask::class)->middleware(['auth', 'admin'])->name('email');
 });
 
 // Emails

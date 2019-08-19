@@ -31,9 +31,7 @@ class EmailTask extends Action
      */
     public function __invoke(Request $request, Task $task)
     {
-        $task->notes = $request->notes;
-
-        EmailTaskService::call($task, $request->to, $request->user());
+        EmailTaskService::call($request->only(['to', 'due_date', 'subject', 'body']), $request->user());
 
         return $this->responder->respond();
     }

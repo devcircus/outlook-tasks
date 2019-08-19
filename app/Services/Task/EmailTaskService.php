@@ -28,17 +28,16 @@ class EmailTaskService
     /**
      * Handle the call to the service.
      *
-     * @param  \App\Models\Task  $task
-     * @param  array  $to
+     * @param  array  $data
      * @param  \App\Models\User  $user
      *
      * @return mixed
      */
-    public function run(Task $task, array $to, User $user)
+    public function run(array $data, User $user)
     {
         $this->graph->setAccessToken($user->fetchOauthToken());
 
-        $this->sendEmail($this->createEmailFromTask($task, $to));
+        $this->sendEmail($this->createEmailFromData($data));
     }
 
     /**
@@ -47,20 +46,20 @@ class EmailTaskService
      * @param  \App\Models\Task  $task
      * @param  array  $to
      */
-    private function createEmailFromTask(Task $task, array $to): Model\Message
+    private function createEmailFromData(array $data): Model\Message
     {
         $me = $this->graph->createRequest('GET', '/me')
                             ->setReturnType(Model\User::class)
                             ->execute();
 
-        $subject = $task->title;
+        $subject = $data['subject'];
 
         $message = new Model\Message();
         $message->setSubject('TODO: '.$subject);
         $body = new Model\ItemBody();
-        $body->setContent($task->description."\n".'Notes:'."\n".$task->notes);
+        $body->setContent("Due date: {$data['due_date']}\r\n".$data['body']);
         $message->setBody($body);
-        $message->setToRecipients($this->buildRecipientList($to));
+        $message->setToRecipients($this->buildRecipientList($data['to']));
 
         return $message;
     }
@@ -68,13 +67,13 @@ class EmailTaskService
     /**
      * Build the array of recipients.
      *
-     * @param  array  $to
+     * @param  array  $addresses
      */
-    private function buildRecipientList(array $to): array
+    private function buildRecipientList(array $addresses): array
     {
         $recipients = [];
 
-        foreach ($to as $address) {
+        foreach ($addresses as $address) {
             $emailAddress = new Model\EmailAddress();
             $emailAddress->setAddress($address);
             $recipient = new Model\Recipient();
@@ -92,9 +91,8 @@ class EmailTaskService
      */
     private function sendEmail(Model\Message $message)
     {
-        $body = ['message' => $message];
         $this->graph->createRequest('POST', '/me/sendmail')
-                      ->attachBody($body)
+                      ->attachBody(['message' => $message])
                       ->execute();
     }
 }
