@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Support\Facades\Config;
 
 class Task extends Model
 {
@@ -20,6 +21,7 @@ class Task extends Model
     /** @var array */
     protected $casts = [
         'complete' => 'boolean',
+        'due_date' => 'date:Y-m-d',
     ];
 
     /** @var array */
@@ -100,9 +102,39 @@ class Task extends Model
      */
     public function scopeForCategory(Builder $query, string $category): Builder
     {
+        if ($category === 'today') {
+            return $query->forToday();
+        }
+
         return $query->whereHas('category', function ($query) use ($category) {
-            $query->where('name', $category);
+            return $query->where('name', $category);
         });
+    }
+
+    /**
+     * Scope the query to Tasks due on the given date.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|\Carbon\CarbonImmutable  $date
+     */
+    public function scopeForDate(Builder $query, $date): Builder
+    {
+        if ($date instanceof CarbonImmutable) {
+            $date = $date->format('Y-m-d');
+        }
+
+        return $query->whereDate('due_date', $date);
+    }
+
+    /**
+     * Scope the query to Tasks due today.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string|\Carbon\CarbonImmutable  $date
+     */
+    public function scopeForToday(Builder $query): Builder
+    {
+        return $query->forDate(CarbonImmutable::today('America/Chicago'));
     }
 
     /**

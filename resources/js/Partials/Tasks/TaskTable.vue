@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <div class="w-full">
         <div class="flex">
             <h2 class="mb-2 mr-2 font-semibold text-base text-gray-800 md:text-lg text-gray-800 uppercase">{{ category.display_name }}</h2>
-            <a :href="route('tasks.list.pdf', { type: category.name })" class="btn btn-text text-xs text-blue-500 font-semibold px-0 pt-1" target="_blank">[PDF]</a>
+            <a :href="route('tasks.list.pdf', { type: title })" class="btn btn-text text-xs text-blue-500 font-semibold px-0 pt-1" target="_blank">[PDF]</a>
         </div>
         <vue-good-table ref="table" class="mb-8" :columns="taskColumns" :rows="rows" :row-style-class="rowClasses" @on-row-click="taskClicked">
             <div slot="emptystate">
@@ -58,6 +58,10 @@ export default {
             type: Object,
             default: () => ({}),
         },
+        pdfTitle: {
+            type: String,
+            default: null,
+        },
         tasks: Array,
     },
     data () {
@@ -69,6 +73,9 @@ export default {
         }
     },
     computed: {
+        title () {
+            return this.pdfTitle ? this.pdfTitle : this.category.name;
+        },
         rows () {
             const active = filter(this.tasks, task => {
                 return task.deleted_at === null && ! task.complete;

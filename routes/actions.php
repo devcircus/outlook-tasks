@@ -65,6 +65,7 @@ Route::group(['middleware' => ['auth'], 'as' => 'users.', 'prefix' => 'users'], 
 // Tasks
 Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], function ($router) {
     $router->get('/', Task\ListTasks::class)->name('list');
+    $router->get('/calendar', Task\ListTodaysTasks::class)->name('list.today');
     $router->post('/process', Task\ProcessTasks::class)->middleware(['oauth'])->name('process');
     $router->get('/create', Task\CreateTask::class)->name('create');
     $router->post('/', Task\StoreTask::class)->name('store');

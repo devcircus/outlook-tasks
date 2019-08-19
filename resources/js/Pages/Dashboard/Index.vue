@@ -69,9 +69,6 @@ export default {
 
             return [];
         },
-        hideDropdown () {
-            this.$dispatch('dropdown-should-close');
-        },
     },
 }
 </script>
