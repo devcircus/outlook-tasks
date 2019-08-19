@@ -5,12 +5,12 @@ namespace App\Models;
 use Carbon\CarbonImmutable;
 use App\Models\Concerns\Slug\HasSlug;
 use App\Models\Concerns\Uuid\HasUuids;
+use Illuminate\Support\Facades\Config;
 use App\Models\Concerns\Slug\SlugOptions;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Config;
 
 class Task extends Model
 {
@@ -102,7 +102,7 @@ class Task extends Model
      */
     public function scopeForCategory(Builder $query, string $category): Builder
     {
-        if ($category === 'today') {
+        if ('today' === $category) {
             return $query->forToday();
         }
 
@@ -212,7 +212,16 @@ class Task extends Model
     public function updateTaskData(array $data): Task
     {
         return tap($this, function ($task) use ($data) {
-            return $task->update($data);
+            $task->update([
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'report_to' => $data['report_to'],
+                'due_date' => $data['due_date'],
+                'complete' => $data['complete'],
+            ]);
+            $task->category()->associate(Category::where('name', $data['category'])->first());
+
+            return $task->save();
         })->fresh();
     }
 

@@ -15,10 +15,9 @@
             <form @submit.prevent="submit">
                 <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
                     <text-input v-model="form.title" :errors="getErrors('title')" class="md:pr-6 pb-8 w-full md:w-1/2" label="Title" />
-                    <div class="md:pr-6 pb-8 w-full md:w-1/2">
-                        <span class="text-gray-800 mr-2">Category: </span>
-                        <span class="text-blue-600 uppercase">{{ task.category.name }}</span>
-                    </div>
+                    <select-input v-model="form.category" class="md:pr-6 pb-8 w-full md:w-1/2" :errors="getErrors('category')" label="Category">
+                        <option v-for="type in categories" :key="type.id" :value="type.name" :selected="type.name === form.category ? 'selected' : ''">{{ type.name|capitalize }}</option>
+                    </select-input>
                     <div class="w-full md:w-1/2 md:pr-6">
                         <datepicker class="mb-6 w-full" :value="form.due_date" :errors="getErrors('due_date')" label="Due Date" @input="setDate($event, 'due_date')" />
                         <checkbox v-model="form.complete" class="mb-8 md:mb-0" :errors="getErrors('complete')" label="Complete" :checked="form.complete" />
@@ -37,11 +36,13 @@
 </template>
 
 <script>
+import { filter } from 'lodash';
 import moment from 'moment-timezone';
 import Layout from '@/Shared/Layout';
 import Checkbox from '@/Shared/Checkbox';
 import TextInput from '@/Shared/TextInput';
 import Datepicker from '@/Shared/Datepicker';
+import SelectInput from '@/Shared/SelectInput';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextareaInput from '@/Shared/TextareaInput';
 import TrashedMessage from '@/Shared/TrashedMessage';
@@ -52,6 +53,7 @@ export default {
         Checkbox,
         TextInput,
         Datepicker,
+        SelectInput,
         TextareaInput,
         LoadingButton,
         TrashedMessage,
@@ -67,12 +69,18 @@ export default {
             form: {
                 id: this.task.id,
                 title: this.task.title,
+                category: this.task.category.name,
                 due_date: this.formatDate(this.task.due_date),
                 description: this.task.description,
                 report_to: this.task.report_to,
                 complete: this.task.complete,
             },
         }
+    },
+    computed: {
+        categories () {
+            return filter(this.$page.categories.data, t => t.deleted_at === null);
+        },
     },
     methods: {
         submit () {
