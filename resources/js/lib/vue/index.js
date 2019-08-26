@@ -68,7 +68,7 @@ Vue.use(VModal, {
 Vue.use(Snotify, {
     toast: {
         position: SnotifyPosition.rightTop,
-        timeout: 3000,
+        timeout: 1500,
         showProgressBar: true,
         closeOnClick: false,
         pauseOnHover: true,
