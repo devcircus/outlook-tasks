@@ -12,6 +12,7 @@ import GetsErrors from 'Mixins/GetsErrors';
 import ParsesUrls from 'Mixins/ParsesUrls';
 import VueWindowSize from 'vue-window-size';
 import Dispatcher from '@/plugins/Dispatcher';
+import ObjectMethods from 'Mixins/ObjectMethods';
 import { InertiaApp } from '@inertiajs/inertia-vue';
 import Snotify, { SnotifyPosition } from 'vue-snotify';
 import HandlesDropdowns from 'Mixins/HandlesDropdowns';
@@ -22,6 +23,7 @@ Vue.mixin(Dates);
 Vue.mixin(ParsesUrls);
 Vue.mixin(GetsErrors);
 Vue.mixin(ScreenChanges);
+Vue.mixin(ObjectMethods);
 Vue.mixin(HandlesDropdowns);
 
 Vue.mixin({
@@ -134,6 +136,11 @@ new Vue({
         props: {
             initialPage: JSON.parse(app.dataset.page),
             resolveComponent: name => import (`@/Pages/${name}`).then(module => module.default),
+            transformProps: props => {
+                return {
+                    ...props,
+                }
+            },
         },
     }),
 }).$mount(app)
