@@ -16,13 +16,24 @@ class InertiaServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->shareAssetVersion();
         $this->shareWithInertia();
+    }
+
+    /**
+     * Share asset version with Inertia.
+     */
+    protected function shareAssetVersion(): void
+    {
+        Inertia::version(static function () {
+            return md5_file(public_path('mix-manifest.json'));
+        });
     }
 
     /**
      * Configure and share data with Inertia.
      */
-    protected function shareWithInertia()
+    protected function shareWithInertia(): void
     {
         Inertia::share([
             'auth' => function () {
