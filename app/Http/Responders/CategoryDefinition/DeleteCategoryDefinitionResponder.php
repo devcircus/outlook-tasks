@@ -15,6 +15,6 @@ class DeleteCategoryDefinitionResponder extends Responder
     {
         $this->request->session()->flash('success', 'Definition successfully deleted!');
 
-        return redirect()->back();
+        return redirect()->back(303);
     }
 }

@@ -15,6 +15,6 @@ class UpdateCategoryDefinitionResponder extends Responder
     {
         $this->request->session()->flash('success', 'Definition updated successfully!');
 
-        return redirect()->route('categories.show', $this->payload->category_id);
+        return redirect()->route('categories.show', $this->payload->category_id, 303);
     }
 }
