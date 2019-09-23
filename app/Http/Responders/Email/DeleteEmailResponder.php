@@ -15,6 +15,6 @@ class DeleteEmailResponder extends Responder
     {
         $this->request->session()->flash('success', 'Email deleted successfully!');
 
-        return redirect()->back();
+        return redirect()->back(303);
     }
 }

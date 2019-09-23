@@ -15,6 +15,6 @@ class RestoreCategoryResponder extends Responder
     {
         $this->request->session()->flash('success', 'Category restored successfully!');
 
-        return redirect()->back();
+        return redirect()->back(303);
     }
 }

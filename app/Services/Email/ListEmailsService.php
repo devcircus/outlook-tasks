@@ -32,6 +32,6 @@ class ListEmailsService
      */
     public function run(User $user)
     {
-        return $user->emails()->withTrashed()->withNoTask()->orderByColumn('received_at', 'desc')->get();
+        return $user->emails()->withTrashed()->withNoTask()->orderByColumn('received_at', 'desc')->get(['id', 'received_at', 'deleted_at', 'subject', 'from_address', 'from_name', 'uuid', 'category_id', 'user_id']);
     }
 }

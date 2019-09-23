@@ -15,6 +15,6 @@ class RestoreTaskResponder extends Responder
     {
         $this->request->session()->flash('success', 'Task restored successfully!');
 
-        return redirect()->back();
+        return redirect()->back(303);
     }
 }
