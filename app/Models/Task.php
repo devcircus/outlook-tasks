@@ -245,8 +245,6 @@ class Task extends Model
      */
     public function createFromEmail(Email $email): void
     {
-        CacheForgetService::call('quantities', $email->user->id);
-
         $subject = $this->formatTitle($this->normalizeTitle($email->subject));
         $body = $email->body;
 
