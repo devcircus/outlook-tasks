@@ -1,15 +1,10 @@
 <template>
     <layout title="Home">
         <div class="flex flex-col min-h-screen">
-            <div class="flex flex-col">
-                <!-- Task Tables -->
-                <div class="flex">
-                    <h1 class="mb-8 mr-2 font-bold text-xl text-gray-700 md:text-2xl uppercase">Tasks</h1>
-                    <a :href="route('tasks.list.pdf')" class="btn btn-text text-xs text-blue-500 font-semibold px-0 pt-2" target="_blank">[PDF]</a>
-                </div>
-                <div v-if="categoriesReady" class="flex flex-wrap w-full md:-mx-2">
-                    <div v-for="category in taskCategories" :key="category.id" class="flex flex-col w-full md:w-1/3 md:px-2">
-                        <task-table :category="category" :tasks="getTasksForCategory(category.name)" />
+            <div class="flex flex-col mb-6">
+                <div v-if="categoriesReady" class="flex flex-wrap w-full">
+                    <div class="flex flex-wrap w-full">
+                        <task-table :tasks="tasks.data" />
                     </div>
                 </div>
                 <div v-else class="flex flex-wrap w-full mb-8">
@@ -19,7 +14,7 @@
 
             <!-- Email Table -->
             <div class="flex flex-col">
-                <email-table :emails="emails" />
+                <email-table :email="email" />
             </div>
         </div>
     </layout>
@@ -37,16 +32,8 @@ export default {
         TaskTable,
         EmailTable,
     },
-    props: {
-        tasks: {
-            type: Object,
-            default: () => ({}),
-        },
-        emails: {
-            type: Array,
-            default: () => [],
-        },
-    },
+    props: ['tasks', 'email', 'filters'],
+    store: ['activeCategory', 'activeCalendar', 'quantities'],
     computed: {
         categoriesReady () {
             return this.$page.categories.ready;
@@ -57,6 +44,9 @@ export default {
             });
         },
     },
+    created () {
+        this.setGlobalFilters();
+    },
     methods: {
         newTask (category, email) {
             this.$store.workingTask = email;
@@ -64,10 +54,14 @@ export default {
         },
         getTasksForCategory (category) {
             if (category) {
-                return this.tasks[category];
+                return this.tasks.data[category].data;
             }
 
             return [];
+        },
+        setGlobalFilters () {
+            this.$store.activeCategory = this.filters.category;
+            this.$store.activeCalendar = this.filters.calendar;
         },
     },
 }

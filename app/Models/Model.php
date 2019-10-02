@@ -41,4 +41,15 @@ abstract class Model extends Eloquent
     {
         return $query->orderBy($column, $direction);
     }
+
+    /**
+     * Scope to exclude a certain column.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $value
+     */
+    public function scopeExclude($query, $value = []): Builder
+    {
+        return $query->select(array_diff($this->columns, (array) $value));
+    }
 }

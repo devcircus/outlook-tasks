@@ -2,6 +2,7 @@
 
 namespace App\Services\Task;
 
+use App\Models\User;
 use App\Models\Task;
 use App\Http\DTO\Task as TaskData;
 use PerfectOblivion\Services\Traits\SelfCallingService;
@@ -29,13 +30,14 @@ class UpdateTaskService
      *
      * @param  \App\Models\Task  $task
      * @param  \App\Http\DTO\Task  $data
+     * @param  \App\Models\User  $user
      *
      * @return mixed
      */
-    public function run(Task $task, TaskData $data)
+    public function run(Task $task, TaskData $data, User $user)
     {
         $this->validator->validate($data->toArray());
 
-        return $task->updateTaskData($data->only(['title', 'description', 'report_to', 'due_date', 'complete', 'category']));
+        return $task->updateTaskData($data->only(['title', 'description', 'report_to', 'due_date', 'complete', 'category']), $user->id);
     }
 }

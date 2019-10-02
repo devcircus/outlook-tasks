@@ -1,10 +1,10 @@
 <template>
     <layout :title="`Profile for ${form.name}`">
-        <h1 class="mb-8 font-bold text-3xl">
-            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('users.list')">Users</inertia-link>
-            <span class="text-blue-300 font-medium">/</span>
-            {{ form.name }}
-        </h1>
+        <div class="w-full flex bg-blue-800 p-4">
+            <inertia-link class="text-lg md:text-xl text-blue-300 hover:text-white uppercase mr-1" :href="route('dashboard')">Dashboard</inertia-link>
+            <span class="text-lg md:text-xl text-blue-300 font-medium mr-1">></span>
+            <h1 class="text-white text-lg md:text-xl font-semibold uppercase">{{ form.name }}</h1>
+        </div>
         <trashed-message v-if="user.deleted_at" class="mb-6" @restore="restore">
             This user has been deleted.
         </trashed-message>

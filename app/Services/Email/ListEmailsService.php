@@ -2,9 +2,10 @@
 
 namespace App\Services\Email;
 
-use App\Models\Email;
-use PerfectOblivion\Services\Traits\SelfCallingService;
 use App\Models\User;
+use App\Models\Email;
+use App\Services\Cache\CacheForeverService;
+use PerfectOblivion\Services\Traits\SelfCallingService;
 
 class ListEmailsService
 {
@@ -32,6 +33,12 @@ class ListEmailsService
      */
     public function run(User $user)
     {
-        return $user->emails()->withTrashed()->withNoTask()->orderByColumn('received_at', 'desc')->get(['id', 'received_at', 'deleted_at', 'subject', 'from_address', 'from_name', 'uuid', 'category_id', 'user_id']);
+        return CacheForeverService::call('emails', function() use ($user) {
+            return $user->emails()
+                ->withTrashed()
+                ->withNoTask()
+                ->orderByColumn('received_at', 'desc')
+                ->get(['id', 'received_at', 'deleted_at', 'subject', 'from_address', 'from_name', 'uuid', 'category_id', 'user_id', 'assigned'])->toArray() ?: [];
+        }, $user->id);
     }
 }

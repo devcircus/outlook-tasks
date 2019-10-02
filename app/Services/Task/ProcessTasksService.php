@@ -5,6 +5,7 @@ namespace App\Services\Task;
 use App\Models\User;
 use App\Models\Email;
 use App\Events\NoTasksToGenerate;
+use App\Services\Cache\CacheForgetService;
 use App\Services\Task\GenerateTasksService;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 
@@ -39,6 +40,8 @@ class ProcessTasksService
         if ($emails->count() === 0) {
             return NoTasksToGenerate::broadcast();
         }
+
+        CacheForgetService::call('quantities', $user->id);
 
         return GenerateTasksService::call($emails);
     }

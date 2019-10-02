@@ -2,9 +2,11 @@
 
 namespace App\Services\Category;
 
+use App\Models\User;
 use App\Models\Category;
 use App\Events\EmailCategoriesSet;
 use Illuminate\Support\Collection;
+use App\Services\Cache\CacheForgetService;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 
 class SetCategoryService
@@ -28,11 +30,15 @@ class SetCategoryService
      * Get all task types for the given task.
      *
      * @param  \Illuminate\Support\Collection  $emails
+     * @param  \App\Models\User  $user
      *
      * @return array
      */
-    public function run(Collection $emails)
+    public function run(Collection $emails, User $user)
     {
+        CacheForgetService::call('emails', $user->id);
+        CacheForgetService::call('emailQuantities', $user->id);
+
         $categories = $this->categories->ready()->get();
 
         $emails->each(function ($email) use ($categories) {

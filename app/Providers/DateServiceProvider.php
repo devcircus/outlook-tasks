@@ -15,5 +15,8 @@ class DateServiceProvider extends ServiceProvider
     public function boot()
     {
         Date::use(CarbonImmutable::class);
+
+        CarbonImmutable::setWeekStartsAt(CarbonImmutable::SUNDAY);
+        CarbonImmutable::setWeekEndsAt(CarbonImmutable::SATURDAY);
     }
 }

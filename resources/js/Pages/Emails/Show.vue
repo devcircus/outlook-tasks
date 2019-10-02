@@ -1,28 +1,24 @@
 <template>
     <layout :title="`Show Email`">
-        <h1 class="mb-8 font-bold text-lg md:text-3xl">
-            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Dashboard</inertia-link>
-            <span class="text-blue-300 font-medium">/</span>
-            <span class="text-blue-800 font-medium">{{ email.subject }}</span>
-        </h1>
+        <div class="w-full flex bg-blue-800 p-4">
+            <inertia-link class="text-lg md:text-xl text-blue-300 hover:text-white uppercase mr-1" :href="route('dashboard')">Dashboard</inertia-link>
+            <span class="text-lg md:text-xl text-blue-300 font-medium mr-1">></span>
+            <h1 class="text-white text-lg md:text-xl font-semibold uppercase">{{ email.subject }}</h1>
+        </div>
         <trashed-message v-if="email.deleted_at" class="mb-6" @restore="restore">
             This email has been deleted.
         </trashed-message>
-        <div class="bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8">
-            <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row w-full">
-                <div class="flex flex-col w-full md:w-1/3">
-                    <div class="flex flex-col">
-                        <div class="flex items-center mb-4">
-                            <span class="text-gray-700 text-base font-semibold align-middle mr-4">Received:</span>
-                            <span class="text-gray-900 text-sm align-middle">{{ email.received_at }}</span>
-                        </div>
-                        <div class="flex items-center mb-4 md:mb-0">
-                            <span class="text-gray-700 text-base font-semibold align-middle mr-4">From:</span>
-                            <span class="text-gray-900 text-sm align-middle">{{ email.from_name }}</span>
-                        </div>
+        <div class="bg-white rounded shadow overflow-hidden w-full">
+            <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row w-full md:w-4/5">
+                <div class="flex flex-col w-full mb-4">
+                    <div class="flex items-center mb-4">
+                        <span class="text-gray-700 text-base font-semibold align-middle mr-4">Received:</span>
+                        <span class="text-gray-900 text-sm align-middle">{{ email.received_at }}</span>
                     </div>
-                </div>
-                <div class="flex flex-col w-full md:w-2/3 mb-4">
+                    <div class="flex items-center mb-4">
+                        <span class="text-gray-700 text-base font-semibold align-middle mr-4">From:</span>
+                        <span class="text-gray-900 text-sm align-middle">{{ email.from_name }}</span>
+                    </div>
                     <p class="bg-gray-200 p-6 overflow-wrap">
                         <pre class="font-sans text-gray-800 text-sm overflow-x-auto whitespace-pre-wrap break-words">{{ email.body }}</pre>
                     </p>

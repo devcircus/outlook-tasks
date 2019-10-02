@@ -1,6 +1,10 @@
 <template>
     <layout title="Users">
-        <h1 class="mb-8 font-bold text-3xl">Users</h1>
+        <div class="w-full flex bg-blue-800 p-4">
+            <inertia-link class="text-lg md:text-xl text-blue-300 hover:text-white uppercase mr-1" :href="route('dashboard')">Dashboard</inertia-link>
+            <span class="text-lg md:text-xl text-blue-300 font-medium mr-1">></span>
+            <h1 class="text-white text-lg md:text-xl font-semibold uppercase">Users</h1>
+        </div>
         <div class="mb-6 flex justify-between items-center">
             <search-filter v-model="form.search" class="w-full max-w-sm mr-4" @reset="reset">
                 <label class="mt-4 block text-gray-900">Trashed:</label>

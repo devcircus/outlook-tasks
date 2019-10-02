@@ -7,9 +7,15 @@
             </inertia-link>
         </div>
         <div :class="margin">
-            <inertia-link class="flex items-center group py-3" :href="route('tasks.list.today')">
-                <icon name="book" class="w-4 h-4 mr-2" :class="isPath('tasks') ? 'fill-blue-300' : 'fill-white group-hover:fill-blue-300'" />
-                <div :class="isPath('tasks') ? 'text-blue-200' : 'text-white group-hover:text-blue-200'" class="text-xl">Today's Tasks</div>
+            <inertia-link class="flex items-center group py-3" :href="route('users.edit', $page.auth.user.id)">
+                <icon name="book" class="w-4 h-4 mr-2" :class="isPath('users') ? 'fill-blue-300' : 'fill-white group-hover:fill-blue-300'" />
+                <div :class="isPath('users') ? 'text-blue-200' : 'text-white group-hover:text-blue-200'" class="text-xl">My Profile</div>
+            </inertia-link>
+        </div>
+        <div :class="margin">
+            <inertia-link class="flex items-center group py-3" :href="route('logout')" method="post">
+                <icon name="book" class="w-4 h-4 mr-2 fill-white group-hover:fill-blue-300" />
+                <div class="text-white group-hover:text-blue-200 text-xl">Logout</div>
             </inertia-link>
         </div>
     </div>

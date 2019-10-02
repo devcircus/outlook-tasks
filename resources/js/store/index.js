@@ -1,55 +1,49 @@
 import { truncate } from '@/Helpers';
 
 export default {
+    activeCategory: 'all',
+    activeCalendar: 'all',
+    quantities: {
+        tasks: {},
+        email: {},
+    },
     workingTask: {},
     tables: {
         fields: {
             taskFields: [
                 {
-                    field: 'display_due_date',
+                    name: 'display_due_date',
                     label: 'Due',
+                    width: '80px',
                 },
                 {
-                    field: 'title',
+                    name: 'report_to',
+                    label: 'Report To',
+                    width: '80px',
+                },
+                {
+                    name: 'short_title',
                     label: 'Title',
-                    formatFn: value => truncate(value),
-                    filterOptions: {
-                        enabled: true,
-                        placeholder: 'Filter...',
-                    },
                 },
             ],
             categoryFields: [
                 {
-                    field: 'display_name',
+                    name: 'display_name',
                     label: 'Name',
-                },
-                {
-                    field: 'actions',
-                    label: 'Actions',
                 },
             ],
             emailFields: [
                 {
-                    field: 'received_at',
+                    name: 'received_at',
                     label: 'Received',
                 },
                 {
-                    field: 'subject',
+                    name: 'short_subject',
                     label: 'Subject',
-                    formatFn: value => truncate(value),
-                    filterOptions: {
-                        enabled: true,
-                        placeholder: 'Filter...',
-                    },
                 },
                 {
-                    field: 'from_address',
+                    name: 'from_address',
                     label: 'From',
-                },
-                {
-                    field: 'actions',
-                    label: 'Actions',
                 },
             ],
         },
