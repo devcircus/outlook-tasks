@@ -1,0 +1,27 @@
+.vgt-wrap .vgt-global-search {
+    color: white !important;
+    border: 1px solid #2A4365 !important;
+    background: linear-gradient(#2A4365, #2A4365) !important;
+    @apply mr-px;
+}
+
+.vgt-table thead th {
+    background: linear-gradient(#2A4365, #2A4365) !important;
+    color: white !important;
+}
+
+.vgt-table thead th input {
+    @apply bg-gray-300 text-gray-800 !important;
+}
+
+.vgt-table thead th input::-webkit-input-placeholder {
+    @apply text-gray-600 !important;
+}
+
+.vgt-table thead th input::-ms-input-placeholder {
+    @apply text-gray-600 !important;
+}
+
+.vgt-table thead th input::placeholder {
+    @apply text-gray-600 !important;
+}

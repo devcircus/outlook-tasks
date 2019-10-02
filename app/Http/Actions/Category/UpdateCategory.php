@@ -44,7 +44,7 @@ class UpdateCategory extends Action
             return redirect()->back()->with(['warning' => 'You do not have permission to edit this category.']);
         }
 
-        $updated = UpdateCategoryService::call($category, CategoryData::fromRequest($request));
+        $updated = UpdateCategoryService::call($category, CategoryData::fromRequest($request), $request->user());
 
         return $this->responder->withPayload($updated)->respond();
     }

@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Support\Str;
 use App\Models\Concerns\Slug\HasSlug;
 use App\Models\Concerns\Uuid\HasUuids;
-use Illuminate\Support\Facades\Config;
 use App\Models\Concerns\Slug\SlugOptions;
 use Illuminate\Database\Eloquent\Builder;
+use App\Services\Cache\CacheForgetService;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -36,6 +37,7 @@ class Task extends Model
 
     /** @var array */
     protected $appends = [
+        'short_title',
         'category_name',
         'display_due_date',
     ];
@@ -83,6 +85,14 @@ class Task extends Model
     }
 
     /**
+     * Get the short description for the task.
+     */
+    public function getShortTitleAttribute(): string
+    {
+        return Str::limit($this->title);
+    }
+
+    /**
      * Get the display_due_date attribute for the task.
      */
     public function getDisplayDueDateAttribute(): string
@@ -102,13 +112,36 @@ class Task extends Model
      */
     public function scopeForCategory(Builder $query, string $category): Builder
     {
-        if ('today' === $category) {
-            return $query->forToday();
+        if ('all' === $category) {
+            return $query;
         }
 
         return $query->whereHas('category', function ($query) use ($category) {
             return $query->where('name', $category);
         });
+    }
+
+    /**
+     * Scope the query to Tasks from the given calendar option.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  string  $calendar
+     */
+    public function scopeForCalendar(Builder $query, string $calendar): Builder
+    {
+        if ('today' === $calendar) {
+            return $query->forToday();
+        }
+
+        if ('overdue' === $calendar) {
+            return $query->overdueTasks();
+        }
+
+        if ('week' === $calendar) {
+            return $query->thisWeeksTasks();
+        }
+
+        return $query;
     }
 
     /**
@@ -158,6 +191,26 @@ class Task extends Model
     }
 
     /**
+     * Scope the current query to tasks that are overdue.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     */
+    public function scopeOverdueTasks(Builder $query): Builder
+    {
+        return $query->where('due_date', '<', today());
+    }
+
+    /**
+     * Scope the current query to tasks that are due this week.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     */
+    public function scopeThisWeeksTasks(Builder $query): Builder
+    {
+        return $query->whereBetween('due_date', [CarbonImmutable::today()->startOfWeek(), CarbonImmutable::today()->endOfWeek()]);
+    }
+
+    /**
      * Create a task for a specific user, using the given data.
      *
      * @param  array  $data
@@ -166,6 +219,8 @@ class Task extends Model
      */
     public function createTaskForUser(array $data, User $user, ?int $emailId = null): Task
     {
+        CacheForgetService::call('quantities', $user->id);
+
         $category_id = Category::where('name', $data['category'])->first()->id;
         $task = $user->tasks()->create([
             'title' => $data['title'],
@@ -190,6 +245,8 @@ class Task extends Model
      */
     public function createFromEmail(Email $email): void
     {
+        CacheForgetService::call('quantities', $email->user->id);
+
         $subject = $this->formatTitle($this->normalizeTitle($email->subject));
         $body = $email->body;
 
@@ -208,9 +265,12 @@ class Task extends Model
      * Update a task.
      *
      * @param  array  $data
+     * @param  int  $userId
      */
-    public function updateTaskData(array $data): Task
+    public function updateTaskData(array $data, int $userId): Task
     {
+        CacheForgetService::call('quantities', $userId);
+
         return tap($this, function ($task) use ($data) {
             $task->update([
                 'title' => $data['title'],
@@ -227,9 +287,13 @@ class Task extends Model
 
     /**
      * Delete a task.
+     *
+     * @param  int  $userId
      */
-    public function deleteTask(): Task
+    public function deleteTask(int $userId): Task
     {
+        CacheForgetService::call('quantities', $userId);
+
         return tap($this, function ($instance) {
             return $instance->delete();
         });
@@ -237,9 +301,13 @@ class Task extends Model
 
     /**
      * Restore a deleted task.
+     *
+     * @param  int  $userId
      */
-    public function restoreTask(): Task
+    public function restoreTask(int $userId): Task
     {
+        CacheForgetService::call('quantities', $userId);
+
         return tap($this, function ($instance) {
             return $instance->restore();
         });

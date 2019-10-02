@@ -31,6 +31,6 @@ class ListCategoriesService
      */
     public function run(bool $withTrashed = true)
     {
-        return $this->categories->withTrashed($withTrashed)->get();
+        return $this->categories->withTrashed($withTrashed)->get()->keyBy('name');
     }
 }

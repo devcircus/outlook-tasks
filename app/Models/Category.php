@@ -5,8 +5,8 @@ namespace App\Models;
 use App\Models\Concerns\Slug\HasSlug;
 use App\Models\Concerns\Slug\SlugOptions;
 use Illuminate\Database\Eloquent\Builder;
+use App\Services\Cache\CacheForgetService;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Category extends Model
@@ -26,9 +26,6 @@ class Category extends Model
     /** @var array */
     protected $with = [
         'definitions',
-        'fromDefinition',
-        'subjectDefinition',
-        'bodyDefinition',
     ];
 
     /**
@@ -74,36 +71,6 @@ class Category extends Model
     }
 
     /**
-     * A Category has one From Definition.
-     */
-    public function fromDefinition(): HasOne
-    {
-        return $this->hasOne(Definition::class)->where(function ($query) {
-            $query->where('definition_type', 'from');
-        });
-    }
-
-    /**
-     * A Category has one Subject Definition.
-     */
-    public function subjectDefinition(): HasOne
-    {
-        return $this->hasOne(Definition::class)->where(function ($query) {
-            $query->where('definition_type', 'subject');
-        });
-    }
-
-    /**
-     * A Category has one Body Definition.
-     */
-    public function bodyDefinition(): HasOne
-    {
-        return $this->hasOne(Definition::class)->where(function ($query) {
-            $query->where('definition_type', 'body');
-        });
-    }
-
-    /**
      * Scope the query to categories that are ready to be used in task generation.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $query
@@ -120,7 +87,7 @@ class Category extends Model
      */
     public function getHasFromDefinitionAttribute(): bool
     {
-        return null != $this->fromDefinition;
+        return null === $this->definitions()->where('definition_type', 'from');
     }
 
     /**
@@ -128,7 +95,7 @@ class Category extends Model
      */
     public function getHasSubjectDefinitionAttribute(): bool
     {
-        return null != $this->subjectDefinition;
+        return null === $this->definitions()->where('definition_type', 'subject');
     }
 
     /**
@@ -136,7 +103,7 @@ class Category extends Model
      */
     public function getHasBodyDefinitionAttribute(): bool
     {
-        return null != $this->bodyDefinition;
+        return null === $this->definitions()->where('definition_type', 'body');
     }
 
     /**
@@ -159,9 +126,12 @@ class Category extends Model
      * Create a new Category.
      *
      * @param  array  $data
+     * @param  int  $userId
      */
-    public function createCategory(array $data): Category
+    public function createCategory(array $data, int $userId): Category
     {
+        CacheForgetService::call('quantities', $userId);
+
         return $this->create([
             'name' => strtolower($data['name']),
         ]);
@@ -171,9 +141,12 @@ class Category extends Model
      * Update a Category.
      *
      * @param  array  $data
+     * @param  int  $userId
      */
-    public function updateCategory(array $data): Category
+    public function updateCategory(array $data, int $userId): Category
     {
+        CacheForgetService::call('quantities', $userId);
+
         return tap($this, function ($category) use ($data) {
             return $category->update($data);
         })->fresh();
@@ -181,9 +154,13 @@ class Category extends Model
 
     /**
      * Delete a Category and the associated related models.
+     *
+     * @param  int  $userId
      */
-    public function deleteCategory(): Category
+    public function deleteCategory(int $userId): Category
     {
+        CacheForgetService::call('quantities', $userId);
+
         return tap($this, function ($instance) {
             $instance->tasks()->withTrashed()->delete();
             $instance->emails()->delete();
@@ -193,9 +170,13 @@ class Category extends Model
 
     /**
      * Restore a deleted category.
+     *
+     * @param  int  $userId
      */
-    public function restoreCategory(): Category
+    public function restoreCategory(int $userId): Category
     {
+        CacheForgetService::call('quantities', $userId);
+
         return tap($this, function ($instance) {
             return $instance->restore();
         });

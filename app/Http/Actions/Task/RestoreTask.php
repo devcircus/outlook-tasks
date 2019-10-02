@@ -2,11 +2,11 @@
 
 namespace App\Http\Actions\Task;
 
+use App\Models\Task;
 use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
 use App\Services\Task\RestoreTaskService;
 use App\Http\Responders\Task\RestoreTaskResponder;
-use App\Models\Task;
 
 class RestoreTask extends Action
 {
@@ -26,13 +26,14 @@ class RestoreTask extends Action
     /**
      * Execute the action.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Task  $task
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Task $task)
+    public function __invoke(Request $request, Task $task)
     {
-        $restored = RestoreTaskService::call($task);
+        $restored = RestoreTaskService::call($task, $request->user());
 
         return $this->responder->withPayload($restored)->respond();
     }

@@ -1,10 +1,10 @@
 <template>
     <layout :title="`Show Task`">
-        <h1 class="mb-8 font-bold text-lg md:text-3xl">
-            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Dashboard</inertia-link>
-            <span class="text-blue-300 font-medium">/</span>
-            <span class="text-blue-800 font-medium">{{ form.title }}</span>
-        </h1>
+        <div class="w-full flex bg-blue-800 p-4">
+            <inertia-link class="text-lg md:text-xl text-blue-300 hover:text-white uppercase mr-1" :href="route('dashboard')">Dashboard</inertia-link>
+            <span class="text-lg md:text-xl text-blue-300 font-medium mr-1">></span>
+            <h1 class="text-white text-lg md:text-xl font-semibold uppercase">{{ form.title }}</h1>
+        </div>
         <trashed-message v-if="task.deleted_at" class="mb-6" @restore="restore">
             This task has been deleted.
         </trashed-message>

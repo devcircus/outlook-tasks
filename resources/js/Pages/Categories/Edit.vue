@@ -1,12 +1,12 @@
 <template>
     <layout :title="`Define Category`">
-        <h1 class="mb-8 font-bold text-lg md:text-3xl">
-            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Dashboard</inertia-link>
-            <span class="text-blue-300 font-medium">/</span>
-            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('admin.index')">Categories</inertia-link>
-            <span class="text-blue-300 font-medium">/</span>
-            <span class="text-blue-800 font-medium">{{ forms.category.name }}</span>
-        </h1>
+        <div class="w-full flex bg-blue-800 p-4 mb-8">
+            <inertia-link class="text-lg md:text-xl text-blue-300 hover:text-white uppercase mr-1" :href="route('dashboard')">Dashboard</inertia-link>
+            <span class="text-lg md:text-xl text-blue-300 font-medium mr-1">></span>
+            <inertia-link class="text-lg md:text-xl text-blue-300 hover:text-white uppercase mr-1" :href="route('admin.index')">Categories</inertia-link>
+            <span class="text-lg md:text-xl text-blue-300 font-medium mr-1">></span>
+            <span class="text-white text-lg md:text-xl font-medium">{{ forms.category.name }}</span>
+        </div>
         <trashed-message v-if="category.deleted_at" class="mb-6" @restore="restoreCategory">
             This category has been deleted.
         </trashed-message>

@@ -32,7 +32,7 @@ class StoreCategory extends Action
      */
     public function __invoke(Request $request)
     {
-        $category = StoreCategoryService::call(Category::fromRequest($request));
+        $category = StoreCategoryService::call(Category::fromRequest($request), $request->user());
 
         return $this->responder->withPayload($category)->respond();
     }

@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use Carbon\CarbonImmutable;
+use Illuminate\Support\Str;
 use App\Models\Concerns\Uuid\HasUuids;
 use Illuminate\Database\Eloquent\Builder;
+use App\Services\Cache\CacheForgetService;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -21,6 +23,9 @@ class Email extends Model
 
     /** @var array */
     protected $with = ['category'];
+
+    /** @var array */
+    protected $appends = ['short_subject'];
 
     /**
      * An Email belongs to a User.
@@ -48,6 +53,14 @@ class Email extends Model
         }
 
         return '';
+    }
+
+    /**
+     * Get the short subject for the task.
+     */
+    public function getShortSubjectAttribute(): string
+    {
+        return Str::limit($this->subject, 60);
     }
 
     /**
@@ -236,6 +249,9 @@ class Email extends Model
      */
     public function deleteEmail(): Email
     {
+        CacheForgetService::call('emails', $user->id);
+        CacheForgetService::call('emailQuantities', $user->id);
+
         return tap($this, function ($instance) {
             return $instance->delete();
         });
@@ -246,6 +262,9 @@ class Email extends Model
      */
     public function restoreEmail(): Email
     {
+        CacheForgetService::call('emails', $user->id);
+        CacheForgetService::call('emailQuantities', $user->id);
+
         return tap($this, function ($instance) {
             return $instance->restore();
         });
@@ -258,6 +277,9 @@ class Email extends Model
      */
     public function deleteAllWithNoTask(User $user): bool
     {
+        CacheForgetService::call('emails', $user->id);
+        CacheForgetService::call('emailQuantities', $user->id);
+
         return $user->emails()->withNoTask()->delete();
     }
 }

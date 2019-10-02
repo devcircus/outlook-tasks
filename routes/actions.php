@@ -39,12 +39,9 @@ Route::group(['middleware' => ['guest'], 'as' => 'password.', 'prefix' => 'passw
     $router->post('/reset', Auth\PasswordReset\UpdatePassword::class)->name('update');
 });
 
-/*
- * Email Verification
- *
- * Middleware is defined inside the constructor of each Action.
- * ['auth', 'signed', 'throttle']
- */
+// Email Verification
+// Middleware is defined inside the constructor of each Action.
+// ['auth', 'signed', 'throttle']
 Route::group(['as' => 'verification.', 'prefix' => 'email'], function ($router) {
     $router->get('/verify', Auth\EmailVerification\ShowVerification::class)->name('notice');
     $router->get('/verify/{id}', Auth\EmailVerification\Verify::class)->name('verify');
@@ -87,7 +84,6 @@ Route::group(['middleware' => ['auth'], 'as' => 'emails.', 'prefix' => 'emails']
 
 // Categories
 Route::group(['middleware' => ['auth', 'admin'], 'as' => 'categories.', 'prefix' => 'categories'], function ($router) {
-    $router->get('/', Category\ListCategories::class)->name('list');
     $router->delete('/{category}', Category\DeleteCategory::class)->name('destroy');
     $router->get('/{category}', Category\ShowCategory::class)->name('show');
     $router->put('/{category}', Category\UpdateCategory::class)->name('update');

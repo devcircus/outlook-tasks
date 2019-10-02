@@ -6,6 +6,7 @@ use App\Models\Task;
 use PerfectOblivion\Actions\Action;
 use App\Services\Task\DeleteTaskService;
 use App\Http\Responders\Task\DeleteTaskResponder;
+use Illuminate\Http\Request;
 
 class DeleteTask extends Action
 {
@@ -25,12 +26,13 @@ class DeleteTask extends Action
     /**
      * Execute the action.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Task  $task
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Task $task)
+    public function __invoke(Request $request, Task $task)
     {
-        return $this->responder->withPayload(DeleteTaskService::call($task))->respond();
+        return $this->responder->withPayload(DeleteTaskService::call($task, $request->user()))->respond();
     }
 }

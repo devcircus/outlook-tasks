@@ -6,6 +6,10 @@ module.exports = {
           lg: '1024px',
           xl: '1280px',
         },
+        inset: {
+            '16': '16px',
+            '32': '32px',
+        },
         fill: theme => ({
             current: 'currentColor',
             'white': theme('colors.white'),
@@ -18,6 +22,15 @@ module.exports = {
             'blue-700': theme('colors.blue.700'),
             'blue-800': theme('colors.blue.800'),
             'blue-900': theme('colors.blue.900'),
+            'gray-100': theme('colors.gray.100'),
+            'gray-200': theme('colors.gray.200'),
+            'gray-300': theme('colors.gray.300'),
+            'gray-400': theme('colors.gray.400'),
+            'gray-500': theme('colors.gray.500'),
+            'gray-600': theme('colors.gray.600'),
+            'gray-700': theme('colors.gray.700'),
+            'gray-800': theme('colors.gray.800'),
+            'gray-900': theme('colors.gray.900'),
             'yellow-100': theme('colors.yellow.100'),
             'yellow-200': theme('colors.yellow.200'),
             'yellow-300': theme('colors.yellow.300'),
@@ -101,7 +114,9 @@ module.exports = {
         textColor: ['responsive', 'hover', 'focus', 'group-hover'],
         fill: ['hover', 'focus', 'group-hover'],
         width: ['responsive'],
-        margin: ['last-child', 'responsive'],
+        margin: ['last-child', 'first-child', 'responsive', 'first', 'last'],
+        display: ['responsive', 'hover'],
+        backgroundColor: ['odd'],
     },
     plugins: [
         require('./resources/js/lib/tailwindcss/plugins/tables')(),
@@ -109,6 +124,13 @@ module.exports = {
             addVariant('last-child', ({ modifySelectors, separator }) => {
                 modifySelectors(({ className }) => {
                     return `.${e(`last-child${separator}${className}`)}:last-child`
+                })
+            })
+        },
+        function ({ addVariant, e }) {
+            addVariant('first-child', ({ modifySelectors, separator }) => {
+                modifySelectors(({ className }) => {
+                    return `.${e(`first-child${separator}${className}`)}:first-child`
                 })
             })
         },

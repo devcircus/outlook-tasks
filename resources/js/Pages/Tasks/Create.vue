@@ -1,11 +1,11 @@
 <template>
     <layout :title="`New Task`">
-        <h1 class="mb-8 font-bold text-lg md:text-3xl">
-            <inertia-link class="text-blue-300 hover:text-blue-700" :href="route('dashboard')">Dashboard</inertia-link>
-            <span class="text-blue-300 font-medium">/</span>
-            <span class="text-blue-800 font-medium">{{ form.title ? form.title : 'New Task' }}</span>
-        </h1>
-        <div class="bg-white rounded shadow overflow-hidden w-full md:w-3/5 mb-8">
+        <div class="w-full flex bg-blue-800 p-4">
+            <inertia-link class="text-lg md:text-xl text-blue-300 hover:text-white uppercase mr-1" :href="route('dashboard')">Dashboard</inertia-link>
+            <span class="text-lg md:text-xl text-blue-300 font-medium mr-1">></span>
+            <h1 class="text-white text-lg md:text-xl font-semibold uppercase">{{ form.title ? form.title : 'New Task' }}</h1>
+        </div>
+        <div class="bg-white rounded shadow overflow-hidden w-full">
             <form @submit.prevent="submit">
                 <div class="p-8 -mr-6 -mb-8 flex flex-col md:flex-row md:flex-wrap w-full">
                     <text-input v-model="form.title" :errors="getErrors('title')" class="md:pr-6 pb-8 w-full md:w-1/2" label="Title" />
@@ -31,10 +31,12 @@
 import { filter } from 'lodash';
 import moment from 'moment-timezone';
 import Layout from '@/Shared/Layout';
+import IconBase from '@/Shared/IconBase';
 import Checkbox from '@/Shared/Checkbox';
 import TextInput from '@/Shared/TextInput';
 import Datepicker from '@/Shared/Datepicker';
 import SelectInput from '@/Shared/SelectInput';
+import Activities from '@/Shared/Icons/Activities';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextareaInput from '@/Shared/TextareaInput';
 
@@ -42,7 +44,9 @@ export default {
     components: {
         Layout,
         Checkbox,
+        IconBase,
         TextInput,
+        Activities,
         Datepicker,
         SelectInput,
         TextareaInput,

@@ -4,6 +4,7 @@ namespace App\Services\Category;
 
 use App\Models\Category;
 use App\Http\DTO\Category as CategoryData;
+use App\Models\User;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 use App\Services\Category\Validation\UpdateCategoryValidationService;
 
@@ -29,15 +30,16 @@ class UpdateCategoryService
      *
      * @param  \App\Models\Category  $category
      * @param  \App\Http\DTO\Category  $data
+     * @param  \App\Models\User  $user
      *
      * @return mixed
      */
-    public function run(Category $category, CategoryData $data)
+    public function run(Category $category, CategoryData $data, User $user)
     {
         $this->validator->validate(
             $data->with(['id' => $category->id])->toArray()
         );
 
-        return $category->updateCategory($data->only(['name']));
+        return $category->updateCategory($data->only(['name']), $user->id);
     }
 }

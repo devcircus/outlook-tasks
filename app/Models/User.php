@@ -55,6 +55,14 @@ class User extends Authenticatable implements AuthorizableContract, MustVerifyEm
     }
 
     /**
+     * A user has many task totals.
+     */
+    public function totals(): HasMany
+    {
+        return $this->hasMany(Total::class);
+    }
+
+    /**
      * Order query by user name.
      *
      * @param  \Illuminate\Database\Eloquent\Builder  $builder

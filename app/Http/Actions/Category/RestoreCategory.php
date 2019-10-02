@@ -6,6 +6,7 @@ use App\Models\Category;
 use PerfectOblivion\Actions\Action;
 use App\Services\Category\RestoreCategoryService;
 use App\Http\Responders\Category\RestoreCategoryResponder;
+use Illuminate\Http\Request;
 
 class RestoreCategory extends Action
 {
@@ -25,13 +26,14 @@ class RestoreCategory extends Action
     /**
      * Execute the action.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Category  $category
      *
      * @return \Illuminate\Http\Response
      */
-    public function __invoke(Category $category)
+    public function __invoke(Request $request, Category $category)
     {
-        $restored = RestoreCategoryService::call($category);
+        $restored = RestoreCategoryService::call($category, $request->user());
 
         return $this->responder->withPayload($restored)->respond();
     }

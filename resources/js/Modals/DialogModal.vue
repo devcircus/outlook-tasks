@@ -33,7 +33,7 @@ export default {
             if (button.type === 'delete') {
                 return 'text-red-500';
             }
-            if (button.type === 'create') {
+            if (button.type === 'create' || button.type === 'restore') {
                 return 'text-green-500'
             }
             if (button.type === 'info') {

@@ -36,6 +36,9 @@
         <modal-component name="restoreUserDialog" width="80%" :max-width="400" :adaptive="true" :scrollable="true" :delay="250" height="auto" class="text-center center" @before-open="beforeOpenDialog($event)">
             <dialog-modal :title="restoreUserDialog.title" :text="restoreUserDialog.text" :buttons="restoreUserDialog.buttons" />
         </modal-component>
+        <modal-component name="dialogModal" width="80%" :max-width="400" :adaptive="true" :delay="250" height="auto" class="text-center center" @before-open="beforeOpenDialog($event)">
+            <dialog-modal :title="dialog.title" :text="dialog.text" :buttons="dialog.buttons" />
+        </modal-component>
     </div>
 </template>
 
@@ -109,9 +112,19 @@ export default {
                 text: null,
                 buttons: [],
             },
+            dialog: {
+                title: null,
+                text: null,
+                buttons: [],
+            },
         }
     },
     methods: {
+        beforeOpenDialog (event) {
+            this.dialog.title = event.params.title;
+            this.dialog.text = event.params.text;
+            this.dialog.buttons = event.params.buttons;
+        },
         beforeOpenAddRuleModal (event) {
             this.addRuleModal.category = event.params.category;
             this.addRuleModal.type = event.params.type;
@@ -121,11 +134,6 @@ export default {
         },
         beforeOpenEmailTaskModal (event) {
             this.emailTaskModal.task = event.params.task;
-        },
-        beforeOpenDialog (event) {
-            this[event.name].title = event.params.title;
-            this[event.name].text = event.params.text;
-            this[event.name].buttons = event.params.buttons;
         },
     },
 }

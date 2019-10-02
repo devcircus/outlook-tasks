@@ -37,6 +37,8 @@
         "vue/html-indent": ["error", 4],
         "vue/max-attributes-per-line": false,
         "vue/require-default-prop": false,
-        "vue/singleline-html-element-content-newline": false
+        "vue/singleline-html-element-content-newline": false,
+        "vue/html-self-closing": 0,
+        "vue/require-prop-types": 0
     }
 }

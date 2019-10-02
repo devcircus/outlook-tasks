@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use PerfectOblivion\Actions\Action;
 use App\Services\Dashboard\IndexService;
 use App\Http\Responders\Dashboard\IndexResponder;
+use App\Services\Dashboard\DashboardService;
+use Inertia\Response;
 
 class Index extends Action
 {
@@ -26,13 +28,14 @@ class Index extends Action
      * Show the application dashboard page.
      *
      * @param  \Illuminate\Http\Request  $request
-     *
-     * @return \Illuminate\View\View
      */
-    public function __invoke(Request $request)
+    public function __invoke(Request $request): Response
     {
-        $data = IndexService::call($request->user());
+        $category = $request->category;
+        $calendar = $request->calendar;
 
-        return $this->responder->withPayload($data)->respond();
+        $results = DashboardService::call($category ?? 'all', $calendar ?? 'all', $request->user());
+
+        return $this->responder->withPayload($results)->respond();
     }
 }
