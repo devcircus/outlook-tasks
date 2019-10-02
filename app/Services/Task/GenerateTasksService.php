@@ -32,7 +32,7 @@ class GenerateTasksService
      */
     public function run(Collection $emails): void
     {
-        CacheForgetService::call('quantities', $email->user->id);
+        CacheForgetService::call('quantities', $emails->first()->user->id);
 
         $emails->each(function ($email) {
             GenerateTaskFromEmailService::call($email);
