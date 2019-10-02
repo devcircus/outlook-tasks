@@ -82,7 +82,7 @@ class Email extends Model
      */
     public function setCategoryByName(string $category): bool
     {
-        $this->setCategory(Category::where('name', $category)->first());
+        return $this->setCategory(Category::where('name', $category)->first());
     }
 
     /**
@@ -249,8 +249,8 @@ class Email extends Model
      */
     public function deleteEmail(): Email
     {
-        CacheForgetService::call('emails', $user->id);
-        CacheForgetService::call('emailQuantities', $user->id);
+        CacheForgetService::call('emails', $this->user->id);
+        CacheForgetService::call('emailQuantities', $this->user->id);
 
         return tap($this, function ($instance) {
             return $instance->delete();
@@ -262,8 +262,8 @@ class Email extends Model
      */
     public function restoreEmail(): Email
     {
-        CacheForgetService::call('emails', $user->id);
-        CacheForgetService::call('emailQuantities', $user->id);
+        CacheForgetService::call('emails', $this->user->id);
+        CacheForgetService::call('emailQuantities', $this->user->id);
 
         return tap($this, function ($instance) {
             return $instance->restore();
