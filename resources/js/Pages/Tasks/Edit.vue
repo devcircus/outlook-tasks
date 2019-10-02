@@ -96,47 +96,19 @@ export default {
                 task: this.task,
             });
         },
-        destroy () {
-            this.$modal.show('deleteTaskDialog', {
-                title: 'Caution!',
-                text: 'Are you sure you want to delete this task?',
-                buttons: [
-                    {
-                        title: 'Delete Task',
-                        type: 'delete',
-                        handler: () => {
-                            this.$inertia.delete(this.route('tasks.destroy', this.task.id), { replace: false, preserveScroll: true, preserveState: true });
-                            this.$modal.hide('deleteTaskDialog');
-                         },
-                    },
-                    {
-                        title: 'Close',
-                        type: 'close',
-                        handler: () => { this.$modal.hide('deleteTaskDialog') },
-                    },
-                ],
-            });
-        },
         restore () {
-            this.$modal.show('restoreTaskDialog', {
-                title: 'Notice!',
-                text: 'Are you sure you want to restore this task?',
-                buttons: [
-                    {
-                        title: 'Restore Task',
-                        type: 'restore',
-                        handler: () => {
-                            this.$inertia.put(this.route('tasks.restore', this.task.id), null, { replace: false, preserveScroll: true, preserveState: true });
-                            this.$modal.hide('restoreTaskDialog');
-                         },
-                    },
-                    {
-                        title: 'Close',
-                        type: 'close',
-                        handler: () => { this.$modal.hide('restoreTaskDialog') },
-                    },
-                ],
-            });
+            this.$showDialog('warning', 'task', 'restore', () => {
+                    this.$inertia.put(this.route('tasks.restore', this.task.id), null, { replace: false, preserveScroll: true, preserveState: true });
+                    this.$modal.hide('dialogModal');
+                }
+            );
+        },
+        destroy () {
+            this.$showDialog('warning', 'task', 'delete', () => {
+                    this.$inertia.delete(this.route('tasks.destroy', this.task.id), { replace: false, preserveScroll: true, preserveState: true });
+                    this.$modal.hide('dialogModal');
+                }
+            );
         },
         setDate (event, field) {
             this.form[field] = moment.utc(event).format('YYYY-MM-DD');
