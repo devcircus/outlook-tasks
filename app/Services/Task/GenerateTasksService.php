@@ -4,8 +4,8 @@ namespace App\Services\Task;
 
 use App\Models\Task;
 use App\Events\TasksGenerated;
+use App\Services\Cache\CacheForgetService;
 use Illuminate\Database\Eloquent\Collection;
-use App\Services\Task\GenerateTaskFromEmailService;
 use PerfectOblivion\Services\Traits\SelfCallingService;
 
 class GenerateTasksService
@@ -32,6 +32,8 @@ class GenerateTasksService
      */
     public function run(Collection $emails): void
     {
+        CacheForgetService::call('quantities', $email->user->id);
+
         $emails->each(function ($email) {
             GenerateTaskFromEmailService::call($email);
         });

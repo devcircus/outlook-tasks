@@ -156,7 +156,7 @@ export default {
         },
         processTasks () {
             this.tasksLoading = true;
-            this.$inertia.post(this.route('tasks.process')).then( () => this.tasksLoading = false );
+            this.$inertia.post(this.route('tasks.process'), null, { preserveState: false }).then( () => this.tasksLoading = false );
         },
     },
 }
