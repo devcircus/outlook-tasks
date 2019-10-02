@@ -4,6 +4,7 @@ namespace App\Services\Task;
 
 use App\Models\User;
 use App\Models\Email;
+use App\Models\Total;
 use App\Events\NoTasksToGenerate;
 use App\Services\Cache\CacheForgetService;
 use App\Services\Task\GenerateTasksService;
@@ -16,14 +17,19 @@ class ProcessTasksService
     /** @var \App\Models\Email */
     private $emails;
 
+    /** @var \App\Models\Total */
+    private $totals;
+
     /**
      * Construct a new ProcessTasksService.
      *
      * @param  \App\Models\Email  $emails
+     * @param  \App\Models\Total  $totals
      */
-    public function __construct(Email $emails)
+    public function __construct(Email $emails, Total $totals)
     {
         $this->emails = $emails;
+        $this->totals = $totals;
     }
 
     /**
@@ -42,6 +48,7 @@ class ProcessTasksService
         }
 
         CacheForgetService::call('quantities', $user->id);
+        $this->totals->forUser($user)->delete();
 
         return GenerateTasksService::call($emails);
     }

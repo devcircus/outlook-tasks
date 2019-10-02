@@ -131,6 +131,7 @@ class Category extends Model
     public function createCategory(array $data, int $userId): Category
     {
         CacheForgetService::call('quantities', $userId);
+        Total::forUser($userId)->delete();
 
         return $this->create([
             'name' => strtolower($data['name']),
@@ -146,6 +147,7 @@ class Category extends Model
     public function updateCategory(array $data, int $userId): Category
     {
         CacheForgetService::call('quantities', $userId);
+        Total::forUser($userId)->delete();
 
         return tap($this, function ($category) use ($data) {
             return $category->update($data);
@@ -160,6 +162,7 @@ class Category extends Model
     public function deleteCategory(int $userId): Category
     {
         CacheForgetService::call('quantities', $userId);
+        Total::forUser($userId)->delete();
 
         return tap($this, function ($instance) {
             $instance->tasks()->withTrashed()->delete();
@@ -176,6 +179,7 @@ class Category extends Model
     public function restoreCategory(int $userId): Category
     {
         CacheForgetService::call('quantities', $userId);
+        Total::forUser($userId)->delete();
 
         return tap($this, function ($instance) {
             return $instance->restore();

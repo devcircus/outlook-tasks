@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Collection;
+use Illuminate\Database\Eloquent\Builder;
 use App\Services\Category\ListCategoriesService;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
@@ -16,6 +17,19 @@ class Total extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Scope the current query to a specific user.
+     *
+     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param  mixed  $user
+     */
+    public function scopeForUser(Builder $query, $user): Builder
+    {
+        $id = $user instanceof User ? $user->id : $user;
+
+        return $query->where('user_id', $id);
     }
 
     /**

@@ -220,6 +220,7 @@ class Task extends Model
     public function createTaskForUser(array $data, User $user, ?int $emailId = null): Task
     {
         CacheForgetService::call('quantities', $user->id);
+        Total::forUser($user)->delete();
 
         $category_id = Category::where('name', $data['category'])->first()->id;
         $task = $user->tasks()->create([
@@ -268,6 +269,7 @@ class Task extends Model
     public function updateTaskData(array $data, int $userId): Task
     {
         CacheForgetService::call('quantities', $userId);
+        Total::forUser($userId)->delete();
 
         return tap($this, function ($task) use ($data) {
             $task->update([
@@ -291,6 +293,7 @@ class Task extends Model
     public function deleteTask(int $userId): Task
     {
         CacheForgetService::call('quantities', $userId);
+        Total::forUser($userId)->delete();
 
         return tap($this, function ($instance) {
             return $instance->delete();
@@ -305,6 +308,7 @@ class Task extends Model
     public function restoreTask(int $userId): Task
     {
         CacheForgetService::call('quantities', $userId);
+        Total::forUser($userId)->delete();
 
         return tap($this, function ($instance) {
             return $instance->restore();

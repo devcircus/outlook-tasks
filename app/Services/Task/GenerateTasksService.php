@@ -3,6 +3,7 @@
 namespace App\Services\Task;
 
 use App\Models\Task;
+use App\Models\Total;
 use App\Events\TasksGenerated;
 use App\Services\Cache\CacheForgetService;
 use Illuminate\Database\Eloquent\Collection;
@@ -15,14 +16,19 @@ class GenerateTasksService
     /** @var \App\Models\Task */
     private $tasks;
 
+    /** @var \App\Models\Total */
+    private $totals;
+
     /**
      * Construct a new GenerateTaskService.
      *
      * @param  \App\Models\Task  $tasks
+     * @param  \App\Models\Total  $totals
      */
-    public function __construct(Task $tasks)
+    public function __construct(Task $tasks, Total $totals)
     {
         $this->tasks = $tasks;
+        $this->totals = $totals;
     }
 
     /**
@@ -32,7 +38,10 @@ class GenerateTasksService
      */
     public function run(Collection $emails): void
     {
-        CacheForgetService::call('quantities', $emails->first()->user->id);
+        $user = $emails->first()->user;
+
+        CacheForgetService::call('quantities', $user->id);
+        $this->totals->forUser($user)->delete();
 
         $emails->each(function ($email) {
             GenerateTaskFromEmailService::call($email);
