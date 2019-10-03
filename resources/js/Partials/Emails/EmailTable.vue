@@ -28,16 +28,36 @@
         </item-list>
         <template v-else>
             <div class="flex flex-col">
-                <div v-for="item in emailRows" :key="item.id" class="flex flex-col p-6 border-b" :class="backgroundColor(item)">
-                    <span class="font-semibold text-gray-700 mb-3">Subject: <span class="font-normal">{{ item.subject }}</span></span>
-                    <span class="font-semibold text-gray-700 mb-3">From: <span class="font-normal">{{ item.from_address }}</span></span>
-                    <span class="font-semibold text-gray-700 mb-4">Received: <span class="font-normal">{{ item.received_at }}</span></span>
-                    <span class="flex justify-between">
-                        <button v-if="item.deleted_at" class="text-red-500 font-semibold hover:underline" tabindex="-1" type="button" @click="restoreEmail(item.id)">Restore</button>
-                        <button v-else class="text-red-500 font-semibold hover:underline" tabindex="-1" type="button" @click="destroyEmail(item.id)">Delete</button>
-                        <button class="text-green-500 font-semibold hover:underline" tabindex="-1" type="button" @click="newTask(null, item)">New Task</button>
-                        <button class="text-blue-500 font-semibold hover:underline" tabindex="-1" type="button" @click="showEmail(item.id)">View</button>
-                    </span>
+                <div v-for="item in emailRows" :key="item.id" class="flex flex-col p-6 border-b-2 border-blue-500" :class="backgroundColor(item)">
+                    <span class="font-semibold text-gray-700 mb-4">Subject: <span class="font-normal">{{ item.subject }}</span></span>
+                    <span class="font-semibold text-gray-700 mb-4">From: <span class="font-normal">{{ item.from_address }}</span></span>
+                    <span class="font-semibold text-gray-700 mb-8">Received: <span class="font-normal">{{ item.received_at }}</span></span>
+                    <div class="inline-flex">
+                        <div v-if="item.deleted_at" class="group flex-initial">
+                            <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer" view-box="1000 1000">
+                                <restore />
+                            </icon-base>
+                            <button class="inline-block text-green-500 group-hover:text-green-300 font-semibold mr-8" tabindex="-1" type="button" @click="restoreEmail(item.id)">Restore</button>
+                        </div>
+                        <div v-else class="group flex-initial">
+                            <icon-base icon-fill="fill-red-500" icon-function="trash" classes="inline-block group-hover:fill-red-300 mr-1 cursor-pointer" :width="14" :height="14">
+                                <trash />
+                            </icon-base>
+                            <button class="inline-block text-red-500 group-hover:text-red-300 font-semibold mr-8" tabindex="-1" type="button" @click="destroyEmail(item.id)">Delete</button>
+                        </div>
+                        <div class="group flex-initial">
+                            <icon-base icon-fill="fill-green-500" icon-function="view" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
+                                <view-eye />
+                            </icon-base>
+                            <button class="inline-block text-green-500 group-hover:text-green-300 font-semibold" tabindex="-1" type="button" @click="newTask(null, item)">New Task</button>
+                        </div>
+                        <div class="group flex-initial">
+                            <icon-base icon-fill="fill-blue-500" icon-function="view" classes="inline-block group-hover:fill-blue-300 mr-1 cursor-pointer">
+                                <view-eye />
+                            </icon-base>
+                            <button class="inline-block text-blue-500 group-hover:text-blue-300 font-semibold" tabindex="-1" type="button" @click="showEmail(item.id)">View</button>
+                        </div>
+                    </div>
                 </div>
                 <div v-if="! emailRows.length" class="p-6 mb-8">
                     <span class="font-semibold text-gray-800 text-base">No Emails Found</span>
