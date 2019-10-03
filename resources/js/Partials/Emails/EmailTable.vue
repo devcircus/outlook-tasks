@@ -46,8 +46,8 @@
                             <button class="inline-block text-red-500 group-hover:text-red-300 font-semibold mr-8" tabindex="-1" type="button" @click="destroyEmail(item.id)">Delete</button>
                         </div>
                         <div class="group flex-initial">
-                            <icon-base icon-fill="fill-green-500" icon-function="view" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
-                                <view-eye />
+                            <icon-base icon-fill="fill-green-500" icon-function="add" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
+                                <list-add />
                             </icon-base>
                             <button class="inline-block text-green-500 group-hover:text-green-300 font-semibold" tabindex="-1" type="button" @click="newTask(null, item)">New Task</button>
                         </div>
@@ -73,10 +73,18 @@ import IconBase from '@/Shared/IconBase';
 import Checkbox from '@/Shared/Checkbox';
 import Dropdown from '@/Shared/Dropdown';
 import ItemList from '@/Shared/ItemList';
+import Trash from '@/Shared/Icons/Trash';
+import Restore from '@/Shared/Icons/Restore';
+import ViewEye from '@/Shared/Icons/ViewEye';
+import ListAdd from '@/Shared/Icons/ListAdd';
 import CheveronDown from '@/Shared/Icons/CheveronDown';
 
 export default {
     components: {
+        Trash,
+        Restore,
+        ViewEye,
+        ListAdd,
         IconBase,
         Checkbox,
         Dropdown,
