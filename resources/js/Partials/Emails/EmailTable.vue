@@ -12,14 +12,15 @@
                     </icon-base>
                 </div>
                 <div slot="dropdown" class="flex flex-col mt-2 p-2 shadow-lg bg-white rounded">
-                    <checkbox v-model="showTrashed" class="text-xs text-red-600 hover:text-red-300 mb-1 ml-auto" label="Include deleted email" :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
+                    <checkbox v-model="showTrashed" class="text-xs text-red-600 hover:text-red-300 mb-2 ml-auto" label="Include deleted email" :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
+                    <span class="text-xs text-red-800 hover:text-red-300 font-semibold ml-auto cursor-pointer" @click="deleteAll()">Delete All</span>
                 </div>
             </dropdown>
         </div>
         <item-list v-if="windowWidth >= 768" :header-fields="emailFields" :data="emailRows" not-found-message="No Emails Found" entity-name="emails" row-action="show" :has-actions="true">
             <template slot-scope="props">
                 <div class="group flex w-full items-center">
-                    <inertia-link class="btn btn-text text-xs text-gray-300 group-hover:text-gray-500 mr-2 uppercase" :href="route('emails.destroy', props.item.id)" method="delete">Delete</inertia-link>
+                    <span class="btn btn-text text-xs text-gray-300 group-hover:text-gray-500 mr-2 uppercase" @click="destroyEmail(props.item.id)">Delete</span>
                     <span class="text-gray-300 group-hover:text-gray-500">|</span>
                     <span class="btn btn-text text-xs text-gray-300 group-hover:text-gray-500 mr-2 uppercase cursor-pointer" :href="route('tasks.create', props.item.id)" @click="newTask(null, props.item)">New Task</span>
                 </div>
@@ -101,25 +102,11 @@ export default {
         },
         deleteAll () {
             this.hideDropdown();
-            this.$modal.show('deleteAllEmailDialog', {
-                title: 'Caution!',
-                text: 'Are you sure you want to delete ALL email?',
-                buttons: [
-                    {
-                        title: 'Delete All Email',
-                        type: 'delete',
-                        handler: () => {
-                            this.$inertia.delete(this.route('emails.destroy.all'), { replace: false, preserveScroll: true, preserveState: true });
-                            this.$modal.hide('deleteAllEmailDialog');
-                         },
-                    },
-                    {
-                        title: 'Close',
-                        type: 'close',
-                        handler: () => { this.$modal.hide('deleteAllEmailDialog') },
-                    },
-                ],
-            });
+            this.$showDialog('warning', 'emails', 'delete', () => {
+                    this.$inertia.delete(this.route('emails.destroy.all'), { replace: false, preserveScroll: true, preserveState: true });
+                    this.$modal.hide('dialogModal');
+                }, true
+            );
         },
         rowClasses (row) {
             return 'cursor-pointer';
