@@ -33,19 +33,19 @@
                     <span class="font-semibold text-gray-700 mb-4">From: <span class="font-normal">{{ item.from_address }}</span></span>
                     <span class="font-semibold text-gray-700 mb-8">Received: <span class="font-normal">{{ item.received_at }}</span></span>
                     <div class="inline-flex">
-                        <div v-if="item.deleted_at" class="group flex-initial">
+                        <div v-if="item.deleted_at" class="group flex-initial mr-8">
                             <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer" view-box="1000 1000">
                                 <restore />
                             </icon-base>
-                            <button class="inline-block text-green-500 group-hover:text-green-300 font-semibold mr-8" tabindex="-1" type="button" @click="restoreEmail(item.id)">Restore</button>
+                            <button class="inline-block text-green-500 group-hover:text-green-300 font-semibold" tabindex="-1" type="button" @click="restoreEmail(item.id)">Restore</button>
                         </div>
-                        <div v-else class="group flex-initial">
+                        <div v-else class="group flex-initial mr-8">
                             <icon-base icon-fill="fill-red-500" icon-function="trash" classes="inline-block group-hover:fill-red-300 mr-1 cursor-pointer" :width="14" :height="14">
                                 <trash />
                             </icon-base>
-                            <button class="inline-block text-red-500 group-hover:text-red-300 font-semibold mr-8" tabindex="-1" type="button" @click="destroyEmail(item.id)">Delete</button>
+                            <button class="inline-block text-red-500 group-hover:text-red-300 font-semibold" tabindex="-1" type="button" @click="destroyEmail(item.id)">Delete</button>
                         </div>
-                        <div class="group flex-initial">
+                        <div class="group flex-initial mr-8">
                             <icon-base icon-fill="fill-green-500" icon-function="add" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
                                 <list-add />
                             </icon-base>
