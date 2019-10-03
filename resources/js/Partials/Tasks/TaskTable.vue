@@ -2,7 +2,7 @@
     <div class="w-full">
         <div class="w-full flex bg-blue-800 py-4 px-6">
             <h1 class="text-white text-lg md:text-xl font-semibold uppercase">{{ title }}</h1>
-            <dropdown class="ml-auto" placement="bottom-end">
+            <dropdown v-if="rows.length" class="ml-auto" placement="bottom-end">
                 <div class="flex items-center cursor-pointer select-none group">
                     <div class="mr-1 whitespace-no-wrap">
                         <span class="inline text-white group-hover:text-blue-200 focus:text-blue-200 text-sm font-semibold">Options</span>
@@ -22,15 +22,33 @@
             <item-list v-if="windowWidth >= 768" :header-fields="tables.fields.taskFields" :data="rows" not-found-message="No Tasks Found" entity-name="tasks" row-action="edit" />
             <template v-else>
                 <div class="flex flex-col">
-                    <div v-for="task in rows" :key="task.id" class="flex flex-col p-6 border-b" :class="backgroundColor(task)">
+                    <div v-for="task in rows" :key="task.id" class="flex flex-col p-6 border-b-2 border-blue-500" :class="backgroundColor(task)">
                         <span class="font-semibold text-gray-700 mb-4">Due Date: <span class="font-normal">{{ task.due_date }}</span></span>
                         <span class="font-semibold text-gray-700 mb-4">Title: <span class="font-normal">{{ task.title }}</span></span>
-                        <span class="font-semibold text-gray-700 mb-4">Report To: <span class="font-normal">{{ task.report_to }}</span></span>
-                        <span class="flex justify-center">
-                            <button v-if="task.deleted_at" class="text-red-500 font-semibold hover:underline mr-8" tabindex="-1" type="button" @click="restoreTask(task.id)">Restore</button>
-                            <button v-else class="text-red-500 font-semibold hover:underline mr-8" tabindex="-1" type="button" @click="destroyTask(task.id)">Delete</button>
-                            <button class="text-blue-500 font-semibold hover:underline" tabindex="-1" type="button" @click="showTask(task.id)">View</button>
-                        </span>
+                        <span class="font-semibold text-gray-700 mb-8">Report To: <span class="font-normal">{{ task.report_to }}</span></span>
+                        <div class="inline-flex">
+                            <div v-if="task.deleted_at" class="group flex-initial">
+                                <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer" view-box="1000 1000">
+                                    <restore />
+                                </icon-base>
+                                <button class="inline-block text-green-500 group-hover:text-green-300 font-semibold mr-8" tabindex="-1" type="button" @click="restoreTask(task.id)">Restore</button>
+                            </div>
+                            <div v-else class="group flex-initial">
+                                <icon-base icon-fill="fill-red-500" icon-function="trash" classes="inline-block group-hover:fill-red-300 mr-1 cursor-pointer" :width="14" :height="14">
+                                    <trash />
+                                </icon-base>
+                                <button class="inline-block text-red-500 group-hover:text-red-300 font-semibold mr-8" tabindex="-1" type="button" @click="destroyTask(task.id)">Delete</button>
+                            </div>
+                            <div class="group flex-initial">
+                                <icon-base icon-fill="fill-blue-500" icon-function="view" classes="inline-block group-hover:fill-blue-300 mr-1 cursor-pointer">
+                                    <view-eye />
+                                </icon-base>
+                                <button class="inline-block text-blue-500 group-hover:text-blue-300 font-semibold" tabindex="-1" type="button" @click="showTask(task.id)">View</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-if="! rows.length" class="p-6 mb-8">
+                        <span class="font-semibold text-gray-800 text-base">No Tasks Found</span>
                     </div>
                 </div>
             </template>
@@ -42,12 +60,18 @@
 import IconBase from '@/Shared/IconBase';
 import ItemList from '@/Shared/ItemList';
 import Dropdown from '@/Shared/Dropdown';
+import Trash from '@/Shared/Icons/Trash';
 import Checkbox from '@/Shared/Checkbox.js';
+import ViewEye from '@/Shared/Icons/ViewEye';
+import Restore from '@/Shared/Icons/Restore';
 import { filter, concat, orderBy } from 'lodash';
 import CheveronDown from '@/Shared/Icons/CheveronDown';
 
 export default {
     components: {
+        Trash,
+        ViewEye,
+        Restore,
         IconBase,
         Checkbox,
         Dropdown,

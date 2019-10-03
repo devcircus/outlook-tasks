@@ -75,7 +75,7 @@
                     <div class="hidden md:block w-full md:w-1/3 lg:w-1/4 xl:w-1/6 bg-white md:px-4 md:pt-4">
                         <sidebar class="sticky top-32" />
                     </div>
-                    <div class="overflow-hidden bg-direction-blue w-full md:w-2/3 lg:w-3/4 xl:w-5/6 md:pt-4 md:px-6">
+                    <div class="overflow-hidden bg-white md:bg-direction-blue w-full md:w-2/3 lg:w-3/4 xl:w-5/6 md:pt-4 md:px-6">
                         <slot />
                     </div>
                 </div>

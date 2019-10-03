@@ -2,7 +2,7 @@
     <div>
         <div class="w-full flex items-center bg-blue-800 py-4 px-6">
             <h1 class="text-white text-lg md:text-xl font-semibold uppercase">Email</h1>
-            <dropdown class="ml-auto" placement="bottom-end">
+            <dropdown v-if="emailRows.length" class="ml-auto" placement="bottom-end">
                 <div class="flex items-center cursor-pointer select-none group">
                     <div class="mr-1 whitespace-no-wrap">
                         <span class="inline text-white group-hover:text-blue-200 focus:text-blue-200 text-sm font-semibold">Options</span>
@@ -38,6 +38,9 @@
                         <button class="text-green-500 font-semibold hover:underline" tabindex="-1" type="button" @click="newTask(null, item)">New Task</button>
                         <button class="text-blue-500 font-semibold hover:underline" tabindex="-1" type="button" @click="showEmail(item.id)">View</button>
                     </span>
+                </div>
+                <div v-if="! emailRows.length" class="p-6 mb-8">
+                    <span class="font-semibold text-gray-800 text-base">No Emails Found</span>
                 </div>
             </div>
         </template>
