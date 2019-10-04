@@ -10,6 +10,7 @@ module.exports = {
             '16': '16px',
             '32': '32px',
             '180': '180px',
+            'n240': '-240px',
         },
         fill: theme => ({
             current: 'currentColor',
