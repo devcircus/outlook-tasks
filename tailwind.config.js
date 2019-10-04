@@ -9,6 +9,7 @@ module.exports = {
         inset: {
             '16': '16px',
             '32': '32px',
+            '180': '180px',
         },
         fill: theme => ({
             current: 'currentColor',
