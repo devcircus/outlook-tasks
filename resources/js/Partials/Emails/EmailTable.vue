@@ -19,11 +19,32 @@
         </div>
         <item-list v-if="windowWidth >= 768" :header-fields="emailFields" :data="emailRows" not-found-message="No Emails Found" entity-name="emails" row-action="show" :has-actions="true">
             <template slot-scope="props">
-                <div class="group flex w-full items-center">
-                    <span class="btn btn-text text-xs text-gray-300 group-hover:text-gray-500 mr-2 uppercase" @click="destroyEmail(props.item.id)">Delete</span>
-                    <span class="text-gray-300 group-hover:text-gray-500">|</span>
-                    <span class="btn btn-text text-xs text-gray-300 group-hover:text-gray-500 mr-2 uppercase cursor-pointer" :href="route('tasks.create', props.item.id)" @click="newTask(null, props.item)">New Task</span>
-                </div>
+                    <div class="inline-flex">
+                        <div v-if="props.item.deleted_at" class="group flex-initial mr-8">
+                            <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
+                                <restore />
+                            </icon-base>
+                            <button class="inline-block text-green-500 group-hover:text-green-300 text-sm font-semibold" tabindex="-1" type="button" @click="restoreEmail(props.item.id)">Restore</button>
+                        </div>
+                        <div v-else class="group flex-initial mr-8">
+                            <icon-base icon-fill="fill-red-500" icon-function="trash" classes="inline-block group-hover:fill-red-300 mr-1 cursor-pointer" :width="14" :height="14">
+                                <trash />
+                            </icon-base>
+                            <button class="inline-block text-red-500 group-hover:text-red-300 text-sm font-semibold" tabindex="-1" type="button" @click="destroyEmail(props.item.id)">Delete</button>
+                        </div>
+                        <div class="group flex-initial mr-8">
+                            <icon-base icon-fill="fill-green-500" icon-function="add" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
+                                <list-add />
+                            </icon-base>
+                            <button class="inline-block text-green-500 group-hover:text-green-300 text-sm font-semibold" tabindex="-1" type="button" @click="newTask(null, props.item)">New Task</button>
+                        </div>
+                        <div class="group flex-initial">
+                            <icon-base icon-fill="fill-blue-500" icon-function="view" classes="inline-block group-hover:fill-blue-300 mr-1 cursor-pointer">
+                                <view-eye />
+                            </icon-base>
+                            <button class="inline-block text-blue-500 group-hover:text-blue-300 text-sm font-semibold" tabindex="-1" type="button" @click="showEmail(props.item.id)">View</button>
+                        </div>
+                    </div>
             </template>
         </item-list>
         <template v-else>
@@ -34,7 +55,7 @@
                     <span class="font-semibold text-gray-700 mb-8">Received: <span class="font-normal">{{ item.received_at }}</span></span>
                     <div class="inline-flex">
                         <div v-if="item.deleted_at" class="group flex-initial mr-8">
-                            <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer" view-box="1000 1000">
+                            <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
                                 <restore />
                             </icon-base>
                             <button class="inline-block text-green-500 group-hover:text-green-300 font-semibold" tabindex="-1" type="button" @click="restoreEmail(item.id)">Restore</button>
