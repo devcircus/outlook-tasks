@@ -1,5 +1,3 @@
-import { truncate } from '@/Helpers';
-
 export default {
     activeCategory: 'all',
     activeCalendar: 'all',
@@ -24,6 +22,7 @@ export default {
                 {
                     name: 'short_title',
                     label: 'Title',
+                    width: '685px',
                 },
             ],
             categoryFields: [
