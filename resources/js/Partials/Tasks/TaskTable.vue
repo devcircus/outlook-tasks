@@ -20,7 +20,7 @@
             </dropdown>
         </div>
         <div class="rounded shadow overflow-hidden w-full">
-            <item-list v-if="windowWidth >= 768" :header-fields="tables.fields.taskFields" :data="rows" not-found-message="No Tasks Found" entity-name="tasks" row-action="edit" :has-actions="true" >
+            <item-list v-if="windowWidth >= 768" :header-fields="taskColumns" :data="rows" not-found-message="No Tasks Found" entity-name="tasks" row-action="edit" :has-actions="true">
                 <template slot-scope="props">
                     <div class="inline-flex">
                         <div v-if="props.item.deleted_at" class="group flex-initial">
@@ -158,9 +158,17 @@ export default {
         },
     },
     created () {
-        this.taskColumns = this.tables.fields.taskFields;
+        this.setTaskColumns();
     },
     methods: {
+        setTaskColumns () {
+            if (this.activeCategory === 'all') {
+                console.log([...this.tables.fields.taskFields, { name: 'category_name', label: 'Category' }])
+                return this.taskColumns = [...this.tables.fields.taskFields, { name: 'category_name', label: 'Category' }];
+            }
+            console.log(this.tables.fields.taskFields)
+            return this.taskColumns = this.tables.fields.taskFields;
+        },
         showTask (id) {
             this.$inertia.replace(this.route('tasks.edit', id));
         },
