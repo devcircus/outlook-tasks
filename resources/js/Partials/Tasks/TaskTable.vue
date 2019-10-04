@@ -11,36 +11,37 @@
                         <cheveron-down />
                     </icon-base>
                 </div>
-                <div slot="dropdown" class="flex flex-col mt-2 p-2 shadow-lg bg-white rounded">
-                    <checkbox v-model="showTrashed" class="text-xs text-red-600 hover:text-red-300 mb-1 ml-auto" label="Include deleted tasks" :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
-                    <checkbox v-model="showCompleted" class="text-xs text-green-600 hover:text-green-300 mb-3 ml-auto" label="Include completed tasks" :width="4" :height="4" :checked="showCompleted" @input="hideDropdown()" />
-                    <a :href="route('tasks.list.pdf', { type: category })" class="text-xs text-blue-800 hover:text-blue-300 font-semibold ml-auto" target="_blank">Printable [PDF]</a>
+                <div slot="dropdown" class="flex flex-col items-start mt-2 p-2 shadow-lg bg-white rounded">
+                    <checkbox v-model="showTrashed" class="text-sm text-red-600 hover:text-red-300 mb-1" label="Include deleted tasks" :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
+                    <checkbox v-model="showCompleted" class="text-sm text-green-600 hover:text-green-300 mb-3" label="Include completed tasks" :width="4" :height="4" :checked="showCompleted" @input="hideDropdown()" />
+                    <a :href="route('tasks.list.pdf', { type: category })" class="text-sm text-blue-600 hover:text-blue-300 font-semibold mb-3" target="_blank">Printable [PDF]</a>
+                    <span class="text-sm text-green-600 hover:text-green-300 font-semibold cursor-pointer" @click="newTask()">New Task</span>
                 </div>
             </dropdown>
         </div>
         <div class="rounded shadow overflow-hidden w-full">
             <item-list v-if="windowWidth >= 768" :header-fields="tables.fields.taskFields" :data="rows" not-found-message="No Tasks Found" entity-name="tasks" row-action="edit" :has-actions="true" >
                 <template slot-scope="props">
-                        <div class="inline-flex">
-                            <div v-if="props.item.deleted_at" class="group flex-initial">
-                                <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
-                                    <restore />
-                                </icon-base>
-                                <button class="inline-block text-green-500 group-hover:text-green-300 font-semibold mr-8" tabindex="-1" type="button" @click="restoreTask(props.item.id)">Restore</button>
-                            </div>
-                            <div v-else class="group flex-initial">
-                                <icon-base icon-fill="fill-red-500" icon-function="trash" classes="inline-block group-hover:fill-red-300 mr-1 cursor-pointer" :width="14" :height="14">
-                                    <trash />
-                                </icon-base>
-                                <button class="inline-block text-red-500 group-hover:text-red-300 font-semibold mr-8" tabindex="-1" type="button" @click="destroyTask(props.item.id)">Delete</button>
-                            </div>
-                            <div class="group flex-initial">
-                                <icon-base icon-fill="fill-blue-500" icon-function="view" classes="inline-block group-hover:fill-blue-300 mr-1 cursor-pointer">
-                                    <view-eye />
-                                </icon-base>
-                                <button class="inline-block text-blue-500 group-hover:text-blue-300 font-semibold" tabindex="-1" type="button" @click="showTask(props.item.id)">View</button>
-                            </div>
+                    <div class="inline-flex">
+                        <div v-if="props.item.deleted_at" class="group flex-initial">
+                            <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
+                                <restore />
+                            </icon-base>
+                            <button class="inline-block text-green-500 group-hover:text-green-300 font-semibold mr-8" tabindex="-1" type="button" @click="restoreTask(props.item.id)">Restore</button>
                         </div>
+                        <div v-else class="group flex-initial">
+                            <icon-base icon-fill="fill-red-500" icon-function="trash" classes="inline-block group-hover:fill-red-300 mr-1 cursor-pointer" :width="14" :height="14">
+                                <trash />
+                            </icon-base>
+                            <button class="inline-block text-red-500 group-hover:text-red-300 font-semibold mr-8" tabindex="-1" type="button" @click="destroyTask(props.item.id)">Delete</button>
+                        </div>
+                        <div class="group flex-initial">
+                            <icon-base icon-fill="fill-blue-500" icon-function="view" classes="inline-block group-hover:fill-blue-300 mr-1 cursor-pointer">
+                                <view-eye />
+                            </icon-base>
+                            <button class="inline-block text-blue-500 group-hover:text-blue-300 font-semibold" tabindex="-1" type="button" @click="showTask(props.item.id)">View</button>
+                        </div>
+                    </div>
                 </template>
             </item-list>
 
@@ -163,9 +164,12 @@ export default {
         showTask (id) {
             this.$inertia.replace(this.route('tasks.edit', id));
         },
-        newTask (category) {
-            this.$store.workingTask = { category: category };
-            this.$inertia.replace(this.route('tasks.create'));
+        newTask () {
+            if (this.activeCategory !== 'all') {
+                this.$store.workingTask = { category: this.activeCategory };
+            }
+
+            this.$inertia.visit(this.route('tasks.create'));
         },
         hideDropdown () {
             this.$dispatch('dropdown-should-close');

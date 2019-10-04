@@ -31,12 +31,10 @@
 import { filter } from 'lodash';
 import moment from 'moment-timezone';
 import Layout from '@/Shared/Layout';
-import IconBase from '@/Shared/IconBase';
 import Checkbox from '@/Shared/Checkbox';
 import TextInput from '@/Shared/TextInput';
 import Datepicker from '@/Shared/Datepicker';
 import SelectInput from '@/Shared/SelectInput';
-import Activities from '@/Shared/Icons/Activities';
 import LoadingButton from '@/Shared/LoadingButton';
 import TextareaInput from '@/Shared/TextareaInput';
 
@@ -44,9 +42,7 @@ export default {
     components: {
         Layout,
         Checkbox,
-        IconBase,
         TextInput,
-        Activities,
         Datepicker,
         SelectInput,
         TextareaInput,
@@ -79,7 +75,7 @@ export default {
             this.form.description = this.workingTask.body;
             this.form.report_to = this.workingTask.from_name;
             this.form.email_id = this.workingTask.id;
-            this.form.category = this.workingTask.category ? this.workingTask.category.name : null;
+            this.form.category = this.workingTask.category ? this.workingTask.category : null;
         });
     },
     methods: {

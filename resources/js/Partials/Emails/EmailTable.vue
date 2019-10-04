@@ -11,40 +11,40 @@
                         <cheveron-down />
                     </icon-base>
                 </div>
-                <div slot="dropdown" class="flex flex-col mt-2 p-2 shadow-lg bg-white rounded">
-                    <checkbox v-model="showTrashed" class="text-xs text-red-600 hover:text-red-300 mb-2 ml-auto" label="Include deleted email" :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
-                    <span class="text-xs text-red-800 hover:text-red-300 font-semibold ml-auto cursor-pointer" @click="deleteAll()">Delete All</span>
+                <div slot="dropdown" class="flex flex-col items-start mt-2 p-2 shadow-lg bg-white rounded">
+                    <checkbox v-model="showTrashed" class="text-xs text-red-600 hover:text-red-300 mb-2" label="Include deleted email" :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
+                    <span class="text-sm text-red-600 hover:text-red-300 font-semibold cursor-pointer" @click="deleteAll()">Delete All</span>
                 </div>
             </dropdown>
         </div>
         <item-list v-if="windowWidth >= 768" :header-fields="emailFields" :data="emailRows" not-found-message="No Emails Found" entity-name="emails" row-action="show" :has-actions="true">
             <template slot-scope="props">
-                    <div class="inline-flex">
-                        <div v-if="props.item.deleted_at" class="group flex-initial mr-8">
-                            <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
-                                <restore />
-                            </icon-base>
-                            <button class="inline-block text-green-500 group-hover:text-green-300 text-sm font-semibold" tabindex="-1" type="button" @click="restoreEmail(props.item.id)">Restore</button>
-                        </div>
-                        <div v-else class="group flex-initial mr-8">
-                            <icon-base icon-fill="fill-red-500" icon-function="trash" classes="inline-block group-hover:fill-red-300 mr-1 cursor-pointer" :width="14" :height="14">
-                                <trash />
-                            </icon-base>
-                            <button class="inline-block text-red-500 group-hover:text-red-300 text-sm font-semibold" tabindex="-1" type="button" @click="destroyEmail(props.item.id)">Delete</button>
-                        </div>
-                        <div class="group flex-initial mr-8">
-                            <icon-base icon-fill="fill-green-500" icon-function="add" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
-                                <list-add />
-                            </icon-base>
-                            <button class="inline-block text-green-500 group-hover:text-green-300 text-sm font-semibold" tabindex="-1" type="button" @click="newTask(null, props.item)">New Task</button>
-                        </div>
-                        <div class="group flex-initial">
-                            <icon-base icon-fill="fill-blue-500" icon-function="view" classes="inline-block group-hover:fill-blue-300 mr-1 cursor-pointer">
-                                <view-eye />
-                            </icon-base>
-                            <button class="inline-block text-blue-500 group-hover:text-blue-300 text-sm font-semibold" tabindex="-1" type="button" @click="showEmail(props.item.id)">View</button>
-                        </div>
+                <div class="inline-flex">
+                    <div v-if="props.item.deleted_at" class="group flex-initial mr-8">
+                        <icon-base icon-fill="fill-green-500" icon-function="restore" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
+                            <restore />
+                        </icon-base>
+                        <button class="inline-block text-green-500 group-hover:text-green-300 text-sm font-semibold" tabindex="-1" type="button" @click="restoreEmail(props.item.id)">Restore</button>
                     </div>
+                    <div v-else class="group flex-initial mr-8">
+                        <icon-base icon-fill="fill-red-500" icon-function="trash" classes="inline-block group-hover:fill-red-300 mr-1 cursor-pointer" :width="14" :height="14">
+                            <trash />
+                        </icon-base>
+                        <button class="inline-block text-red-500 group-hover:text-red-300 text-sm font-semibold" tabindex="-1" type="button" @click="destroyEmail(props.item.id)">Delete</button>
+                    </div>
+                    <div class="group flex-initial mr-8">
+                        <icon-base icon-fill="fill-green-500" icon-function="add" classes="inline-block group-hover:fill-green-300 mr-1 cursor-pointer">
+                            <list-add />
+                        </icon-base>
+                        <button class="inline-block text-green-500 group-hover:text-green-300 text-sm font-semibold" tabindex="-1" type="button" @click="newTask(null, props.item)">New Task</button>
+                    </div>
+                    <div class="group flex-initial">
+                        <icon-base icon-fill="fill-blue-500" icon-function="view" classes="inline-block group-hover:fill-blue-300 mr-1 cursor-pointer">
+                            <view-eye />
+                        </icon-base>
+                        <button class="inline-block text-blue-500 group-hover:text-blue-300 text-sm font-semibold" tabindex="-1" type="button" @click="showEmail(props.item.id)">View</button>
+                    </div>
+                </div>
             </template>
         </item-list>
         <template v-else>

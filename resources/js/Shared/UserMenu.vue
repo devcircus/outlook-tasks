@@ -30,7 +30,19 @@
 </template>
 
 <script>
-export default {
+import IconBase from '@/Shared/IconBase';
+import Users from '@/Shared/Icons/Users';
+import Logout from '@/Shared/Icons/Logout';
+import Profile from '@/Shared/Icons/Profile';
+import Activities from '@/Shared/Icons/Activities';
 
+export default {
+    components: {
+        Users,
+        Logout,
+        Profile,
+        IconBase,
+        Activities,
+    },
 }
 </script>
