@@ -3,7 +3,7 @@
         <modal />
         <portal-target name="dropdown" slim />
         <flash-message />
-        <div class="fixed top-0 w-full" style="margin-bottom: 163px;">
+        <div class="fixed top-0 w-full z-10" style="margin-bottom: 163px;">
             <div class="flex flex-wrap">
                 <div class="bg-blue-800 flex-no-shrink w-full px-4 py-8 md:py-8 flex justify-between items-center">
                     <inertia-link class="mt-1" :href="route('dashboard')">
