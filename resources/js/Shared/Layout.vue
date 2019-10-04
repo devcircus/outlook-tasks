@@ -79,7 +79,7 @@
                 <slot />
             </div>
         </div>
-        <site-footer />
+        <site-footer class="sticky bottom-0 mt-4" />
     </div>
 </template>
 
