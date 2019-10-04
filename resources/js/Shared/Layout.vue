@@ -4,7 +4,6 @@
         <portal-target name="dropdown" slim />
         <flash-message />
 
-
         <!-- TOP BARS -->
         <div class="fixed top-0 w-full z-10">
             <!-- TOP BLUE BAR -->
@@ -67,12 +66,8 @@ import Modal from '@/Shared/Modal';
 import Sidebar from '@/Shared/Sidebar';
 import Dropdown from '@/Shared/Dropdown';
 import IconBase from '@/Shared/IconBase';
-import Users from '@/Shared/Icons/Users';
-import Logout from '@/Shared/Icons/Logout';
-import SiteFooter from '@/Shared/SiteFooter';
-import Profile from '@/Shared/Icons/Profile';
+import UserMenu from '@/Shared/UserMenu';
 import FlashMessage from '@/Shared/FlashMessage';
-import Activities from '@/Shared/Icons/Activities';
 import LoadingButton from '@/Shared/LoadingButton';
 import CheveronDown from '@/Shared/Icons/CheveronDown';
 
@@ -80,14 +75,10 @@ export default {
     components: {
         Logo,
         Modal,
-        Users,
-        Logout,
         Sidebar,
-        Profile,
         Dropdown,
         IconBase,
-        Activities,
-        SiteFooter,
+        UserMenu,
         FlashMessage,
         CheveronDown,
         LoadingButton,
