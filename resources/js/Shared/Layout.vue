@@ -6,7 +6,7 @@
         <div class="flex flex-col">
             <div class="flex flex-col">
                 <div class="flex flex-wrap">
-                    <div class="bg-blue-800 flex-no-shrink w-full px-4 py-8 md:p-8 flex justify-between items-center">
+                    <div class="bg-blue-800 flex-no-shrink w-full px-4 py-8 md:py-8 flex justify-between items-center">
                         <inertia-link class="mt-1" :href="route('dashboard')">
                             <logo position="left" />
                         </inertia-link>
@@ -17,7 +17,7 @@
                             </div>
                         </dropdown>
                     </div>
-                    <div class="flex w-full h-16 bg-white border-b shadow p-4 px-4 py-8 md:px-12 text-sm md:text-base justify-between items-center relative">
+                    <div class="flex w-full h-16 bg-white border-b shadow p-4 py-8 text-sm md:text-base justify-between items-center relative">
                         <div v-if="! $page.token" class="flex w-full">
                             <a :href="route('outlook.signin')" class="btn btn-blue w-200p text-center">Connect to Outlook</a>
                         </div>
@@ -75,7 +75,7 @@
                     <div class="hidden md:block w-full md:w-1/3 lg:w-1/4 xl:w-1/6 bg-white md:px-4 md:pt-4">
                         <sidebar class="sticky top-32" />
                     </div>
-                    <div class="overflow-hidden bg-white md:bg-direction-blue w-full md:w-2/3 lg:w-3/4 xl:w-5/6 md:pt-4 md:px-6">
+                    <div class="overflow-hidden bg-white md:bg-direction-blue w-full md:w-2/3 lg:w-3/4 xl:w-5/6 md:pt-4 md:px-4">
                         <slot />
                     </div>
                 </div>
