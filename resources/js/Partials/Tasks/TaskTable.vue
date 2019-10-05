@@ -14,7 +14,7 @@
                 <div slot="dropdown" class="flex flex-col items-start mt-2 p-2 shadow-lg bg-white rounded">
                     <checkbox v-model="showTrashed" class="text-sm text-red-600 hover:text-red-300 mb-1" label="Include deleted tasks" :width="4" :height="4" :checked="showTrashed" @input="hideDropdown()" />
                     <checkbox v-model="showCompleted" class="text-sm text-green-600 hover:text-green-300 mb-3" label="Include completed tasks" :width="4" :height="4" :checked="showCompleted" @input="hideDropdown()" />
-                    <a :href="route('tasks.list.pdf', { type: category })" class="text-sm text-blue-600 hover:text-blue-300 font-semibold mb-3" target="_blank">Printable [PDF]</a>
+                    <a :href="route('tasks.list.pdf', { type: category.name })" class="text-sm text-blue-600 hover:text-blue-300 font-semibold mb-3" target="_blank">Printable [PDF]</a>
                     <span class="text-sm text-green-600 hover:text-green-300 font-semibold cursor-pointer" @click="newTask()">New Task</span>
                 </div>
             </dropdown>
