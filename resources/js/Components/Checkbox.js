@@ -55,12 +55,12 @@ class Checkbox {
 
     buildContainerElement () {
         this.containerElement = document.createElement('div');
-        this.containerElement.classList.add('v-checkbox', 'block', 'mt-2');
+        this.containerElement.classList.add('v-checkbox', 'block', 'mt-2', 'w-full');
     }
 
     buildLabelElement () {
         this.label = document.createElement('label');
-        this.label.classList.add('inline-flex', 'items-center');
+        this.label.classList.add('inline-flex', 'justify-between', 'items-center', 'w-full');
     }
 
     buildLabelText () {

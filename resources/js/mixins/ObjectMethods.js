@@ -1,10 +1,12 @@
+import { isEmpty, has } from 'lodash';
+
 export default {
     methods: {
         isObjectEmpty (obj) {
-            return this.$collection(obj).isEmpty();
+            return isEmpty(obj);
         },
         objectContains (obj, needle) {
-            return this.$collection(obj).has(needle);
+            return has(obj, needle);
         },
     },
 }

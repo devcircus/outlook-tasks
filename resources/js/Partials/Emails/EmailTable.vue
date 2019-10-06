@@ -17,7 +17,7 @@
                 </div>
             </dropdown>
         </div>
-        <item-list v-if="windowWidth >= 768" :header-fields="emailFields" :data="emailRows" not-found-message="No Emails Found" entity-name="emails" row-action="show" :has-actions="true">
+        <item-list v-if="windowWidth >= 768" :header-fields="emailFields" :data="emailRows" not-found-message="No Emails Found" entity-name="emails" row-action="show" :has-actions="true" :mapped-row-classes="mappedRowClasses()">
             <template slot-scope="props">
                 <div class="inline-flex">
                     <div v-if="props.item.deleted_at" class="group flex-initial mr-8">
@@ -164,8 +164,7 @@ export default {
             return 'cursor-pointer';
         },
         newTask (category, email) {
-            this.$store.workingTask = email;
-            this.$inertia.replace(this.route('tasks.create'));
+            this.$inertia.visit(this.route('tasks.create.from_email', email.id));
         },
         hideDropdown () {
             this.$dispatch('dropdown-should-close');
@@ -176,6 +175,11 @@ export default {
             }
 
             return 'bg-gray-200 odd:bg-white';
+        },
+        mappedRowClasses () {
+            return {
+                'deleted_at': 'text-red-500',
+            };
         },
     },
 }

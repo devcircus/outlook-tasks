@@ -48,7 +48,12 @@ export default {
         TextareaInput,
         LoadingButton,
     },
-    store: ['workingTask'],
+    props: {
+        task: {
+            type: [Array, Object],
+            default: () => [],
+        },
+    },
     remember: 'form',
     data () {
         return {
@@ -70,15 +75,16 @@ export default {
         },
     },
     mounted () {
-        this.$nextTick(() => {
-            this.form.title = this.workingTask.subject;
-            this.form.description = this.workingTask.body;
-            this.form.report_to = this.workingTask.from_name;
-            this.form.email_id = this.workingTask.id;
-            this.form.category = this.workingTask.category ? this.workingTask.category : null;
-        });
+        this.setInitialData();
     },
     methods: {
+        setInitialData () {
+            this.form.title = this.task.title ? this.task.title : null;
+            this.form.description = this.task.description ? this.task.description : null;
+            this.form.report_to = this.task.report_to ? this.task.report_to : null;
+            this.form.email_id = this.task.email_id ? this.task.email_id : null;
+            this.form.category = this.task.category ? this.task.category : null;
+        },
         submit () {
             this.sending = true;
             this.$inertia.post(this.route('tasks.store'), this.form)

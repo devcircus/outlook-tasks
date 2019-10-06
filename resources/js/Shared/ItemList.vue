@@ -10,7 +10,7 @@
             </tr>
             <tr v-for="item in data" :key="item.id" class="hover:bg-gray-100 focus-within:bg-gray-100">
                 <td v-for="field in headerFields" :key="field.name" class="border-t">
-                    <span class="px-6 py-4 flex items-center focus:text-blue-500 cursor-pointer" :class="item.deleted_at ? 'text-red-500' : ''" @click="performAction(item)">
+                    <span class="px-6 py-4 flex items-center focus:text-blue-500 cursor-pointer" :class="getMappedRowClasses(item)" @click="performAction(item)">
                         {{ item[field.name] }}
                     </span>
                 </td>
@@ -33,6 +33,7 @@
 </template>
 
 <script>
+import { forEach } from 'lodash';
 import IconBase from '@/Shared/IconBase';
 import CheveronRight from '@/Shared/Icons/CheveronRight';
 
@@ -74,6 +75,10 @@ export default {
             type: Boolean,
             default: false,
         },
+        mappedRowClasses: {
+            type: Object,
+            default: () => ({}),
+        },
     },
     methods: {
         action (item) {
@@ -81,6 +86,23 @@ export default {
         },
         performAction (item) {
             return this.$inertia.visit(this.action(item));
+        },
+        getMappedRowClasses (item) {
+            let mapping = this.mappedRowClasses;
+
+            if (this.isObjectEmpty(mapping)) {
+                return '';
+            }
+
+            let classes = '';
+
+            forEach(mapping, (value, key) => {
+                if (item[key]) {
+                    classes = classes ? `${classes} ${value}` : value;
+                }
+            });
+
+            return classes;
         },
     },
 }

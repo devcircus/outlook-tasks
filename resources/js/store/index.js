@@ -5,7 +5,6 @@ export default {
         tasks: {},
         email: {},
     },
-    workingTask: {},
     tables: {
         fields: {
             taskFields: [

@@ -64,7 +64,8 @@ Route::group(['middleware' => ['auth'], 'as' => 'tasks.', 'prefix' => 'tasks'], 
     $router->get('/', Task\ListTasks::class)->name('list');
     $router->get('/calendar', Task\ListTodaysTasks::class)->name('list.today');
     $router->post('/process', Task\ProcessTasks::class)->middleware(['oauth'])->name('process');
-    $router->get('/create', Task\CreateTask::class)->name('create');
+    $router->get('/create/category/{category_name}', Task\CreateTaskFromCategory::class)->name('create.from_category');
+    $router->get('/create/{email}', Task\CreateTaskFromEmail::class)->name('create.from_email');
     $router->post('/', Task\StoreTask::class)->name('store');
     $router->delete('/{task}', Task\DeleteTask::class)->name('destroy');
     $router->get('/{task}/edit', Task\EditTask::class)->name('edit');
