@@ -48,10 +48,6 @@ export default {
         this.setGlobalFilters();
     },
     methods: {
-        newTask (category, email) {
-            this.$store.workingTask = email;
-            this.$inertia.replace(this.route('tasks.create'));
-        },
         getTasksForCategory (category) {
             if (category) {
                 return this.tasks.data[category].data;
