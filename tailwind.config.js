@@ -127,7 +127,7 @@ module.exports = {
         width: ['responsive'],
         margin: ['last-child', 'first-child', 'responsive', 'first', 'last'],
         display: ['responsive', 'hover'],
-        backgroundColor: ['odd'],
+        backgroundColor: ['odd', 'hover'],
     },
     plugins: [
         require('./resources/js/lib/tailwindcss/plugins/tables')(),

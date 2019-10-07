@@ -21,10 +21,20 @@
 
             <!-- TOP WHITE BAR -->
             <div class="flex justify-between items-center w-full text-sm md:text-base bg-white border-b shadow h-16 p-4 py-8">
-                <a v-if="! $page.token" :href="route('outlook.signin')" class="btn btn-blue w-200p text-center">Connect to Outlook</a>
+                <a v-if="! $page.token" :href="route('outlook.signin')" class="btn btn-blue-light w-200p text-center">Connect to Outlook</a>
                 <div v-if="$page.token && categoriesReady" class="flex">
-                    <loading-button class="btn-blue mr-4" :loading="syncLoading" type="button" @clicked="syncEmail()">Sync</loading-button>
-                    <loading-button class="btn-blue" :class="tasksDisabled ? 'cursor-not-allowed btn-disabled' : 'cursor-pointer'" :loading="tasksLoading" type="button" @clicked="processTasks()">Get Tasks</loading-button>
+                    <loading-button class="btn-blue-light mr-4" :loading="syncLoading" type="button" @clicked="syncEmail()">
+                        <icon-base view="24 24" width="14" height="14" icon-fill="fill-white" icon-name="sync" classes="mr-2">
+                            <refresh />
+                        </icon-base>
+                        Sync
+                    </loading-button>
+                    <loading-button class="btn-blue-light" :class="tasksDisabled ? 'cursor-not-allowed btn-disabled' : 'cursor-pointer'" :loading="tasksLoading" type="button" @clicked="processTasks()">
+                        <icon-base view="24 24" width="14" height="14" icon-fill="fill-white" icon-name="generate tasks" classes="mr-2">
+                            <download />
+                        </icon-base>
+                        Get Tasks
+                    </loading-button>
                 </div>
                 <div v-if="$page.token && ! categoriesReady" class="flex">
                     <h2 class="text-lg font-semibold text-blue-800 uppercase">Categories must be defined before you can sync email.</h2>
@@ -67,6 +77,8 @@ import Sidebar from '@/Shared/Sidebar';
 import Dropdown from '@/Shared/Dropdown';
 import IconBase from '@/Shared/IconBase';
 import UserMenu from '@/Shared/UserMenu';
+import Refresh from '@/Shared/Icons/Refresh';
+import Download from '@/Shared/Icons/Download';
 import FlashMessage from '@/Shared/FlashMessage';
 import LoadingButton from '@/Shared/LoadingButton';
 import CheveronDown from '@/Shared/Icons/CheveronDown';
@@ -75,8 +87,10 @@ export default {
     components: {
         Logo,
         Modal,
+        Refresh,
         Sidebar,
         Dropdown,
+        Download,
         IconBase,
         UserMenu,
         FlashMessage,

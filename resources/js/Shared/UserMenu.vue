@@ -1,27 +1,27 @@
 <template>
     <div class="flex flex-col">
-        <inertia-link class="flex px-6 py-2 hover:bg-blue-500 hover:text-gray-500 group" :href="route('users.edit', $page.auth.user.id)">
-            <icon-base width="14" height="14" icon-fill="fill-gray-800" icon-name="profile" classes="mr-2 group-hover:fill-gray-500">
+        <inertia-link class="flex px-6 py-2 hover:bg-blue-500 hover:text-white group" :href="route('users.edit', $page.auth.user.id)">
+            <icon-base width="14" height="14" icon-fill="fill-gray-800" icon-name="profile" classes="mr-2 group-hover:fill-white">
                 <profile />
             </icon-base>
             My Profile
         </inertia-link>
         <div v-if="$page.auth.user.is_admin">
-            <inertia-link class="flex px-6 py-2 hover:bg-blue-500 hover:text-gray-500 group" :href="route('users.list')">
-                <icon-base width="14" height="14" icon-fill="fill-gray-800" icon-name="users" classes="mr-2 group-hover:fill-gray-500">
+            <inertia-link class="flex px-6 py-2 hover:bg-blue-500 hover:text-white group" :href="route('users.list')">
+                <icon-base width="14" height="14" icon-fill="fill-gray-800" icon-name="users" classes="mr-2 group-hover:fill-white">
                     <users />
                 </icon-base>
                 Manage Users
             </inertia-link>
-            <inertia-link class="flex px-6 py-2 hover:bg-blue-500 hover:text-gray-500 group" :href="route('admin.index')">
-                <icon-base width="14" height="14" icon-fill="fill-gray-800" icon-name="manage categories" classes="mr-2 group-hover:fill-gray-500">
+            <inertia-link class="flex px-6 py-2 hover:bg-blue-500 hover:text-white group" :href="route('admin.index')">
+                <icon-base width="14" height="14" icon-fill="fill-gray-800" icon-name="activities" classes="mr-2 group-hover:fill-white">
                     <activities />
                 </icon-base>
                 Manage Categories
             </inertia-link>
         </div>
-        <inertia-link class="flex px-6 py-2 hover:bg-blue-500 hover:text-gray-500 group" :href="route('logout')" method="post">
-            <icon-base width="14" height="14" icon-fill="fill-gray-800" icon-name="logout" classes="mr-2 group-hover:fill-gray-500">
+        <inertia-link class="flex px-6 py-2 hover:bg-blue-500 hover:text-white group" :href="route('logout')" method="post">
+            <icon-base width="14" height="14" icon-fill="fill-gray-800" icon-name="logout" classes="mr-2 group-hover:fill-white">
                 <logout />
             </icon-base>
             Logout
