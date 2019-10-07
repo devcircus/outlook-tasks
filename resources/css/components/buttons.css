@@ -5,7 +5,7 @@
 }
 
 .btn-blue-light {
-  @apply px-6 py-3 rounded bg-blue-400 text-white text-sm font-bold whitespace-no-wrap;
+  @apply px-6 py-3 rounded bg-blue-500 text-white text-sm font-bold whitespace-no-wrap;
 
   &:hover, &:focus { @apply bg-orange-500 }
 }
