@@ -78,6 +78,7 @@ import Dropdown from '@/Shared/Dropdown';
 import IconBase from '@/Shared/IconBase';
 import UserMenu from '@/Shared/UserMenu';
 import Refresh from '@/Shared/Icons/Refresh';
+import SiteFooter from '@/Shared/SiteFooter';
 import Download from '@/Shared/Icons/Download';
 import FlashMessage from '@/Shared/FlashMessage';
 import LoadingButton from '@/Shared/LoadingButton';
@@ -93,6 +94,7 @@ export default {
         Download,
         IconBase,
         UserMenu,
+        SiteFooter,
         FlashMessage,
         CheveronDown,
         LoadingButton,
